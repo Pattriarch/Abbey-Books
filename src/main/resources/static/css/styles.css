@@ -1,0 +1,245 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Mu5mxKOzY.woff2) format('woff2');
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url("../fonts/droidserif.woff") format('woff');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background-color: #d5e8fb;
+}
+
+html {
+    height: 100%;              /* for the page to take full window height */
+    box-sizing: border-box;    /* to have the footer displayed at the bottom of the page without scrolling */
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;       /* enable the "border-box effect" everywhere */
+}
+
+.body-for-sticky {
+    position: relative;        /* for the footer to move with the page size */
+    min-height: 100%;          /* for the footer to be at the bottom */
+    padding-bottom: 140px;      /* Space available between last element and bottom border of the page */
+}
+
+.sticky-footer {
+    position: absolute;        /* for it to disappear under last body element */
+    bottom: 0;                 /* so the footer can stick to the bottom*/
+}
+
+.up {
+    display: flex;
+    background-color: #d5e8fb;
+    width: 100%;
+    height: 180px;
+    align-items: center;
+}
+
+.down {
+    display: flex;
+    background-color: #d5e8fb;
+    width: 100%;
+    height: 200px;
+}
+
+.menu {
+    display: flex;
+}
+
+.menu__item {
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 900;
+    margin: 20px;
+    padding: 10px 15px;
+}
+
+.menu__item:hover {
+    background-color: #a8c8e6;
+    border-radius: 10%;
+}
+
+.butn-5 {
+    text-shadow: none;
+} 
+  
+.butn-5:hover {
+    outline-offset: 15px;
+    text-shadow: 1px 1px 2px #427388;
+    color: #2d2a2e;
+}
+
+.butn {
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    font-size:18px;
+    font-weight: 400;
+    line-height: 45px;
+    max-width: 160px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 100%; 
+    margin: 20px;
+    padding: 10px 20px
+}
+
+.news {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin: 20px 0 0 40px;
+}
+
+.book {
+    width: 250px;
+    height: 400px;
+    margin: 20px;
+}
+
+.book-name {
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.price {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.name {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.author {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: #7f7f7f;
+    margin-top: 0;
+}
+
+.mid {
+    display: flex;
+    padding: 20px;
+}
+
+.mid-info {
+    display: flex;
+    justify-content: center;
+    padding: 100px 200px 100px 200px;
+}
+
+.mid-info-description {
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+}
+
+.mid-info-up {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.mid-info-down {
+    margin-top: 10px;
+}
+
+.mid-index {
+    font-family: 'Roboto', sans-serif;
+    font-size: 36px;
+    text-align: center;
+    color: #3d3d3d;
+}
+
+.middle {
+    padding: 20px;
+}
+
+.book-image {
+    width: 200px;
+    height: 284px;
+}
+
+.book-image-inner {
+    width: 400px;
+    height: 700px;
+}
+
+.book-logo {
+    display: flex;
+    justify-content: center;
+}
+
+.book-about {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.book-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.book-characteristics {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.book-author {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.book-price {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.book-publisher {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
