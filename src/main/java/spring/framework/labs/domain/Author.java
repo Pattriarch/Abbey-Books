@@ -20,12 +20,13 @@ import java.util.Set;
 public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
     @ManyToMany(mappedBy = "authors")
     @ToString.Exclude
+    @JsonIgnore
     private Set<Book> authorBooks = new HashSet<>();
 
     public Author(Long id, Set<Book> authorBooks , String name, String description, String image) {

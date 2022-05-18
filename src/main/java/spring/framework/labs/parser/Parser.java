@@ -1,5 +1,6 @@
-package spring.framework.labs.parsers;
+package spring.framework.labs.parser;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.jsoup.Jsoup;
@@ -8,20 +9,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import spring.framework.labs.domain.Author;
-import spring.framework.labs.domain.Book;
-import spring.framework.labs.domain.Publisher;
-import spring.framework.labs.domain.dtos.AuthorDTO;
-import spring.framework.labs.domain.dtos.BookDTO;
-import spring.framework.labs.domain.dtos.PublisherDTO;
-import spring.framework.labs.mappers.AuthorMapper;
-import spring.framework.labs.mappers.BookMapper;
-import spring.framework.labs.mappers.PublisherMapper;
-import spring.framework.labs.services.AuthorService;
-import spring.framework.labs.services.BookService;
-import spring.framework.labs.services.PublisherService;
+import spring.framework.labs.domain.*;
+import spring.framework.labs.domain.dtos.*;
+import spring.framework.labs.mappers.*;
+import spring.framework.labs.services.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,30 +22,28 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
-public class BookParser implements CommandLineRunner {
+public class Parser implements CommandLineRunner {
 
     private final BookService bookService;
     private final AuthorService authorService;
     private final PublisherService publisherService;
+    private final CategoryService categoryService;
+    private final RatingService ratingService;
     private final BookMapper bookMapper;
     private final AuthorMapper authorMapper;
+    private final RatingMapper ratingMapper;
     private final PublisherMapper publisherMapper;
-
-    public BookParser(BookService bookService, AuthorService authorService,
-                      PublisherService publisherService, BookMapper bookMapper,
-                      AuthorMapper authorMapper, PublisherMapper publisherMapper) {
-        this.bookService = bookService;
-        this.authorService = authorService;
-        this.publisherService = publisherService;
-        this.bookMapper = bookMapper;
-        this.authorMapper = authorMapper;
-        this.publisherMapper = publisherMapper;
-    }
+    private final CategoryMapper categoryMapper;
 
     @Transactional
     public void cycle(Element postTitleElement) throws IOException, InterruptedException {
         Book book = new Book();
+        Rating rating = Rating.builder().value(0.0).build();
+        rating.setBook(book);
+        RatingDTO savedRating = ratingService.save(ratingMapper.ratingRatingToDTO(rating));
+        book.setRating(ratingMapper.ratingDTOToRating(savedRating));
 
         String SMALL_IMAGE = postTitleElement.getElementsByClass("product-card__image lazyload").attr("data-src");
         String NAME = postTitleElement.getElementsByClass("product-card__name smartLink").attr("title");
@@ -62,7 +52,7 @@ public class BookParser implements CommandLineRunner {
 
         log.debug("Переходим на страницу с книгой..." + HREF);
         Document postDetailsDoc = Jsoup.connect("https://book24.ru" + HREF).get();
-        String DESCRIPTION = postDetailsDoc.getElementsByAttributeValue("itemprop", "description").attr("content");
+        String DESCRIPTION = postDetailsDoc.getElementsByAttributeValue("itemprop", "description").attr("content").replaceAll("\uFEFF", " ").replaceAll("&nbsp;", " ");
         book.setDescription(DESCRIPTION);
         String PRICE = postDetailsDoc.getElementsByAttributeValue("itemprop", "price").attr("content");
         book.setPrice(Long.valueOf(PRICE));
@@ -105,8 +95,8 @@ public class BookParser implements CommandLineRunner {
 
 //    @Scheduled(fixedDelay = 10000000)
     public void parseNewNews() {
-        for (int page = 1; page < 2; page++) {
-            String url = "https://book24.ru/catalog/informatsionnye-tekhnologii-1357/page-" + page + "/";
+        for (int page = 4; page < 5; page++) {
+            String url = "https://book24.ru/catalog/sovremennaya-otechestvennaya-proza-2273/page-" + page + "/";
             try {
                 Document document = Jsoup.connect(url)
                         .userAgent("Mozilla")
@@ -179,9 +169,21 @@ public class BookParser implements CommandLineRunner {
         book.setAuthors(pp);
     }
 
-    private void setCategory(Book book, Element characteristic) {
-        String category = characteristic.getElementsByClass("product-characteristic-link smartLink").attr("title");
-        book.setCategory(category);
+    public void setCategory(Book book, Element characteristic) {
+        String NAME = characteristic.getElementsByClass("product-characteristic-link smartLink").attr("title");
+
+        Category newCategory = categoryMapper.categoryDTOToCategory(categoryService.findByName(NAME));
+        CategoryDTO cat = new CategoryDTO();
+        if (newCategory == null) {
+            newCategory = Category.builder().name(NAME).books(new HashSet<>()).build();
+            log.error("Была создана новая категория под названием " + NAME);
+            newCategory.getBooks().add(book);
+            cat = categoryService.save(categoryMapper.categoryToCategoryDTO(newCategory));
+        } else {
+            newCategory.getBooks().add(book);
+            cat = categoryService.update(categoryMapper.categoryToCategoryDTO(newCategory), newCategory.getId());
+        }
+        book.setCategory(categoryMapper.categoryDTOToCategory(cat));
     }
 
     public void setPublishers(Book book, Element characteristic) throws InterruptedException {
@@ -200,7 +202,7 @@ public class BookParser implements CommandLineRunner {
                 pub = publisherService.save(publisherMapper.publisherToPublisherDTO(newPublisher));
             } else {
                 newPublisher.getPublisherBooks().add(book);
-                publisherService.save(publisherMapper.publisherToPublisherDTO(newPublisher));
+                pub = publisherService.update(publisherMapper.publisherToPublisherDTO(newPublisher), newPublisher.getId());
             }
             pp.add(publisherMapper.publisherDTOToPublisher(pub));
         }
@@ -240,10 +242,12 @@ public class BookParser implements CommandLineRunner {
         }
     }
 
-//    @Transactional
+    @Transactional
     @Override
     public void run(String... args) throws Exception {
-        parseNewNews();
+        if (bookService.findAll().size() == 0) {
+            parseNewNews();
+        }
         System.out.println(123);
     }
 }

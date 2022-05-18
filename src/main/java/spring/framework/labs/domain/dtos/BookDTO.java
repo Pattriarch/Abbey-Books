@@ -5,13 +5,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import spring.framework.labs.domain.Author;
-import spring.framework.labs.domain.Publisher;
+import spring.framework.labs.domain.*;
+import spring.framework.labs.domain.security.User;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,43 +18,44 @@ import java.util.Set;
 public class BookDTO {
     private Long id;
 
-//    @NotBlank
+    @NotBlank
     private String article;
 
-//    @Min(1)
-//    @Max(5)
-    private Double rating;
+    private Rating rating;
 
     private String[] images;
 
     private Set<Author> authors;
 
-//    @NotBlank
-    private String category;
+    private Category category;
 
     private Set<Publisher> publishers;
 
-//    @NotBlank
+    private Set<User> users = new HashSet<>();
+
+    private Set<Cart> carts = new HashSet<>();
+
+    @NotEmpty(message = "Поле с isbn не может быть пустым")
     private String isbn;
 
-//    @Max(2022)
+    @Max(2022)
     private Integer yearOfPublishing;
 
-//    @Min(1)
+    @Min(1)
     private Integer numberOfPages;
 
-//    @NotNull
+    @NotEmpty(message = "Поле с форматом не может быть пустым")
     private String format;
 
-//    @Min(0)
+    @Min(0)
     private Double weight;
 
-//    @Min(1)
+    @Min(1)
     private Long price;
 
-//    @NotBlank
+    @NotEmpty(message = "Поле с именем не может быть пустым")
     private String name;
 
-//    @NotBlank
+    @NotEmpty(message = "Поле с описанием не может быть пустым")
     private String description;
 }

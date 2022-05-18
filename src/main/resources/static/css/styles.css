@@ -6,16 +6,17 @@
     unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url("../fonts/droidserif.woff") format('woff');
 }
 
-* {
-    box-sizing: border-box;
-}
-
 body {
+    overflow-y: auto;
     margin: 0 auto;
 }
 
@@ -28,6 +29,7 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     margin-bottom: 60px;
 }
@@ -38,7 +40,6 @@ body {
     height: 150px;
     background-color: #d5e8fb;
 }
-
 html {
     height: 100%;              /* for the page to take full window height */
     box-sizing: border-box;    /* to have the footer displayed at the bottom of the page without scrolling */
@@ -50,11 +51,23 @@ html {
     box-sizing: inherit;       /* enable the "border-box effect" everywhere */
 }
 
-.body-for-sticky {
-    position: relative;        /* for the footer to move with the page size */
-    min-height: 100%;          /* for the footer to be at the bottom */
-    padding-bottom: 140px;      /* Space available between last element and bottom border of the page */
+.bookLittleImage {
+    width: 50px;
+    height: 70px;
+    margin-bottom: 10px;
+    display: flex;
 }
+
+.bookLittleImage::selection{
+    border: 5px;
+}
+
+.body-for-sticky {
+position: relative;        /* for the footer to move with the page size */
+min-height: 100%;          /* for the footer to be at the bottom */
+padding-bottom: 140px;      /* Space available between last element and bottom border of the page */
+}
+
 
 .sticky-footer {
     position: absolute;        /* for it to disappear under last body element */
@@ -127,43 +140,78 @@ html {
 }
 
 .book {
-    width: 250px;
-    height: 400px;
-    margin: 20px;
+    width: 240px;
+    height: 404px;
+    /*margin: 20px;*/
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.book:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 1px;
+    background-color: #e6e9ed;
 }
 
 .book-name {
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 40px;
+    font-size: 32px;
     margin-bottom: 20px;
 }
 
 .price {
+    margin-top: 10px;
     font-family: 'Poppins', sans-serif;
-    font-weight: 900;
+    font-weight: 600;
+    font-size: 15px;
     margin-bottom: 5px;
 }
 
 .name {
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     margin-top: 0;
     margin-bottom: 10px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .author {
     font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     color: #7f7f7f;
     margin-top: 0;
+    margin-bottom: 12px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .mid {
     display: flex;
-    padding: 20px;
+    padding: 40px;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 .mid-info {
@@ -197,9 +245,15 @@ html {
     padding: 20px;
 }
 
+.image {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
 .book-image {
-    width: 200px;
-    height: 284px;
+    width: 160px;
+    height: 248px;
 }
 
 .book-image-inner {
@@ -242,4 +296,780 @@ html {
 .book-publisher {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+}
+
+.dropdownn {
+    position: relative;
+    /*margin-top: 100px;*/
+    margin-left: 20px;
+    width: 330px;
+    height: 50px;
+}
+
+.dropdownn::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 2px solid #333;
+    right: 20px;
+    top: 15px;
+    z-index: 10000;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(-45deg);
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.dropdownn.active::before {
+    top: 22px;
+    transform: rotate(-225deg);
+}
+
+.dropdownn input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: #fff;
+    border: none;
+    outline: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 12px 20px;
+    border-radius: 10px;
+}
+
+.dropdownn .option
+{
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+}
+
+.dropdownn.active .option {
+    display: block;
+}
+
+.dropdownn .option div {
+    padding: 12px 20px;
+    cursor: pointer;
+}
+
+.dropdownn .option div:hover {
+    background: #62baea;
+    color: #fff;
+}
+
+.dropdownn .option div ion-icon
+{
+    position: relative;
+    top: 4px;
+    font-size: 1.2em;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    margin: 2vh 0;
+    background-color: lightblue;
+    padding: 15px;
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0.2;
+        bottom: -45px;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 50px;
+    }
+}
+
+.slider.zoom {
+    transform: scale(1.5);
+}
+
+.thumbnails {
+    /*width: 100%;*/
+    /*bottom: 50px;*/
+    /*position: absolute;*/
+    animation: slide-up 1.6s linear 0s 1 forwards;
+}
+
+.thumbnails-inner {
+    /*display: flex;*/
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.thumbnails-inner .thumbnail {
+    /*width: 250px;*/
+    /*height: 160px;*/
+    /*margin: 15px 40px;*/
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.thumbnails-inner .thumbnail:after {
+    content: '';
+    left: 50%;
+    bottom: -27px;
+    color: #666;
+    padding: 4px 8px;
+    position: absolute;
+    transform: translate(-50%);
+    letter-spacing: 2.5px;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.smth {
+    display: flex;
+}
+
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    /*width: 0;*/
+    /*height: 0;*/
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + img {
+    outline: 3px solid #d5e8fb;
+}
+
+.scrollbar-dusty-grass::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-dusty-grass::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar-dusty-grass::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-image: -webkit-linear-gradient(330deg, rgba(213,232,251,1) 0%, rgba(213,214,251,1) 100%);
+    background-image: linear-gradient(120deg, rgba(213,232,251,1) 0%, rgba(213,214,251,1) 100%);
+}
+
+.square::-webkit-scrollbar-track {
+    border-radius: 0 !important;
+}
+
+.square::-webkit-scrollbar-thumb {
+    border-radius: 0 !important;
+}
+
+.thin::-webkit-scrollbar {
+    width: 6px;
+}
+
+.example-1 {
+    position: relative;
+    overflow-y: scroll;
+    height: 590px;
+}
+
+.thumbnails-inner .orelrelrelrlrl:last-child img {
+    margin-bottom: 0;
+}
+
+.thumbnails-inner .orelrelrelrlrl:last-child label {
+    margin-bottom: 0;
+}
+
+.ccc {
+    width:451px;
+    height:590px;
+    overflow: hidden;
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+    /*background-image: center;*/
+    background-size: cover;
+    /*position: relative;*/
+    /*object-fit: cover;*/
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+}
+
+.slider:hover  {
+
+    transform: scale(1.1);
+    /*-webkit-transform: scale(1.2,1.2);*/
+    /*-webkit-transition: all 0.3s ease-in-out;*/
+    /*background-size: 120%;*/
+    /*transform: scale(1.2)!**!;*/
+}
+
+.full-img {
+    position: absolute;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: all 0.25s ease-out;
+}
+
+.full-img.open {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal12 {
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease-out;
+}
+
+.modal12.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.characteristics {
+    width: 40%;
+}
+
+.book-description-part {
+    /*white-space: nowrap;*/
+    /*width: 300ch;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -webkit-mask-image: linear-gradient(0deg, transparent 12px, white 66px);
+    /*-webkit-background-clip: text;*/
+    /*-webkit-text-fill-color: transparent;*/
+    /*overflow-wrap: break-word;*/
+    /*-ms-word-wrap: break-word;*/
+    /*word-wrap: break-word;*/
+    /*-ms-hyphens: auto;*/
+
+    /*width: 200ch;*/
+    /*word-wrap: break-word;*/
+    /*white-space: nowrap;*/
+    /*overflow: visible;*/
+    /*text-overflow: ellipsis;*/
+}
+
+.category-container {
+    display: flex;
+}
+
+.author-container {
+    display: flex;
+}
+
+.publisher-container {
+    display: flex;
+}
+
+.isbn-container {
+    display: flex;
+}
+
+.yearOfPublishing-container {
+    display: flex;
+}
+
+.numberOfPages-container {
+    display: flex;
+}
+
+.format-container {
+    display: flex;
+}
+
+.weight-container {
+    display: flex;
+}
+
+.book-category {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-category:after {
+    content: " .................................................................................."
+}
+
+.book-author {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-author:after {
+    content: " .................................................................................."
+}
+
+.book-publisher {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-publisher:after {
+    content: " .................................................................................."
+}
+
+.book-category {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-category:after {
+    content: " .................................................................................."
+}
+
+.book-isbn {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-isbn:after {
+    content: " .................................................................................."
+}
+
+.book-yearOfPublishing {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-yearOfPublishing:after {
+    content: " .................................................................................."
+}
+
+.book-numberOfPages {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-numberOfPages:after {
+    content: " .................................................................................."
+}
+
+.book-format {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-format:after {
+    content: " .................................................................................."
+}
+
+.book-weight {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-weight:after {
+    content: " .................................................................................."
+}
+
+.author-page {
+    display: flex;
+    width: 900px;
+    margin-bottom: 40px;
+}
+
+.cccontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin: 0 -12px;
+    position: relative;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.bookkk:nth-child(-n+5) {
+    padding-top: 16px;
+}
+
+.bookkk {
+    padding: 32px 12px;
+    width: 20%;
+    position: relative;
+}
+
+.neBookk {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 237px;
+    height: 440px;
+}
+
+.cccontainer {
+    padding: 20px;
+}
+
+.authorImage {
+    border-radius: 50%;
+    margin-right: 30px;
+    margin-left: 40px;
+}
+
+.authorName {
+    font-family: "Open Sans", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.authorDescription {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+}
+
+.author-page {
+    padding-top: 40px;
+}
+.pad {
+    margin-left: 40px;
+}
+
+.img_control {
+    margin-right: 20px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+/*body{*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    background: #20B2AA;*/
+/*    min-height: 100vh;*/
+/*    padding: 10px;*/
+/*}*/
+.pagination ul{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    padding: 8px;
+    border-radius: 50px;
+    box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+}
+.pagination ul li{
+    color: #8f8f8f;
+    list-style: none;
+    line-height: 45px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+.pagination ul li.numb{
+    list-style: none;
+    height: 45px;
+    width: 45px;
+    margin: 0 3px;
+    line-height: 45px;
+    border-radius: 50%;
+}
+.pagination ul li.numb.first{
+    margin: 0px 3px 0 -5px;
+}
+.pagination ul li.numb.last{
+    margin: 0px -5px 0 3px;
+}
+.pagination ul li.dots{
+    font-size: 22px;
+    cursor: default;
+}
+.pagination ul li.btn{
+    padding: 0 20px;
+    border-radius: 50px;
+}
+.pagination li.active,
+.pagination ul li.numb:hover,
+.pagination ul li:first-child:hover,
+.pagination ul li:last-child:hover{
+    color: #fff;
+    background: #8f8f8f;
+}
+
+.modal {
+    backdrop-filter: blur(6px);
+}
+
+button {
+    margin: 20px;
+    outline: none;
+}
+
+.but {
+    margin-top: 40px;
+    text-align: center;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.custom-btn {
+    margin-top: auto;
+    border-radius: 2.5%;
+    width: 200px;
+    height: 40px;
+    padding: 0px 25px;
+    border: 2px solid #c0c0c0;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+/* 11 */
+.btn-11 {
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.btn-11:hover {
+    background: #d5e8fb;
+    border: 2px solid #d5e8fb;
+    color: #fff;
+}
+.btn-11:before {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    top: -180px;
+    left: 0;
+    width: 30px;
+    height: 100%;
+    background-color: #fff;
+    animation: shiny-btn1 3s ease-in-out infinite;
+}
+
+.upper_holder {}
+
+.bottom_holder {
+
+    display: flex;
+    /*bottom: 0;*/
+    /*position: absolute;*/
+
+
+    /*display: table-row;*/
+
+    /*height: 100%;*/
+    /*display: flex;*/
+    margin-top: auto;
+    /*width:240px;*/
+    /*height: 50px;*/
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    vertical-align: bottom;
+}
+
+.btn-frm {
+    margin-top: auto;
+    /*background: red;*/
+    /*padding:5px;*/
+    /*color:white;*/
+}
+
+.upper_holder+.bottom_holder {
+    height: 100%;
+}
+
+.content form {
+    /*bottom: 0;*/
+
+}
+
+.content {
+    width: 240px;
+    bottom: 0;
+    /*height: 155px;*/
+    /*position: relative;*/
+}
+
+.dropbtn {
+    background-color: #d5e8fb;
+    color: white;
+    /*padding: 16px;*/
+    font-size:18px;
+    font-weight: 400;
+    line-height: 45px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+    /*display: none;*/
+    /*position: absolute;*/
+    /*background-color: #f9f9f9;*/
+    min-width: 160px;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    color: white;
+    background-color: #62baea
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #d5e8fb;
+}
+
+
+
+
+
+
+
+
+
+/*@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');*/
+/**{*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*    font-family: 'Poppins', sans-serif;*/
+/*}*/
+/*html,body{*/
+/*    display: grid;*/
+/*    height: 100%;*/
+/*    place-items: center;*/
+/*    text-align: center;*/
+/*    background: #000;*/
+/*}*/
+.csaontainer{
+    position: relative;
+    width: 400px;
+    background: #111;
+    padding: 20px 30px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.csaontainer .post{
+    display: none;
+}
+.csaontainer .text{
+    font-size: 25px;
+    color: #666;
+    font-weight: 500;
+}
+.csaontainer .edit{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+}
+.csaontainer .edit:hover{
+    text-decoration: underline;
+}
+.csaontainer .star-widget input{
+    display: none;
+}
+.star-widget label{
+    font-size: 40px;
+    color: #444;
+    padding: 10px;
+    float: right;
+    transition: all 0.2s ease;
+}
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label{
+    color: #fd4;
+}
+input:checked ~ label{
+    color: #fd4;
+}
+input#rate-5:checked ~ label{
+    color: #fe7;
+    text-shadow: 0 0 20px #952;
 }

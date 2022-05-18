@@ -1,10 +1,19 @@
 package spring.framework.labs.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import spring.framework.labs.domain.Author;
 import spring.framework.labs.domain.Book;
+import spring.framework.labs.domain.Category;
+import spring.framework.labs.domain.Publisher;
+import spring.framework.labs.domain.dtos.AuthorDTO;
 import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.exceptions.ResourceNotFoundException;
+import spring.framework.labs.mappers.AuthorMapper;
 import spring.framework.labs.mappers.BookMapper;
 import spring.framework.labs.repositories.BookRepository;
 
@@ -15,10 +24,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class BookServiceImpl implements BookService {
 
+    private final AuthorMapper authorMapper;
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
 
-    public BookServiceImpl(BookMapper bookMapper, BookRepository bookRepository) {
+    public BookServiceImpl(AuthorMapper authorMapper, BookMapper bookMapper, BookRepository bookRepository) {
+        this.authorMapper = authorMapper;
         this.bookMapper = bookMapper;
         this.bookRepository = bookRepository;
     }
@@ -50,6 +61,39 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Page<BookDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+
+        return this.bookRepository
+                .findAll(pageable)
+                .map(bookMapper::bookToBookDTO);
+    }
+
+    @Override
+    public Page<BookDTO> findAllByAuthorsContains(Author author, Pageable pageable) {
+        return bookRepository.findAllByAuthorsContains(author, pageable).map(bookMapper::bookToBookDTO);
+    }
+
+    @Override
+    public Page<BookDTO> findAllByPublishersContains(Publisher publisher, Pageable pageable) {
+        return bookRepository.findAllByPublishersContains(publisher, pageable).map(bookMapper::bookToBookDTO);
+    }
+
+    @Override
+    public Page<BookDTO> findAllByCategory(Category category, Pageable pageable) {
+        return bookRepository.findAllByCategory(category, pageable).map(bookMapper::bookToBookDTO);
+    }
+
+    @Override
+    public Page<BookDTO> findAllByNameStartsWithIgnoreCase(String name, Pageable pageable) {
+        return bookRepository.findAllByNameStartsWithIgnoreCase(name, pageable).map(bookMapper::bookToBookDTO);
+    }
+
+    @Override
     public BookDTO update(BookDTO bookDTO, Long aLong) {
         return bookRepository.findById(aLong).map(book -> {
 
@@ -63,6 +107,18 @@ public class BookServiceImpl implements BookService {
 
             if (bookDTO.getAuthors() != null) {
                 book.setAuthors(bookDTO.getAuthors());
+            }
+
+            if (bookDTO.getRating() != null) {
+                book.setRating(book.getRating());
+            }
+
+            if (bookDTO.getUsers() != null) {
+                book.setUsers(book.getUsers());
+            }
+
+            if (bookDTO.getCarts() != null) {
+                book.setCarts(book.getCarts());
             }
 
             if (bookDTO.getCategory() != null) {

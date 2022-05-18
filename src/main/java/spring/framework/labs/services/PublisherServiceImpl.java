@@ -1,5 +1,9 @@
 package spring.framework.labs.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.framework.labs.domain.Publisher;
 import spring.framework.labs.domain.dtos.PublisherDTO;
@@ -75,5 +79,17 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public PublisherDTO findByName(String name) {
         return publisherMapper.publisherToPublisherDTO(publisherRepository.findFirstByName(name));
+    }
+
+    @Override
+    public Page<PublisherDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+
+        return this.publisherRepository
+                .findAll(pageable)
+                .map(publisherMapper::publisherToPublisherDTO);
     }
 }

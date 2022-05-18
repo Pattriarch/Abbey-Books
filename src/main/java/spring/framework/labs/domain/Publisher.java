@@ -1,5 +1,6 @@
 package spring.framework.labs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Cascade;
@@ -20,15 +21,12 @@ import java.util.Set;
 @Table(name = "publisher")
 public class Publisher {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinTable(name = "publisher_book",
-            joinColumns = {@JoinColumn(name = "publisher_id")},
-            inverseJoinColumns = {@JoinColumn(name = "book_id")})
     @ToString.Exclude
+    @ManyToMany(mappedBy = "publishers")
+    @JsonIgnore
     private Set<Book> publisherBooks = new HashSet<>();
 
     @NotBlank

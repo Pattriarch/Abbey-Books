@@ -11,6 +11,7 @@ import java.util.Set;
 
 @RestController
 // Убрать ResponseBody
+@RequestMapping("/api/books")
 public class BookControllerAPI {
 
     private final BookService bookService;
@@ -19,30 +20,28 @@ public class BookControllerAPI {
         this.bookService = bookService;
     }
 
-    @GetMapping("/api/books")
+    @GetMapping
     public Set<BookDTO> getBooks() {
         return bookService.findAll();
     }
 
-    @PostMapping("/api/books")
+    @PostMapping
     public BookDTO addBook(@Valid @RequestBody BookDTO bookDTO) {
         return bookService.save(bookDTO);
     }
 
-    @PutMapping("/api/books/{bookId}")
+    @PutMapping("/{bookId}")
     public BookDTO putBook(@Valid @RequestBody BookDTO newBook, @PathVariable @Min(0) Long bookId) {
         return bookService.update(newBook, bookId);
     }
 
-    @GetMapping("/api/books/{bookId}")
+    @GetMapping("/{bookId}")
     public BookDTO getBook(@PathVariable @Min(0) Long bookId) {
         return bookService.findById(bookId);
     }
 
-    @DeleteMapping("/api/books/{bookId}")
+    @DeleteMapping("/{bookId}")
     public void deleteBook(@PathVariable @Min(0) Long bookId) {
         bookService.deleteById(bookId);
     }
-
-
 }

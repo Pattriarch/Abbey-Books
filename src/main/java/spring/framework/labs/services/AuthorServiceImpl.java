@@ -54,15 +54,15 @@ public class AuthorServiceImpl implements AuthorService {
         return authorRepository.findById(aLong).map(author -> {
 
             if (authorDTO.getAuthorBooks() != null) {
-                author.setAuthorBooks(author.getAuthorBooks());
+                author.setAuthorBooks(authorDTO.getAuthorBooks());
             }
 
             if (authorDTO.getDescription() != null) {
-                author.setDescription(author.getDescription());
+                author.setDescription(authorDTO.getDescription());
             }
 
             if (authorDTO.getImage() != null) {
-                author.setImage(author.getImage());
+                author.setImage(authorDTO.getImage());
             }
 
             return authorMapper.authorToAuthorDTO(authorRepository.save(author));

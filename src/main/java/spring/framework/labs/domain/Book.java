@@ -8,6 +8,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import spring.framework.labs.domain.security.User;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -31,12 +32,13 @@ import java.util.Set;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String article;
 
-    private Double rating;
+    @OneToOne
+    private Rating rating;
 
     @Type(type = "string-array")
     @Column(columnDefinition = "text[]")
@@ -48,14 +50,30 @@ public class Book {
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
     @ToString.Exclude
+    @JsonIgnore
     private Set<Author> authors = new HashSet<>();
 
-    @Column
-    private String category;
+    @ManyToOne
+    private Category category;
 
-    @ManyToMany(mappedBy = "publisherBooks")
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinTable(name = "book_publisher",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "publisher_id")})
     @ToString.Exclude
+    @JsonIgnore
     private Set<Publisher> publishers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    @ToString.Exclude
+    private Set<User> users = new HashSet<>();
+
+    @ManyToMany(mappedBy = "book_carts")
+    @JsonIgnore
+    @ToString.Exclude
+    private Set<Cart> carts = new HashSet<>();
 
     @Column
     private String isbn;

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <link rel="shortcut icon" type="x-icon" th:href="@{/img/favicon.png}" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,56 +10,263 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
+<!--/*@thymesVar id="userDTO" type="spring.framework.labs.domain.dtos.security.UserDTO"*/-->
 <body>
     <div class="cont">
         <div class="inner__cont">
             <div class="up">
-                <a href="index.html">
+                <a href="http://localhost:8080/index">
                     <img th:src="@{/img/logo.png}">
                 </a>
                 <div class="menu">
-                    <p><a class="butn butn-5" href="index.html">Главная</a></p>
-                    <p><a class="butn butn-5" href="catalog.html">Каталог</a></p>
-                    <p><a class="butn butn-5" href="info.html">О сайте</a></p>
+                    <p><a class="butn butn-5" href="http://localhost:8080/index">Главная</a></p>
+                    <p><a class="butn butn-5" href="http://localhost:8080/catalog/1">Каталог</a></p>
+
+                    <p><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
+                    <div class="row" sec:authorize="isAuthenticated()">
+                        <div class="col-md-12">
+                            <p th:text="'Welcome: ' + ${#authentication?.principal?.username}">User</p>
+                            <!--                    <p><a th:href="@{/logout}">Logout</a></p>-->
+                            <form th:action="@{/logout}" method="get">
+                                <input class="btn btn-secondary"  type="submit" value="Выйти"/>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-sm-3" sec:authorize="!isAuthenticated()">
+                    <button type="button" class="btn btn-primary" id="buttonToRegister" data-toggle="modal" data-target="#exampleModal1" data-whatever="@getbootstrap">Регистрация</button>
+                </div>
+
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
+                                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                                </div>
+
+                                <div class="modal-body">
+<!--                                    <div class="form-group">-->
+<!--                                        <label for="recipient-name1" class="col-form-label">Электронная почта:</label>-->
+<!--                                        <input type="text" class="form-control" id="recipient-name1">-->
+<!--                                    </div>-->
+                                    <div class="form-group">
+                                        <label for="recipient-name2" class="col-form-label">ФИО:</label>
+                                        <input type="text" class="form-control" th:field="*{name}" id="recipient-name2" th:errorclass="is-invalid">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name3" class="col-form-label">Имя пользователя:</label>
+                                        <input type="text" class="form-control" th:field="*{username}" id="recipient-name3" th:errorclass="is-invalid">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name4" class="col-form-label">Пароль:</label>
+                                        <input type="password" class="form-control" th:field="*{password}" id="recipient-name4" th:errorclass="is-invalid">
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                    <input type="submit" class="btn btn-primary"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3" sec:authorize="!isAuthenticated()">
+                    <button type="button" class="btn btn-primary" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Вход</button>
+                </div>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel1">Вход</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form th:action="@{/login}" method="post">
+                                <div class="modal-body">
+                                    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
+                                         class="alert alert-danger">Неверный логин или пароль</div>
+
+                                    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
+                                         class="alert alert-danger">Аккаунт был заблокирован</div>
+                                    <div class="form-group">
+                                        <label for="username" class="col-form-label">Имя пользователя:</label>
+                                        <input type="text" id="username" class="form-control" name="username" autofocus="true" autocomplete="off">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password" class="col-form-label">Пароль:</label>
+                                        <input type="password" id="password" class="form-control" name="password" autofocus="true" autocomplete="off">
+                                    </div>
+                                    <label for="remember-me">Remember Me:</label>
+                                    <input type="checkbox" id="remember-me" name="remember-me" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                    <input type="submit" class="btn btn-primary"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <div class="mid-index">
+
+                <form th:action="@{/search/page-1}" method="get">
+                    <div class="input-group rounded">
+                        <input type="search" name="bookName" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                        <span class="input-group-text border-0" id="search-addon">
+                        <input type="submit" class="fas fa-search"/>
+                      </span>
+                    </div>
+                </form>
+
+
                 <p class="mid-info-up">Добро пожаловать в книжный магазин Abbey Books</p>
                 <p class="mid-info-down">для просмотра ассортимента перейдите в "Каталог"</p>
             </div>
-            <footer class="footer text-center text-white">
-                <div class="container p-4 pb-0">
-                    <section class="mb-4">
-                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
-                        ><i class="fab fa-facebook-f"></i
-                        ></a>
 
-                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
-                        ><i class="fab fa-twitter"></i
-                        ></a>
+<!--            <h2 th:text="#{welcomemsg}">SFG Brewery Monolith</h2>-->
 
-                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
-                        ><i class="fab fa-google"></i
-                        ></a>
+            <div class="row" sec:authorize="!isAuthenticated()">
+                <div class="col-md-12">
+                    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
+                         class="alert alert-danger">Неверный логин или пароль</div>
 
-                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
-                        ><i class="fab fa-instagram"></i
-                        ></a>
+                    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
+                         class="alert alert-danger">Аккаунт был заблокирован</div>
 
-                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
-                        ><i class="fab fa-vk"></i
-                        ></a>
-
-                    </section>
+                    <div th:if="${param.logout}" class="alert alert-success">Вы успешно вышли из аккаунта</div>
                 </div>
+            </div>
+<!--            <h2 th:text="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message}"></h2>-->
 
-                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                    © 2022 Все права защищены:
-                    <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
-                </div>
-            </footer>
-        </div>
+
+
+<!--                        <div class="input-group mb-3">-->
+<!--                            <input type="text" class="form-control"  th:field="*{username}" placeholder="First Name" th:errorclass="is-invalid">-->
+<!--                            <div class="input-group-append">-->
+<!--                                <div class="input-group-text">-->
+<!--                                    <span class="fas fa-user"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="input-group mb-3">-->
+<!--                            <input type="text" class="form-control"  th:field="*{password}" placeholder="Last Name" th:errorclass="is-invalid">-->
+
+<!--                            <div class="input-group-append">-->
+<!--                                <div class="input-group-text">-->
+<!--                                    <span class="fas fa-user"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="input-group mb-3">-->
+<!--                            <input type="password" class="form-control" placeholder="Retype password">-->
+<!--                            <div class="input-group-append">-->
+<!--                                <div class="input-group-text">-->
+<!--                                    <span class="fas fa-lock"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+        <!--                        <div class="input-group mb-3">-->
+        <!--                            <input type="email" class="form-control" th:field="*{email}" placeholder="Email" th:errorclass="is-invalid">-->
+
+        <!--                            <div class="input-group-append">-->
+        <!--                                <div class="input-group-text">-->
+        <!--                                    <span class="fas fa-envelope"></span>-->
+        <!--                                </div>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div class="input-group mb-3">-->
+        <!--                            <input type="password" class="form-control" th:field="*{password}" placeholder="Password" th:errorclass="is-invalid">-->
+
+        <!--                            <div class="input-group-append">-->
+        <!--                                <div class="input-group-text">-->
+        <!--                                    <span class="fas fa-lock"></span>-->
+        <!--                                </div>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <footer class="footer text-center text-white">
+            <div class="container p-4 pb-0">
+                <section class="mb-4">
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
+                    ><i class="fab fa-facebook-f"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
+                    ><i class="fab fa-twitter"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
+                    ><i class="fab fa-google"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
+                    ><i class="fab fa-instagram"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
+                    ><i class="fab fa-vk"></i
+                    ></a>
+
+                </section>
+            </div>
+
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2022 Все права защищены:
+                <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+            </div>
+        </footer>
     </div>
+</div>
+
+    <script>
+            $(function() {
+                $('#repres').click(function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'localhost:8080/register',
+                        data: { username: $(this).username.value,
+                            password: $(this).password.value }
+                    });
+                    return false;
+                });
+            })
+        </script>
+
+        <script th:if="${userDTO.username != null}">
+            document.getElementById("buttonToRegister").click();
+        </script>
+
+        <script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'">
+            document.getElementById("buttonToLogin").click();
+        </script>
+
+        <script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'">
+            document.getElementById("buttonToLogin").click();
+        </script>
 </body>
 </html>

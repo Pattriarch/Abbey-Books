@@ -4,6 +4,7 @@ import lombok.*;
 import spring.framework.labs.domain.Book;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +16,7 @@ public class AuthorDTO {
 
     private Set<Book> authorBooks;
 
-//    @NotBlank
+    @NotEmpty(message = "Поле с именем не может быть пустым")
     private String name;
 
 //    @NotBlank
