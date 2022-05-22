@@ -1,13 +1,11 @@
 package spring.framework.labs.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.framework.labs.domain.Category;
 import spring.framework.labs.domain.RateToken;
 import spring.framework.labs.domain.dtos.BookDTO;
-import spring.framework.labs.domain.dtos.CategoryDTO;
 import spring.framework.labs.domain.dtos.RateTokenDTO;
-import spring.framework.labs.domain.security.User;
 import spring.framework.labs.exceptions.ResourceNotFoundException;
 import spring.framework.labs.mappers.RateTokenMapper;
 import spring.framework.labs.repositories.RateTokenRepository;
@@ -18,16 +16,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class RateTokenServiceImpl implements RateTokenService {
 
     private final RateTokenMapper rateTokenMapper;
     private final RateTokenRepository rateTokenRepository;
-
-    public RateTokenServiceImpl(RateTokenMapper rateTokenMapper, RateTokenRepository rateTokenRepository) {
-        this.rateTokenMapper = rateTokenMapper;
-        this.rateTokenRepository = rateTokenRepository;
-    }
 
     @Override
     public Set<RateTokenDTO> findAll() {

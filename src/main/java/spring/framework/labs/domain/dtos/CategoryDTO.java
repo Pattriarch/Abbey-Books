@@ -3,7 +3,6 @@ package spring.framework.labs.domain.dtos;
 import lombok.Data;
 import spring.framework.labs.domain.Book;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 

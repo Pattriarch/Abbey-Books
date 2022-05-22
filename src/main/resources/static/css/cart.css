@@ -1,0 +1,123 @@
+.book-image-in-cart {
+    width: 95px;
+    height: 150px;
+}
+
+.book-in-cart {
+    display: flex;
+    margin: 20px !important;
+}
+
+.image-in-cart {
+    display: flex;
+    /*justify-content: center;*/
+    /*align-content: center;*/
+}
+
+
+hr {
+    height: 5px;
+    width: 1000px;
+}
+
+.book-name-in-cart {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.price-in-cart {
+    margin-right: 0;
+}
+
+.book-name-in-cart {
+    width: 850px;
+}
+
+.book-price-in-cart {
+    width: 80px;
+    display: grid;
+}
+
+.row {
+    max-width: 1000px !important;
+}
+
+.delete-logo {
+    margin-left: 5px;
+    height: 30px;
+    width: 30px;
+    opacity: 1;
+    align-self: flex-end;
+    /*color: #9c89b8;*/
+    /*background-color: #6565a9;*/
+    /*filter: invert(66%) sepia(5%) saturate(2071%) hue-rotate(222deg) brightness(87%) contrast(84%);*/
+}
+
+.books {
+    max-width: 1150px;
+    margin-right: 30px;
+}
+
+.middle-in-cart {
+    display: flex;
+}
+
+.summary-in-cart {
+    height: 150px;
+    width: 350px;
+    border-radius: 4%;
+    border: 1px solid #C8C9CA;
+    padding: 10px 24px;
+    margin-top: 15px;
+}
+
+.countOfBooks {
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceOfBooks {
+    display: flex;
+    justify-content: space-between;
+}
+
+.countOfBooksSize {
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.priceOfBooksSize {
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.descriptionWithButton {
+    display: flex;
+    width: 1000px;
+    justify-content: space-between;
+}
+
+.page-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    width: 600px;
+    margin: 0;
+}
+
+.custom-btnn {
+    margin-top: auto;
+    border-radius: 2.5%;
+    width: 300px;
+    height: 40px;
+    padding: 0 25px;
+    border: 2px solid #c0c0c0;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}

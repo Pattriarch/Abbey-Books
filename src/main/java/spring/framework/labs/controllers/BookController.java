@@ -1,10 +1,6 @@
 package spring.framework.labs.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,17 +11,16 @@ import spring.framework.labs.domain.RateToken;
 import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.domain.security.User;
-import spring.framework.labs.exceptions.UserAlreadyExistException;
 import spring.framework.labs.mappers.BookMapper;
 import spring.framework.labs.mappers.RateTokenMapper;
-import spring.framework.labs.security.perms.BookReadPermission;
+import spring.framework.labs.security.perms.book.BookDeletePermission;
+import spring.framework.labs.security.perms.book.BookReadPermission;
+import spring.framework.labs.security.perms.book.BookUpdatePermission;
 import spring.framework.labs.services.BookService;
+import spring.framework.labs.services.CategoryService;
 import spring.framework.labs.services.RateTokenService;
-import spring.framework.labs.services.security.UserService;
 
-import javax.servlet.ServletException;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,15 +30,28 @@ public class BookController {
     private final RateTokenMapper rateTokenMapper;
     private final BookMapper bookMapper;
     private final RateTokenService rateTokenService;
+    private final CategoryService categoryService;
     private final BookService bookService;
 
-//    @BookReadPermission
     @GetMapping("/{bookId}")
     public String showBook(@PathVariable Long bookId, Model model) {
+
+        UserDTO userDTO = new UserDTO();
+        model.addAttribute("userDTO", userDTO);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != "anonymousUser") {
+            model.addAttribute("user", principal);
+        }
         model.addAttribute("book", bookService.findById(bookId));
+
+        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
+
+
         return "bookform";
     }
 
+    @BookReadPermission
     @GetMapping("/myBooks")
     public String showUserBooks(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -54,12 +62,15 @@ public class BookController {
         return "userbooksform";
     }
 
+    @BookDeletePermission
     @DeleteMapping("/{bookId}")
     public String deleteBook(@PathVariable Long bookId) {
         bookService.deleteById(bookId);
+
         return "redirect:/info";
     }
 
+    @BookUpdatePermission
     @GetMapping("/update/{bookId}")
     public String updateBook(@PathVariable Long bookId, Model model) {
         model.addAttribute("book", bookService.findById(bookId));
@@ -69,18 +80,22 @@ public class BookController {
         return "bookupdateform";
     }
 
+    @BookUpdatePermission
     @PostMapping("/update/{bookId}")
     public String updateBookForm(final @Valid BookDTO bookDTO, final BindingResult bindingResult, @PathVariable Long bookId, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bookDTO", bookDTO);
+
             return "bookupdateform";
         } else {
             bookService.update(bookDTO, bookId);
+
             return "redirect:/books/" + bookId;
         }
     }
 
+    @BookReadPermission
     @PostMapping("/{bookId}/rate")
     public String sendRate(@RequestParam Long rate, @PathVariable Long bookId) {
 
@@ -92,6 +107,7 @@ public class BookController {
         System.out.println(bookId);
         RateToken rateToken = RateToken.builder().rate(Math.toIntExact(rate)).rating(book.getRating()).user(user).build();
         rateTokenService.save(rateTokenMapper.rateTokenToRateTokenDTO(rateToken), rate, user.getId(), bookMapper.bookToBookDTO(book));
+
         return "redirect:/books/" + bookId;
     }
 }

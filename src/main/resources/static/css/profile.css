@@ -1,0 +1,33 @@
+.addBalance {
+    display: flex;
+}
+
+.custom-btn-in-profile {
+    margin-top: auto;
+    border-radius: 6.5%;
+    width: 100px;
+    height: 25px;
+    padding: 0 10px;
+    border: 2px solid #c0c0c0;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.TwoFactorOFF {
+    display: flex;
+}
+
+.register2FA {
+    display: flex;
+}
+
+.changePassword {
+    display: flex;
+}

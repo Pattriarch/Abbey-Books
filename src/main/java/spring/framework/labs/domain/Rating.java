@@ -2,8 +2,6 @@ package spring.framework.labs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import spring.framework.labs.domain.security.User;
 
 import javax.persistence.*;
 import java.util.HashSet;

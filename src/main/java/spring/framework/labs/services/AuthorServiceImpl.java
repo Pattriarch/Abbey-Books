@@ -1,5 +1,6 @@
 package spring.framework.labs.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.framework.labs.domain.Author;
@@ -12,16 +13,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorMapper authorMapper;
     private final AuthorRepository authorRepository;
-
-    public AuthorServiceImpl(AuthorMapper authorMapper, AuthorRepository authorRepository) {
-        this.authorMapper = authorMapper;
-        this.authorRepository = authorRepository;
-    }
 
     @Override
     public Set<AuthorDTO> findAll() {

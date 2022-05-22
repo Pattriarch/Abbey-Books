@@ -2,23 +2,18 @@ package spring.framework.labs.domain.dtos;
 
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import spring.framework.labs.domain.*;
 import spring.framework.labs.domain.security.User;
 
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
 public class BookDTO {
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Поле с артиклем не может быть пустым")
     private String article;
 
     private Rating rating;

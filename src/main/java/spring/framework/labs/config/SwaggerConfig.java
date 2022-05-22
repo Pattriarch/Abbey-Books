@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 "dpereverzev@google.com");
 
         return new ApiInfo(
-                "Courser Work",
+                "Course Work",
                 "Course Work about client server architecture",
                 "1.0",
                 "Terms of Service: ...",

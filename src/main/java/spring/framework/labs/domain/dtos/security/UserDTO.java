@@ -5,8 +5,6 @@ import spring.framework.labs.domain.Book;
 import spring.framework.labs.domain.Cart;
 import spring.framework.labs.domain.security.Role;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;

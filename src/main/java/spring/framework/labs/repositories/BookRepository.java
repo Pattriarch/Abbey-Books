@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import spring.framework.labs.domain.Author;
 import spring.framework.labs.domain.Book;
 import spring.framework.labs.domain.Category;
@@ -24,4 +23,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     Page<Book> findAllByCategory(Category category, Pageable pageable);
 
     Page<Book> findAllByNameStartsWithIgnoreCase(String name, Pageable pageable);
+
+    List<Book> findAllByOrderByRatingValueDesc();
 }

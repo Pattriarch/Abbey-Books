@@ -18,16 +18,16 @@ public class UserUnlockService {
 
     private final UserRepository userRepository;
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 1500000)
     public void unlockAccounts(){
-        log.debug("Running Unlock Accounts");
+        log.debug("Происходит разблокировка аккаунтов");
 
         List<User> lockedUsers = userRepository
                 .findAllByAccountNonLockedAndLastModifiedDateIsBefore(false,
                         Timestamp.valueOf(LocalDateTime.now().minusSeconds(30)));
 
         if(lockedUsers.size() > 0){
-            log.debug("Locked Accounts Found, Unlocking");
+            log.debug("Заблокированные аккаунты найдены, происходит разблокировка");
             lockedUsers.forEach(user -> user.setAccountNonLocked(true));
 
             userRepository.saveAll(lockedUsers);

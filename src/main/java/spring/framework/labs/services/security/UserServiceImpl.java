@@ -1,11 +1,15 @@
 package spring.framework.labs.services.security;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.framework.labs.domain.Book;
+import spring.framework.labs.domain.Cart;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.domain.security.User;
+import spring.framework.labs.exceptions.NotEnoughMoneyException;
 import spring.framework.labs.exceptions.ResourceNotFoundException;
 import spring.framework.labs.exceptions.UserAlreadyExistException;
 import spring.framework.labs.mappers.BookMapper;
@@ -21,6 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class UserServiceImpl implements UserService {
 
@@ -32,17 +37,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final BookService bookService;
     private final CartService cartService;
-
-    public UserServiceImpl(UserMapper userMapper, BookMapper bookMapper, CartMapper cartMapper, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, BookService bookService, CartService cartService) {
-        this.userMapper = userMapper;
-        this.bookMapper = bookMapper;
-        this.cartMapper = cartMapper;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.bookService = bookService;
-        this.cartService = cartService;
-    }
 
     @Override
     public Set<UserDTO> findAll() {
@@ -76,6 +70,10 @@ public class UserServiceImpl implements UserService {
             user.getRoles().add(roleRepository.findByName("USER").get());
         }
 
+        if (user.getCart() == null) {
+            user.setCart(Cart.builder().user(user).book_carts(new HashSet<>()).build());
+        }
+
         User savedUser = userRepository.save(user);
 
         return userMapper.userToUserDTO(savedUser);
@@ -92,10 +90,6 @@ public class UserServiceImpl implements UserService {
 
             if (userDTO.getUsername() != null) {
                 user.setUsername(userDTO.getUsername());
-            }
-
-            if (userDTO.getPassword() != null) {
-                user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             }
 
             if (userDTO.getBalance() != null) {
@@ -174,7 +168,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO payBooks(UserDTO userDTO) {
+    public UserDTO payBooks(UserDTO userDTO) throws NotEnoughMoneyException {
         Long sum = userDTO
                 .getCart()
                 .getBook_carts()
@@ -192,8 +186,7 @@ public class UserServiceImpl implements UserService {
             cartService.update(cartMapper.cartToCartDTO(userDTO.getCart()), userDTO.getCart().getId());
             return update(userDTO, Long.valueOf(userDTO.getId()));
         } else {
-            // TODO: Реализовать нехватку денег
-            return null;
+            throw new NotEnoughMoneyException("Не хватает " + (sum - userDTO.getBalance()) + " для оплаты");
         }
     }
 
@@ -216,4 +209,26 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(newPassword));
         }
     }
+
+    @Override
+    public UserDTO deleteBookFromCart(UserDTO userDTO, Long bookId) {
+        User user = userRepository.findById(userDTO.getId()).get();
+        user.getCart().getBook_carts().removeIf(book -> book.getId().equals(bookId));
+        return update(userMapper.userToUserDTO(user), Long.valueOf(user.getId()));
+    }
+
+    @Override
+    public UserDTO deleteAllBooksFromCart(UserDTO userDTO) {
+        User user = userRepository.findById(userDTO.getId()).get();
+        user.getCart().setBook_carts(new HashSet<>());
+        return update(userMapper.userToUserDTO(user), Long.valueOf(user.getId()));
+    }
+
+    @Override
+    public UserDTO addBalance(Long userId, Long value) {
+        User user = userRepository.findById(Math.toIntExact(userId)).get();
+        user.setBalance(user.getBalance() + value);
+        return update(userMapper.userToUserDTO(user), Long.valueOf(user.getId()));
+    }
+
 }

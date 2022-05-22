@@ -1,5 +1,6 @@
 package spring.framework.labs.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,29 +11,22 @@ import spring.framework.labs.domain.Author;
 import spring.framework.labs.domain.Book;
 import spring.framework.labs.domain.Category;
 import spring.framework.labs.domain.Publisher;
-import spring.framework.labs.domain.dtos.AuthorDTO;
 import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.exceptions.ResourceNotFoundException;
-import spring.framework.labs.mappers.AuthorMapper;
 import spring.framework.labs.mappers.BookMapper;
 import spring.framework.labs.repositories.BookRepository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class BookServiceImpl implements BookService {
 
-    private final AuthorMapper authorMapper;
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
-
-    public BookServiceImpl(AuthorMapper authorMapper, BookMapper bookMapper, BookRepository bookRepository) {
-        this.authorMapper = authorMapper;
-        this.bookMapper = bookMapper;
-        this.bookRepository = bookRepository;
-    }
 
     @Override
     public Set<BookDTO> findAll() {
@@ -60,37 +54,58 @@ public class BookServiceImpl implements BookService {
         return bookMapper.bookToBookDTO(savedBook);
     }
 
-    @Override
-    public Page<BookDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-
+    private Pageable getPageable(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-
-        return this.bookRepository
-                .findAll(pageable)
-                .map(bookMapper::bookToBookDTO);
+        return PageRequest.of(pageNo - 1, pageSize, sort);
     }
 
     @Override
-    public Page<BookDTO> findAllByAuthorsContains(Author author, Pageable pageable) {
+    public Page<Book> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+
+        Pageable pageable = getPageable(pageNo, pageSize, sortField, sortDirection);
+
+        return this.bookRepository
+                .findAll(pageable);
+    }
+
+    @Override
+    public Page<BookDTO> findAllByAuthorsContains(Author author, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Pageable pageable = getPageable(pageNo, pageSize, sortField, sortDirection);
+
         return bookRepository.findAllByAuthorsContains(author, pageable).map(bookMapper::bookToBookDTO);
     }
 
     @Override
-    public Page<BookDTO> findAllByPublishersContains(Publisher publisher, Pageable pageable) {
+    public Page<BookDTO> findAllByPublishersContains(Publisher publisher, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Pageable pageable = getPageable(pageNo, pageSize, sortField, sortDirection);
+
         return bookRepository.findAllByPublishersContains(publisher, pageable).map(bookMapper::bookToBookDTO);
     }
 
     @Override
-    public Page<BookDTO> findAllByCategory(Category category, Pageable pageable) {
+    public Page<BookDTO> findAllByCategory(Category category, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Pageable pageable = getPageable(pageNo, pageSize, sortField, sortDirection);
+
         return bookRepository.findAllByCategory(category, pageable).map(bookMapper::bookToBookDTO);
     }
 
     @Override
-    public Page<BookDTO> findAllByNameStartsWithIgnoreCase(String name, Pageable pageable) {
+    public Page<BookDTO> findAllByNameStartsWithIgnoreCase(String name, int pageNo, int pageSize, String sortField, String sortDirection) {
+        Pageable pageable = getPageable(pageNo, pageSize, sortField, sortDirection);
+
         return bookRepository.findAllByNameStartsWithIgnoreCase(name, pageable).map(bookMapper::bookToBookDTO);
+    }
+
+    @Override
+    public List<Book> findAllByOrderByRatingValueDescLimitFive() {
+        return bookRepository.findAllByOrderByRatingValueDesc().stream().limit(5).toList();
+    }
+
+    @Override
+    public List<Book> findFiveLastBooks() {
+        return bookRepository.findAll().stream().limit(5).toList();
     }
 
     @Override

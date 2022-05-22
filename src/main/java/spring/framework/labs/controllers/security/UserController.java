@@ -4,9 +4,7 @@ import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorQRGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.domain.security.User;
+import spring.framework.labs.mappers.UserMapper;
 import spring.framework.labs.repositories.security.UserRepository;
+import spring.framework.labs.services.BookService;
+import spring.framework.labs.services.CategoryService;
 import spring.framework.labs.services.security.UserService;
-
-import java.util.Optional;
 
 @Slf4j
 @RequestMapping("/user")
@@ -26,15 +25,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final UserMapper userMapper;
     private final UserService userService;
+    private final BookService bookService;
+    private final CategoryService categoryService;
     private final UserRepository userRepository;
     private final GoogleAuthenticator googleAuthenticator;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/register2fa")
     public String register2fa(Model model){
-
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
 
         String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL("SFG", user.getUsername(),
                 googleAuthenticator.createCredentials(user.getUsername()));
@@ -43,17 +44,18 @@ public class UserController {
 
         model.addAttribute("googleurl", url);
 
-        return "user/register2fa";
+        return "user/registration2fa";
     }
 
     @PostMapping("/register2fa")
-    public String confirm2Fa(@RequestParam Integer verifyCode, Model model){
+    public String confirm2Fa(@RequestParam(required = false) Integer verifyCode, Model model){
 
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
 
-        log.debug("Entered Code is:" + verifyCode);
+        log.debug("Введённый код:" + verifyCode);
 
-        if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
+        if (verifyCode != null && googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
             User savedUser = userRepository.findById(user.getId()).orElseThrow();
             savedUser.setUseGoogle2fa(true);
             userRepository.save(savedUser);
@@ -61,9 +63,12 @@ public class UserController {
             User userContext = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             userContext.setUseGoogle2fa(true);
 
-            model.addAttribute("userDTO", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            model.addAttribute("lastBooks", bookService.findFiveLastBooks());
+            model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
 
-            return "index";
+            model.addAttribute("categories", categoryService.findAll());
+
+            return "user/profile";
         } else {
             String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL("SFG", user.getUsername(),
                     googleAuthenticator.createCredentials(user.getUsername()));
@@ -73,7 +78,7 @@ public class UserController {
             model.addAttribute("googleurl", url);
 
             // bad code
-            return "user/register2fa";
+            return "user/registration2fa";
         }
     }
 
@@ -85,15 +90,21 @@ public class UserController {
     @PostMapping("/verify2fa")
     public String verifyPostOf2Fa(@RequestParam Integer verifyCode, Model model){
 
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode)) {
             ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
 
             model.addAttribute("userDTO", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-            return "index";
+            model.addAttribute("lastBooks", bookService.findFiveLastBooks());
+            model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
+
+            model.addAttribute("categories", categoryService.findAll());
+
+            return "redirect:/";
         } else {
+
             return "user/verify2fa";
         }
     }
@@ -106,22 +117,28 @@ public class UserController {
     @PostMapping("/disable2fa")
     public String disablePostOf2Fa(@RequestParam Long verifyCode, Model model){
 
-        User user = getUser();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (googleAuthenticator.authorizeUser(user.getUsername(), Math.toIntExact(verifyCode))) {
-            User userContext = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User user123 = userRepository.findById(userContext.getId()).get();
+            User user123 = userRepository.findById(user.getId()).get();
             user123.setGoogle2faRequired(false);
             user123.setUseGoogle2fa(false);
             user123.setGoogle2faSecret(null);
 
-            userContext.setGoogle2faRequired(false);
-            userContext.setUseGoogle2fa(false);
-            userContext.setGoogle2faSecret(null);
+            user.setGoogle2faRequired(false);
+            user.setUseGoogle2fa(false);
+            user.setGoogle2faSecret(null);
 
             userRepository.save(user123);
 
-            return "index";
+            model.addAttribute("userDTO", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
+            model.addAttribute("lastBooks", bookService.findFiveLastBooks());
+            model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
+
+            model.addAttribute("categories", categoryService.findAll());
+
+            return "redirect:/";
         } else {
 
             User userContext = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -155,7 +172,6 @@ public class UserController {
         } else {
             String vl = "asdasdasas";
             model.addAttribute("mistake", vl);
-
         }
 
         model.addAttribute("user", user);
@@ -163,9 +179,16 @@ public class UserController {
         return "user/profile";
     }
 
-    private User getUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @PostMapping("addBalance")
+    public String addBalance(@RequestParam Long value, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        UserDTO userWithUpdatedBalance =  userService.addBalance(Long.valueOf(user.getId()), value);
+
+        user.setBalance(userWithUpdatedBalance.getBalance());
+
+        model.addAttribute("user", user);
+
+        return "redirect:/user/profile";
     }
-
-
 }

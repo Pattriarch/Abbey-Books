@@ -2,8 +2,6 @@ package spring.framework.labs.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import spring.framework.labs.domain.Publisher;
-import spring.framework.labs.domain.dtos.PublisherDTO;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.domain.security.User;
 

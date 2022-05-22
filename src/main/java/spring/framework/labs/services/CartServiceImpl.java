@@ -1,30 +1,24 @@
 package spring.framework.labs.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.framework.labs.domain.Cart;
-import spring.framework.labs.domain.Category;
 import spring.framework.labs.domain.dtos.CartDTO;
-import spring.framework.labs.domain.dtos.CategoryDTO;
 import spring.framework.labs.exceptions.ResourceNotFoundException;
 import spring.framework.labs.mappers.CartMapper;
 import spring.framework.labs.repositories.CartRepository;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class CartServiceImpl implements CartService {
 
     private final CartMapper cartMapper;
     private final CartRepository cartRepository;
-
-    public CartServiceImpl(CartMapper cartMapper, CartRepository cartRepository) {
-        this.cartMapper = cartMapper;
-        this.cartRepository = cartRepository;
-    }
 
     @Override
     public Set<CartDTO> findAll() {

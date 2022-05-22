@@ -6,7 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог</title>
+    <link href="../static/css/book.css" th:href="@{/css/book.css}" rel="stylesheet" />
+    <link href="../static/css/cart.css" th:href="@{/css/cart.css}" rel="stylesheet" />
     <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link href="../static/css/dropdown.css" th:href="@{/css/dropdown.css}" rel="stylesheet" />
+    <link href="../static/css/footer.css" th:href="@{/css/footer.css}" rel="stylesheet" />
+    <link href="../static/css/header.css" th:href="@{/css/header.css}" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -19,47 +24,164 @@
 <body>
 <div class="cont">
     <div class="inner__cont">
-        <div class="up">
-            <a href="http://localhost:8080/index">
-                <img th:src="@{/img/logo.png}">
-            </a>
-            <div class="menu">
-                <p><a class="butn butn-5" href="http://localhost:8080/index">Главная</a></p>
-                <p><a class="butn butn-5" href="http://localhost:8080/catalog/1">Каталог</a></p>
-                <p><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
-                <p th:text="${'Баланс: ' + user.balance}"></p>
-            </div>
-        </div>
-        <p class="news">Корзина:</p>
+        <div class="up__cont">
+            <div class="up">
+                <div class="menu col">
+                    <a href="http://localhost:8080/index">
+                        <img class="header-logo" th:src="@{/img/7.png}">
+                    </a>
 
-        <div class="container" id="refreshDiv">
-            <div class="row">
-                <tr th:each="book : ${listBooks}">
-                    <div class="col">
-                        <div class="book">
-                            <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
-                                <div class="image">
-                                    <img class="book-image" th:src="${book.images[0]}" alt="Card image cap">
-                                </div>
-                                <div class="content">
-                                    <p class="price" th:text="${book.price + ' р.'}">test</p>
-                                    <p class="name" th:text="${book.name}">test</p>
-                                    <p class="author" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
-                                </div>
-                            </a>
+                    <div class="dropdown">
+                        <button class="dropbtn">КАТАЛОГ</button>
+                        <div class="dropdown-content">
+                            <a href="http://localhost:8080/catalog/1">Все книги</a>
+                            <tr th:each="category : ${categories}">
+                                <a th:text="${category.name}" th:href="${'http://localhost:8080/categories/' + category.id + '/page-1'}"></a>
+                            </tr>
                         </div>
                     </div>
-                </tr>
+
+                    <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
+
+                    <form th:action="@{/search/page-1}" id="search" class="search col" method="get">
+                        <div class="input-group rounded">
+                            <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
+                                   aria-label="Search" aria-describedby="search-addon"/>
+                            <span class="input-group-text border-0" value="" id="item">
+                                <i onclick="document.getElementById('search').submit()" class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </form>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/cart}" id="cart" method="get">
+                            <div class="input-group rounded">
+                                <img class="cart-logo"
+                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/books/myBooks}" id="myBooks" method="get">
+                            <div class="input-group rounded">
+                                <img class="book-logo"
+                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/user/profile}" id="profile" method="get">
+                            <div class="input-group rounded">
+                                <img class="profile-logo"
+                                     onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" id="logout" method="get">
+                            <div class="input-group rounded">
+                                <img class="logout-logo"
+                                     onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
-<!--        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>-->
-<!---->
-        <form th:action="@{|/cart/pay/|}" method="post">
-            <input class="custom-btn btn-11" data-toggle="modal"  type="submit" value="Приобрести"/>
-        </form>
+        <div class="middle">
+
+            <div class="descriptionWithButton">
+                <p class="page-description">Корзина</p>
+                <form th:if="${listBooks.size() > 0}" th:action="@{|/cart/deleteAll|}" method="post">
+                    <input class="custom-btn btn-11 button-delete-all-in-cart" data-toggle="modal"  type="submit" value="Удалить все из корзины"/>
+                </form>
+            </div>
+            <hr>
+            <div class="middle-in-cart">
+            <div class="books">
+
+<!--        <div class="container" id="refreshDiv">-->
+<!--            <div class="row">-->
+                <tr th:each="book : ${listBooks}">
+                    <div class="row flex-start">
+                        <div class="book-in-cart">
+                            <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
+                                <div class="image-in-cart">
+                                    <img class="book-image-in-cart" th:src="${book.images[0]}" alt="Card image cap">
+                                    <div class="book-name-in-cart">
+                                        <p class="name-in-cart" th:text="${book.name}">test</p>
+                                        <p class="author-in-cart" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
+                                    </div>
+                                    <div class="book-price-in-cart">
+                                        <p class="price-in-cart" th:text="${book.price + ' р.'}">test</p>
+                                        <form th:action="@{|/cart/delete/${book.id}|}" onsubmit="refreshNew()" id="delete" method="post" target="dummyframe">
+                                            <img class="delete-logo" onclick="document.getElementById('delete').submit()" th:src="@{/img/delete.png}"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </a>
+                            <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                        </div>
+                    </div>
+                    <hr>
+                </tr>
+<!--            </div>-->
+            </div>
+                <div th:if="${listBooks.size() > 0}" class="summary-in-cart">
+                    <div class="countOfBooks">
+                        <p>Количество книг</p>
+                        <div class="countOfBooksSize">
+                            <p th:text="${listBooks.size()}"></p>
+                        </div>
+                    </div>
+
+                    <div class="priceOfBooks">
+                        <p>Итоговая сумма</p>
+                        <div class="priceOfBooksSize">
+                            <p th:text="${#aggregates.sum(listBooks.![price])}"></p>
+                        </div>
+                    </div>
+
+                    <form th:action="@{|/cart/pay/|}" method="post">
+                        <input class="custom-btnn btn-11" data-toggle="modal"  type="submit" value="Приобрести"/>
+                    </form>
+                </div>
+                <div th:unless="${listBooks.size() > 0}">
+                </div>
+
+                <!--        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>-->
+                <!---->
     </div>
+        </div>
     </div>
 </div>
+<script>
+    function refreshNew() {
+
+        // document.querySelector(".dropdownn").style.pointerEvents = "none";
+
+        // if (window.location.href != "http://localhost:8080/catalog/1/?sortField=id&sortDir=desc") {
+        // show('Сначала новые')
+        $("#refreshDiv").animate({opacity: 0.2}, "fast", function() {
+            $('#refreshDiv').load("http://localhost:8080/cart" + ' #refreshDiv>*').animate({opacity: 1});
+        });
+        // window.location.href.searchParams.set('sortField', 'name')
+        // }
+
+        // console.log(1);
+        //
+        // setTimeout(function run() {
+        //     document.querySelector(".dropdownn").style.pointerEvents = "auto";
+        // }, 1500)
+    }
+</script>
 </body>
 </html>

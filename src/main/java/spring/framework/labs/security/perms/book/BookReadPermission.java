@@ -1,4 +1,4 @@
-package spring.framework.labs.security.perms;
+package spring.framework.labs.security.perms.book;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -6,6 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('book.create')")
-public @interface BookCreatePermission {
+@PreAuthorize("hasAuthority('book.read')")
+public @interface BookReadPermission {
 }

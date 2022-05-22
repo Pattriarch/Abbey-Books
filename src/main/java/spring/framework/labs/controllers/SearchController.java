@@ -1,9 +1,11 @@
 package spring.framework.labs.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,25 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.framework.labs.domain.dtos.AuthorDTO;
 import spring.framework.labs.domain.dtos.BookDTO;
+import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.mappers.AuthorMapper;
 import spring.framework.labs.services.AuthorService;
 import spring.framework.labs.services.BookService;
+import spring.framework.labs.services.CategoryService;
 
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/search")
 public class SearchController {
 
     private final AuthorMapper authorMapper;
     private final AuthorService authorService;
+    private final CategoryService categoryService;
     private final BookService bookService;
-
-    public SearchController(AuthorMapper authorMapper, AuthorService authorService, BookService bookService) {
-        this.authorMapper = authorMapper;
-        this.authorService = authorService;
-        this.bookService = bookService;
-    }
+    public static final int PAGE_SIZE = 30;
 
     @GetMapping("/page-{pageNo}")
     public String findBooksPaginated(@RequestParam String bookName,
@@ -38,7 +39,6 @@ public class SearchController {
                                      @RequestParam(value = "sortField", required = false) String sortField,
                                      @RequestParam(value = "sortDir", required = false) String sortDir,
                                      Model model) {
-        int pageSize = 30;
 
         if (sortField == null) {
             sortField = "id";
@@ -48,13 +48,17 @@ public class SearchController {
             sortDir = "desc";
         }
 
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
+        UserDTO userDTO = new UserDTO();
+        model.addAttribute("userDTO", userDTO);
 
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != "anonymousUser") {
+            model.addAttribute("user", principal);
+        }
 
-        Page<BookDTO> page = bookService.findAllByNameStartsWithIgnoreCase(bookName, pageable);
+        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
 
+        Page<BookDTO> page = bookService.findAllByNameStartsWithIgnoreCase(bookName, pageNo, PAGE_SIZE, sortField, sortDir);
         List<BookDTO> listBooks = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -66,6 +70,7 @@ public class SearchController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("listBooks", listBooks);
+
         return "searchform";
     }
 }

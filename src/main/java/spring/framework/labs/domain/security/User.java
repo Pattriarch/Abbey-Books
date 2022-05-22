@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import spring.framework.labs.domain.Book;
 import spring.framework.labs.domain.Cart;
 import spring.framework.labs.domain.RateToken;
-import spring.framework.labs.domain.Rating;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -37,18 +36,10 @@ public class User implements UserDetails {
 
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @ToString.Exclude
     @JsonIgnore
-    private Set<RateToken> rateTokens;
-
-//    @Singular
-//    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinTable(name = "user_rating",
-//            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-//            inverseJoinColumns = {@JoinColumn(name = "RATING_ID", referencedColumnName = "ID")})
-//    @JsonIgnore
-//    private Set<Rating> ratings = new HashSet<>();
+    private Set<RateToken> rateTokens = new HashSet<>();
 
     @Singular
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -78,9 +69,7 @@ public class User implements UserDetails {
         return this.roles.stream()
                 .map(Role::getAuthorities)
                 .flatMap(Set::stream)
-                .map(authority -> {
-                    return new SimpleGrantedAuthority(authority.getPermission());
-                })
+                .map(authority -> new SimpleGrantedAuthority(authority.getPermission()))
                 .collect(Collectors.toSet());
     }
 

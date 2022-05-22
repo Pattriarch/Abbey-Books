@@ -1,10 +1,9 @@
 package spring.framework.labs.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import spring.framework.labs.domain.Category;
 import spring.framework.labs.domain.Rating;
-import spring.framework.labs.domain.dtos.CategoryDTO;
 import spring.framework.labs.domain.dtos.RatingDTO;
 import spring.framework.labs.exceptions.ResourceNotFoundException;
 import spring.framework.labs.mappers.RatingMapper;
@@ -14,16 +13,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class RatingServiceImpl implements RatingService {
 
     private final RatingMapper ratingMapper;
     private final RatingRepository ratingRepository;
-
-    public RatingServiceImpl(RatingMapper ratingMapper, RatingRepository ratingRepository) {
-        this.ratingMapper = ratingMapper;
-        this.ratingRepository = ratingRepository;
-    }
 
     @Override
     public Set<RatingDTO> findAll() {

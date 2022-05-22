@@ -1,9 +1,6 @@
 package spring.framework.labs.services;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.framework.labs.domain.Publisher;
 import spring.framework.labs.domain.dtos.PublisherDTO;
@@ -16,17 +13,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class PublisherServiceImpl implements PublisherService {
 
     private final PublisherMapper publisherMapper;
     private final PublisherRepository publisherRepository;
-
-    public PublisherServiceImpl(PublisherMapper publisherMapper, PublisherRepository publisherRepository) {
-        this.publisherMapper = publisherMapper;
-        this.publisherRepository = publisherRepository;
-    }
-
 
     @Override
     public Set<PublisherDTO> findAll() {
@@ -79,17 +71,5 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public PublisherDTO findByName(String name) {
         return publisherMapper.publisherToPublisherDTO(publisherRepository.findFirstByName(name));
-    }
-
-    @Override
-    public Page<PublisherDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-
-        return this.publisherRepository
-                .findAll(pageable)
-                .map(publisherMapper::publisherToPublisherDTO);
     }
 }

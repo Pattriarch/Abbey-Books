@@ -17,10 +17,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-
-/**
- * Created by jt on 2019-01-26.
- */
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -64,15 +60,15 @@ public class DefaultBreweryLoader implements CommandLineRunner {
         Authority updatePublisherAPI = authorityRepository.save(Authority.builder().permission("publisher.api.update").build());
         Authority deletePublisherAPI = authorityRepository.save(Authority.builder().permission("publisher.api.delete").build());
 
-        // author auths
-        Authority readAuthor = authorityRepository.save(Authority.builder().permission("author.create").build());
+        // user API auths
+        Authority createUserAPI = authorityRepository.save(Authority.builder().permission("user.api.create").build());
+        Authority readUserAPI = authorityRepository.save(Authority.builder().permission("user.api.read").build());
+        Authority updateUserAPI = authorityRepository.save(Authority.builder().permission("user.api.update").build());
+        Authority deleteUserAPI = authorityRepository.save(Authority.builder().permission("user.api.delete").build());
 
         // cart auths
-        Authority readCart = authorityRepository.save(Authority.builder().permission("cart.create").build());
+        Authority readCart = authorityRepository.save(Authority.builder().permission("cart.read").build());
         Authority updateCart = authorityRepository.save(Authority.builder().permission("cart.update").build());
-
-        // catalog auths
-        Authority readCatalog = authorityRepository.save(Authority.builder().permission("catalog.read").build());
 
         // book auths
         Authority createBook = authorityRepository.save(Authority.builder().permission("book.create").build());
@@ -80,27 +76,28 @@ public class DefaultBreweryLoader implements CommandLineRunner {
         Authority updateBook  = authorityRepository.save(Authority.builder().permission("book.update").build());
         Authority deleteBook  = authorityRepository.save(Authority.builder().permission("book.delete").build());
 
+        log.debug("Cозданы authorities для roles");
+
         // roles
         Role adminRole = roleRepository.save(Role.builder().name("ADMIN").build());
         Role moderatorRole = roleRepository.save(Role.builder().name("MODERATOR").build());
         Role userRole = roleRepository.save(Role.builder().name("USER").build());
 
+        log.debug("Cозданы roles");
+
         // set authorities for role
         adminRole.setAuthorities(new HashSet<>(Set.of(
                 createBook, readBook, updateBook, deleteBook,
-                readCatalog,
                 readCart, updateCart,
-                readAuthor,
                 createAuthorAPI, readAuthorAPI, updateAuthorAPI, deleteAuthorAPI,
                 createBookAPI, readBookAPI, updateBookAPI, deleteBookAPI,
                 createCategoryAPI, readCategoryAPI, updateCategoryAPI, deleteCategoryAPI,
-                createPublisherAPI, readPublisherAPI, updatePublisherAPI, deletePublisherAPI)));
+                createPublisherAPI, readPublisherAPI, updatePublisherAPI, deletePublisherAPI,
+                createUserAPI, readUserAPI, updateUserAPI, deleteUserAPI)));
 
         moderatorRole.setAuthorities(new HashSet<>(Set.of(
                 readBook, updateBook,
-                readCatalog,
                 readCart, updateCart,
-                readAuthor,
                 readAuthorAPI,
                 readBookAPI,
                 readCategoryAPI,
@@ -108,16 +105,18 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 
         userRole.setAuthorities(new HashSet<>(Set.of(
                 readBook,
-                readCatalog,
                 readCart, updateCart,
-                readAuthor,
                 readAuthorAPI,
                 readBookAPI,
                 readCategoryAPI,
                 readPublisherAPI)));
 
+        log.debug("Установлены authorities для roles");
+
         // save roles
         roleRepository.saveAll(Arrays.asList(adminRole, moderatorRole, userRole));
+
+        log.debug("Сохранены роли");
 
         // create users
         userRepository.save(User.builder()
@@ -130,7 +129,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .build());
 
         userRepository.save(User.builder()
-                .name("Комаров Михаил Романович")
+                .name("Ширяев Юрий Созонович")
                 .username("moderator")
                 .balance(20000L)
                 .password(passwordEncoder.encode("moderator"))
@@ -148,7 +147,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .build());
 
         userRepository.save(User.builder()
-                .name("Андреев Гордей Валерьевич")
+                .name("Артемьев Овидий Святославович")
                 .username("user2")
                 .balance(5000L)
                 .password(passwordEncoder.encode("password"))
@@ -157,7 +156,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .build());
 
         userRepository.save(User.builder()
-                .name("Андреев Гордей Валерьевич")
+                .name("Никитин Арсений Юлианович")
                 .username("user3")
                 .balance(5000L)
                 .password(passwordEncoder.encode("password"))
@@ -166,7 +165,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .build());
 
         userRepository.save(User.builder()
-                .name("Андреев Гордей Валерьевич")
+                .name("Афанасьев Дмитрий Геннадьевич")
                 .username("user4")
                 .balance(5000L)
                 .password(passwordEncoder.encode("password"))
@@ -175,7 +174,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .build());
 
         userRepository.save(User.builder()
-                .name("Андреев Гордей Валерьевич")
+                .name("Беляков Иван Аркадьевич")
                 .username("user5")
                 .balance(5000L)
                 .password(passwordEncoder.encode("password"))
@@ -183,7 +182,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .cart(Cart.builder().book_carts(new HashSet<>()).build())
                 .build());
 
-        log.debug("Users Loaded: " + userRepository.count());
+        log.debug("Загружены " + userRepository.count() + " пользователей");
     }
 
 }
