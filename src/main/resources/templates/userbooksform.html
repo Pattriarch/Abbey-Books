@@ -21,7 +21,7 @@
 <!--/*@thymesVar id="user" type="java.util.Set<spring.framework.labs.domain.security.User>"*/-->
 
 <body>
-<div class="cont">
+<div class="cont allButFooter">
     <div class="inner__cont">
         <div class="up__cont">
             <div class="up">
@@ -42,12 +42,12 @@
 
                     <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
 
-                    <form th:action="@{/search/page-1}" id="search" class="search col" method="get">
+                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
                             <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
                                    aria-label="Search" aria-describedby="search-addon"/>
-                            <span class="input-group-text border-0" value="" id="item">
-                                <i onclick="document.getElementById('search').submit()" class="fas fa-search"></i>
+                            <span class="input-group-text border-0" id="search">
+                                <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
                             </span>
                         </div>
                     </form>
@@ -56,47 +56,43 @@
                         <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/cart}" id="cart" method="get">
+                    <div sec:authorize="isAuthenticated()" id="cart">
+                        <a href="http://localhost:8080/cart" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="cart-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
+                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/books/myBooks}" id="myBooks" method="get">
+                    <div sec:authorize="isAuthenticated()" id="myBooks">
+                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="book-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                                <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/user/profile}" id="profile" method="get">
+                    <div sec:authorize="isAuthenticated()" id="profile" >
+                        <a href="http://localhost:8080/user/profile" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="profile-logo"
-                                     onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                                <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" id="logout" method="get">
+                    <div sec:authorize="isAuthenticated()" id="logout" >
+                        <a href="http://localhost:8080/logout" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="logout-logo"
-                                     onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
+                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="middle">
-            <p class="news-3">Мои книги</p>
+            <p class="page-description">Мои книги</p>
             <div class="books">
                 <tr th:each="book : ${listBooks}">
                     <div class="product-list__item">
@@ -123,6 +119,68 @@
         </div>
     </div>
 </div>
-</div>
+
+<script>
+    search.onmouseenter = function(){
+        this.classList.add('hovered');
+    }
+
+    search.onmouseleave = function(){
+        this.classList.remove('hovered');
+    }
+</script>
+
+<script sec:authorize="!isAuthenticated()">
+    register.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    register.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    login.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    login.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
+<script sec:authorize="isAuthenticated()">
+    cart.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    cart.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    myBooks.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    myBooks.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    profile.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    profile.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    logout.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    logout.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
 </body>
 </html>

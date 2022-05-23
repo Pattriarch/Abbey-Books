@@ -155,6 +155,7 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addAttribute("user", user);
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         return "user/profile";
     }

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,10 +25,10 @@ public class Category {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "category", fetch = FetchType.LAZY)
     @ToString.Exclude
     @JsonIgnore
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

@@ -1,7 +1,11 @@
 package spring.framework.labs.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,7 @@ import spring.framework.labs.mappers.AuthorMapper;
 import spring.framework.labs.services.AuthorService;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -54,7 +59,7 @@ public class AuthorController {
             model.addAttribute("user", principal);
         }
 
-        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         AuthorDTO author = authorService.findById(authorId);
         model.addAttribute("author", author);

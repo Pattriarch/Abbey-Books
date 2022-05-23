@@ -19,6 +19,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
+                .apis( RequestHandlerSelectors.basePackage("spring.framework.labs.controllers.api"))
                 .build()
                 .apiInfo(metaData());
     }

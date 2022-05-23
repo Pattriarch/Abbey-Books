@@ -136,12 +136,12 @@
     margin-bottom: 0 !important;
 }
 
-#search, #cart, #myBooks, #profile, #logout {
+#search, #cart, #myBooks, #profile, #logout, #register, #login {
     transition : all 0.1s ease-out;
     color      : #000;
 }
 
-#cart, #myBooks, #profile, #logout {
+#cart, #myBooks, #profile, #logout, #register, #login {
     padding: 20px;
 }
 

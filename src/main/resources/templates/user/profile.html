@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог</title>
+    <title>Мой профиль</title>
     <link href="../static/css/styles.css" th:href="@{/css/book.css}" rel="stylesheet" />
     <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
     <link href="../static/css/dropdown.css" th:href="@{/css/dropdown.css}" rel="stylesheet" />
@@ -28,7 +28,7 @@
 <!--/*@thymesVar id="books" type="java.util.Set<spring.framework.labs.domain.Book>"*/-->
 <!--/*@thymesVar id="user" type="java.util.Set<spring.framework.labs.domain.security.User>"*/-->
 <body>
-<div class="cont">
+<div class="cont allButFooter">
     <div class="inner__cont">
         <div class="up__cont">
             <div class="up">
@@ -49,12 +49,12 @@
 
                     <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
 
-                    <form th:action="@{/search/page-1}" id="search" class="search col" method="get">
+                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
                             <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
                                    aria-label="Search" aria-describedby="search-addon"/>
-                            <span class="input-group-text border-0" value="" id="item">
-                                <i onclick="document.getElementById('search').submit()" class="fas fa-search"></i>
+                            <span class="input-group-text border-0" id="search">
+                                <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
                             </span>
                         </div>
                     </form>
@@ -63,42 +63,41 @@
                         <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/cart}" id="cart" method="get">
+                    <div sec:authorize="isAuthenticated()" id="cart">
+                        <a href="http://localhost:8080/cart" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="cart-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
+                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/books/myBooks}" id="myBooks" method="get">
+                    <div sec:authorize="isAuthenticated()" id="myBooks">
+                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="book-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                                <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/user/profile}" id="profile" method="get">
+                    <div sec:authorize="isAuthenticated()" id="profile" >
+                        <a href="http://localhost:8080/user/profile" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="profile-logo"
-                                     onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                                <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <form th:action="@{/logout}" id="logout" method="get">
-                        <div class="input-group rounded">
-                            <img class="logout-logo"
-                                 onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
-                        </div>
-                    </form>
+                    <div sec:authorize="isAuthenticated()" id="logout" >
+                        <a href="http://localhost:8080/logout" method="get" class="">
+                            <div class="input-group rounded">
+                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="middle">
             <div th:if="${user.name.split(' ')[1] != null}">
                 <p th:text="${'Здравствуйте, ' + user.name.split(' ')[1]}"></p>
@@ -235,7 +234,104 @@
     </div>
     </div>
 
+    <div class="downn">
+        <footer class="footer text-center text-white">
+            <div class="container p-4 pb-0">
+                <section class="mb-4">
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
+                    ><i class="fab fa-facebook-f"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
+                    ><i class="fab fa-twitter"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
+                    ><i class="fab fa-google"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
+                    ><i class="fab fa-instagram"></i
+                    ></a>
+
+                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
+                    ><i class="fab fa-vk"></i
+                    ></a>
+
+                </section>
+            </div>
+
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2022 Все права защищены:
+                <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+            </div>
+        </footer>
+    </div>
+
 </div>
+
+<script>
+    search.onmouseenter = function(){
+        this.classList.add('hovered');
+    }
+
+    search.onmouseleave = function(){
+        this.classList.remove('hovered');
+    }
+</script>
+
+<script sec:authorize="!isAuthenticated()">
+    register.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    register.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    login.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    login.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
+<script sec:authorize="isAuthenticated()">
+    cart.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    cart.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    myBooks.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    myBooks.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    profile.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    profile.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    logout.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    logout.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
 <script th:if="${mistake} == 'aaaassss'">
         document.getElementById("buttonToDisable2FA").click();
 </script>

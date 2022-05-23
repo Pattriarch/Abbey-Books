@@ -20,6 +20,7 @@ import spring.framework.labs.mappers.PublisherMapper;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
 import spring.framework.labs.services.PublisherService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class PublisherController {
             model.addAttribute("user", principal);
         }
 
-        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         PublisherDTO publisher = publisherService.findById(publisherId);
         model.addAttribute("publisher", publisher);

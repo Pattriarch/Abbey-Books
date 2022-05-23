@@ -38,7 +38,7 @@ public class Parser implements CommandLineRunner {
     private final CategoryMapper categoryMapper;
 
     public void parseNewNews() {
-        for (int page = 1; page < 20; page++) {
+        for (int page = 4; page < 5; page++) {
 
             final String URL_TO_PARSE = "https://book24.ru/catalog/fiction-1592/page-" + page + "/";
 
@@ -225,6 +225,7 @@ public class Parser implements CommandLineRunner {
             String NAME = publisher.getElementsByAttribute("title").text();
 
             Publisher newPublisher = publisherMapper.publisherDTOToPublisher(publisherService.findByName(NAME));
+
             PublisherDTO pub;
             if (newPublisher == null) {
                 newPublisher = Publisher.builder().name(NAME).publisherBooks(new HashSet<>()).build();

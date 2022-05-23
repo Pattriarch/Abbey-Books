@@ -19,7 +19,7 @@
 </head>
 <!--/*@thymesVar id="listBooks" type="java.util.Set<spring.framework.labs.domain.Book>"*/-->
 <body>
-<div class="cont">
+<div class="cont allButFooter">
     <div class="inner__cont">
         <div class="up__cont">
             <div class="up">
@@ -40,12 +40,12 @@
 
                     <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
 
-                    <form th:action="@{/search/page-1}" id="search" class="search col" method="get">
+                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
                             <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
                                    aria-label="Search" aria-describedby="search-addon"/>
-                            <span class="input-group-text border-0" value="" id="item">
-                                <i onclick="document.getElementById('search').submit()" class="fas fa-search"></i>
+                            <span class="input-group-text border-0" id="search">
+                                <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
                             </span>
                         </div>
                     </form>
@@ -54,44 +54,40 @@
                         <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/cart}" id="cart" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="cart">
+                        <a href="http://localhost:8080/cart" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="cart-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
+                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/books/myBooks}" id="myBooks" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="myBooks">
+                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="book-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                                <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/user/profile}" id="profile" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="profile" >
+                        <a href="http://localhost:8080/user/profile" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="profile-logo"
-                                     onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                                <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" id="logout" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="logout" >
+                        <a href="http://localhost:8080/logout" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="logout-logo"
-                                     onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
+                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="!isAuthenticated()">
-                        <button type="button" class="margin-right" id="buttonToRegister" data-toggle="modal"
+                    <div sec:authorize="!isAuthenticated()" id="register">
+                        <button type="button" id="buttonToRegister" data-toggle="modal"
                                 data-target="#exampleModal1" data-whatever="@getbootstrap">
                             <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
                         </button>
@@ -142,8 +138,8 @@
                         </div>
                     </div>
 
-                    <div class="margin-right" sec:authorize="!isAuthenticated()">
-                        <button type="button" class="" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                    <div sec:authorize="!isAuthenticated()" id="login">
+                        <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
                             <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
                     </div>
 
@@ -188,13 +184,15 @@
                 </div>
             </div>
         </div>
-        </div>
-        <div class="mid" id="refreshDiv">
-            <div class="row">
-                <tr th:each="book : ${listBooks}">
-                    <div class="col">
-                        <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
-                            <div class="book">
+
+        <div class="middle">
+        <p class="page-description" th:text="${'Все что найдено по поиску: ' + bookName}"></p>
+        <div class="books" id="refreshDiv">
+            <tr th:each="book : ${listBooks}">
+                <div class="product-list__item">
+                    <div class="book" id="book">
+                        <div class="upper_holder">
+                            <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
                                 <div class="image">
                                     <img class="book-image" th:src="${book.images[0]}" alt="Card image cap">
                                 </div>
@@ -203,14 +201,257 @@
                                     <p class="name" th:text="${book.name}">test</p>
                                     <p class="author" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
+                        <div sec:authorize="isAuthenticated()" th:if="${user.getBooks().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
+                            <form class="btn-frm" target="dummyframe">
+                                <input class="custom-btn-in-cart btn-11" data-toggle="modal"
+                                       type="submit" id="alreadyBought" value="Куплено"/>
+                            </form>
+                        </div>
+                        <div sec:authorize="isAuthenticated()" th:if="${!user.getBooks().contains(book) && !user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
+                            <form class="btn-frm"
+                                  id="testContent" target="dummyframe">
+                                <input class="custom-btn btn-11" th:book-id="${book.id}" onclick="testContent(this.getAttribute('book-id'))" data-toggle="modal"
+                                       type="submit" th:id="addToCart + ${book.id}" value="В корзину"/>
+                            </form>
+                        </div>
+                        <div sec:authorize="isAuthenticated()" th:if="${!user.getBooks().contains(book) && user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
+                            <form class="btn-frm" target="dummyframe">
+                                <input class="custom-btn-in-cart btn-11" data-toggle="modal"
+                                       type="submit" id="inCart" value="В корзине"/>
+                            </form>
+                        </div>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                        <!--                                    <div class="but" sec:authorize="hasAuthority('book.update')">-->
+                        <!--                    <p><a th:href="@{/logout}">Logout</a></p>-->
                     </div>
-                </tr>
-            </div>
-        </div>
+                    <hr class="ssdask">
 
+                    <!--                                </div>-->
+                </div>
+            </tr>
+        </div>
+        </div>
     </div>
 </div>
+
+<div class="downn">
+    <footer class="footer text-center text-white">
+        <div class="container p-4 pb-0">
+            <section class="mb-4">
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
+                ><i class="fab fa-facebook-f"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
+                ><i class="fab fa-twitter"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
+                ><i class="fab fa-google"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
+                ><i class="fab fa-instagram"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
+                ><i class="fab fa-vk"></i
+                ></a>
+
+            </section>
+        </div>
+
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2022 Все права защищены:
+            <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+        </div>
+    </footer>
+</div>
+
+<script>
+    search.onmouseenter = function(){
+        this.classList.add('hovered');
+    }
+
+    search.onmouseleave = function(){
+        this.classList.remove('hovered');
+    }
+</script>
+
+<script sec:authorize="!isAuthenticated()">
+    register.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    register.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    login.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    login.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
+<script sec:authorize="isAuthenticated()">
+    search.onmouseenter = function(){
+        this.classList.add('hovered');
+    }
+
+    search.onmouseleave = function(){
+        this.classList.remove('hovered');
+    }
+
+    cart.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    cart.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    myBooks.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    myBooks.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    profile.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    profile.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    logout.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    logout.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+</script>
+
+<script>
+    var nameError = document.getElementById('name-error');
+    var usernameError = document.getElementById('username-error');
+    var passwordError = document.getElementById('password-error');
+
+    function validateName() {
+        var name = document.getElementById('register-name').value;
+
+        if (name.length === 0) {
+            nameError.innerHTML = 'Необходимо ввести ФИО';
+            document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (username.length < 8) {
+            nameError.innerHTML = 'ФИО должно содержать не менее 8 символов';
+            document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (!name.match(/(?:[A-Za-zА-Яа-я]+ ){2}[A-Za-zА-Яа-я]+/)) {
+            nameError.innerHTML = 'Введите полное ФИО';
+            document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        document.getElementById('register-name').style.setProperty('border-color', 'seagreen', 'important');
+        nameError.innerHTML = '&nbsp;';
+        return true;
+    }
+
+
+
+    function validateUsername() {
+        var username = document.getElementById('register-username').value;
+
+        if (username.length === 0) {
+            usernameError.innerHTML = 'Необходимо ввести имя пользователя';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (username.length < 6) {
+            usernameError.innerHTML = 'Имя пользователя должно содержать не менее 6 символов';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (!username.match(/^[A-Za-z0-9]+$/)) {
+            usernameError.innerHTML = 'Не используйте запрещенные символы';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
+        usernameError.innerHTML = '&nbsp;';
+        return true;
+    }
+
+    function validatePassword() {
+        var password = document.getElementById('register-password').value;
+
+        if (password.length === 0) {
+            passwordError.innerHTML = 'Необходимо ввести имя пользователя';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (password.length < 6) {
+            passwordError.innerHTML = 'Пароль должен содержать не менее 6 символов';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (password.match(/^[<>${}/]$/)) {
+            passwordError.innerHTML = 'Не используйте запрещенные символы';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
+        passwordError.innerHTML = '&nbsp;';
+        return true;
+    }
+</script>
+
+<script>
+    $(function() {
+        $('#repres').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'localhost:8080/register',
+                data: { username: $(this).username.value,
+                    password: $(this).password.value }
+            });
+            return false;
+        });
+    })
+</script>
+
+<script th:if="${userDTO.username != null}">
+    document.getElementById("buttonToRegister").click();
+</script>
+
+<script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'">
+    document.getElementById("buttonToLogin").click();
+</script>
+
+<script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'">
+    document.getElementById("buttonToLogin").click();
+</script>
+
 </body>
 </html>

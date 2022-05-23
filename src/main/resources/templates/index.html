@@ -25,7 +25,7 @@
 </head>
 <!--/*@thymesVar id="userDTO" type="spring.framework.labs.domain.dtos.security.UserDTO"*/-->
 <body>
-    <div class="cont">
+    <div class="cont allButFooter">
         <div class="inner__cont">
             <div class="up__cont">
             <div class="up">
@@ -92,8 +92,8 @@
                         </a>
                     </div>
 
-                <div sec:authorize="!isAuthenticated()">
-                    <button type="button" class="margin-right" id="buttonToRegister" data-toggle="modal"
+                <div sec:authorize="!isAuthenticated()" id="register">
+                    <button type="button" id="buttonToRegister" data-toggle="modal"
                             data-target="#exampleModal1" data-whatever="@getbootstrap">
                         <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
                     </button>
@@ -144,8 +144,8 @@
                     </div>
                 </div>
 
-                <div class="margin-right" sec:authorize="!isAuthenticated()">
-                    <button type="button" class="" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                <div sec:authorize="!isAuthenticated()" id="login">
+                    <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
                         <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
                 </div>
 
@@ -214,12 +214,7 @@
                                     </div>
                                 </a>
                             </div>
-<!--                            <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>-->
-                            <!--                                    <div class="but" sec:authorize="hasAuthority('book.update')">-->
-                            <!--                    <p><a th:href="@{/logout}">Logout</a></p>-->
                         </div>
-
-                        <!--                                </div>-->
                     </div>
                 </tr>
             </div>
@@ -293,6 +288,34 @@
 </div>
 
     <script>
+        search.onmouseenter = function(){
+            this.classList.add('hovered');
+        }
+
+        search.onmouseleave = function(){
+            this.classList.remove('hovered');
+        }
+    </script>
+
+    <script sec:authorize="!isAuthenticated()">
+        register.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        register.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+
+        login.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        login.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+    </script>
+
+    <script sec:authorize="isAuthenticated()">
         search.onmouseenter = function(){
             this.classList.add('hovered');
         }

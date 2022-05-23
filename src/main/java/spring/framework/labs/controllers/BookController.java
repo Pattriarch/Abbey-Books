@@ -19,6 +19,7 @@ import spring.framework.labs.security.perms.book.BookUpdatePermission;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
 import spring.framework.labs.services.RateTokenService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -45,8 +46,7 @@ public class BookController {
         }
         model.addAttribute("book", bookService.findById(bookId));
 
-        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
-
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         return "bookform";
     }
@@ -64,18 +64,40 @@ public class BookController {
 
     @BookDeletePermission
     @DeleteMapping("/{bookId}")
-    public String deleteBook(@PathVariable Long bookId) {
+    public String deleteBook(@PathVariable Long bookId, Model model) {
+        UserDTO userDTO = new UserDTO();
+        model.addAttribute("userDTO", userDTO);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != "anonymousUser") {
+            model.addAttribute("user", principal);
+        }
+
+        model.addAttribute("lastBooks", bookService.findFiveLastBooks());
+        model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
+
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
+
         bookService.deleteById(bookId);
 
-        return "redirect:/info";
+        return "redirect:/";
     }
 
     @BookUpdatePermission
     @GetMapping("/update/{bookId}")
     public String updateBook(@PathVariable Long bookId, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("user", user);
+
         model.addAttribute("book", bookService.findById(bookId));
         BookDTO bookDTO = new BookDTO();
         model.addAttribute("bookDTO", bookDTO);
+
+        model.addAttribute("lastBooks", bookService.findFiveLastBooks());
+        model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
+
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         return "bookupdateform";
     }

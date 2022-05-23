@@ -20,10 +20,10 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
-<body class="body-for-sticky">
+<body>
 <!--/*@thymesVar id="book" type="spring.framework.labs.domain.Book"*/-->
 <!--/*@thymesVar id="bookDTO" type="spring.framework.labs.domain.dtos.BookDTO"*/-->
-<div class="cont">
+<div class="cont allButFooter">
     <div class="inner__cont">
         <div class="up__cont">
             <div class="up">
@@ -44,12 +44,12 @@
 
                     <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
 
-                    <form th:action="@{/search/page-1}" id="search" class="search col" method="get">
+                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
                             <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
                                    aria-label="Search" aria-describedby="search-addon"/>
-                            <span class="input-group-text border-0" value="" id="item">
-                                <i onclick="document.getElementById('search').submit()" class="fas fa-search"></i>
+                            <span class="input-group-text border-0" id="search">
+                                <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
                             </span>
                         </div>
                     </form>
@@ -58,210 +58,188 @@
                         <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
-                    </div>
-
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/cart}" id="cart" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="cart">
+                        <a href="http://localhost:8080/cart" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="cart-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
+                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/books/myBooks}" id="myBooks" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="myBooks">
+                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="book-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                                <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/user/profile}" id="profile" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="profile" >
+                        <a href="http://localhost:8080/user/profile" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="profile-logo"
-                                     onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                                <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" id="logout" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="logout" >
+                        <a href="http://localhost:8080/logout" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="logout-logo"
-                                     onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
+                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
-                        </form>
-                    </div>
-
-                    <div sec:authorize="!isAuthenticated()">
-                        <button type="button" class="margin-right" id="buttonToRegister" data-toggle="modal"
-                                data-target="#exampleModal1" data-whatever="@getbootstrap">
-                            <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
-                        </button>
-                    </div>
-
-                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-
-                                <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
-                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                                        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="register-name" class="col-form-label">ФИО:</label>
-                                            <input type="text" placeholder="Введите полное ФИО" class="form-control form-register"
-                                                   th:field="*{name}" onkeyup="validateName()" id="register-name" th:errorclass="is-invalid">
-                                            <span id="name-error">&nbsp;</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="register-username" class="col-form-label">Имя пользователя:</label>
-                                            <input type="text" placeholder="Введите имя пользователя" class="form-control form-register"
-                                                   th:field="*{username}" onkeyup="validateUsername()" id="register-username" th:errorclass="is-invalid">
-                                            <span id="username-error">&nbsp;</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="register-password" class="col-form-label">Пароль:</label>
-                                            <input type="password" placeholder="Введите пароль" class="form-control form-register"
-                                                   th:field="*{password}" onkeyup="validatePassword()" id="register-password" th:errorclass="is-invalid">
-                                            <span id="password-error">&nbsp;</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                                        <input type="submit" class="btn btn-primary"/>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="margin-right" sec:authorize="!isAuthenticated()">
-                        <button type="button" class="" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
-                            <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
-                    </div>
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel1">Вход</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form th:action="@{/login}" method="post">
-                                    <div class="modal-body">
-                                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
-                                             class="alert alert-danger">Неверный логин или пароль</div>
-
-                                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
-                                             class="alert alert-danger">Аккаунт был заблокирован</div>
-                                        <div class="form-group">
-                                            <label for="username" class="col-form-label">Имя пользователя:</label>
-                                            <input type="text" id="username" placeholder="Введите имя пользователя"
-                                                   class="form-control" name="username" autofocus="true" autocomplete="off">
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password" class="col-form-label">Пароль:</label>
-                                            <input type="password" id="password" placeholder="Введите пароль"
-                                                   class="form-control" name="password" autofocus="true" autocomplete="off">
-                                        </div>
-                                        <label for="remember-me">Remember Me:</label>
-                                        <input type="checkbox" id="remember-me" name="remember-me" />
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                                        <input type="submit" class="btn btn-primary"/>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <form th:action="@{|/books/update/${book.id}|}" th:object="${bookDTO}" method="post">
-<!--            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">-->
-<!--                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>-->
-<!--            </div>-->
 
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="article" class="col-form-label">Артикль:</label>
-                    <input type="text" th:value="${book.article}" id="article" class="form-control" name="article" autofocus="true" autocomplete="off">
+        <div class="middle">
+            <form th:action="@{|/books/update/${book.id}|}" th:object="${bookDTO}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="article" class="col-form-label">Артикль:</label>
+                        <input type="text" th:value="${book.article}" id="article" class="form-control" name="article" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="images" class="col-form-label">Фотографии:</label>
+                        <textarea th:text="${#strings.setJoin(book.images, ', ')}" rows="5" id="images" class="form-control" name="images" autofocus="true" autocomplete="off"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn" class="col-form-label">ISBN:</label>
+                        <input type="text" th:value="${book.isbn}" id="isbn" class="form-control" name="isbn" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="yearOfPublishing" class="col-form-label">Год издания:</label>
+                        <input type="text" th:value="${book.yearOfPublishing}" id="yearOfPublishing" class="form-control" name="yearOfPublishing" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="numberOfPages" class="col-form-label">Количество страниц:</label>
+                        <input type="text" th:value="${book.numberOfPages}" id="numberOfPages" class="form-control" name="numberOfPages" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="format" class="col-form-label">Формат:</label>
+                        <input type="text" th:value="${book.format}" id="format" class="form-control" name="format" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight" class="col-form-label">Вес:</label>
+                        <input type="text" th:value="${book.weight}" id="weight" class="form-control" name="weight" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="price" class="col-form-label">Цена:</label>
+                        <input type="text" th:value="${book.price}" id="price" class="form-control" name="price" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Название:</label>
+                        <input type="text" th:value="${book.name}" id="name" class="form-control" name="name" autofocus="true" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Описание:</label>
+                        <textarea th:text="${book.description}" rows="10" id="description" class="form-control" name="description" autofocus="true" autocomplete="off"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <a th:href="${'http://localhost:8080/books/' + book.id}" type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</a>
+                        <input type="submit" class="btn btn-outline-primary"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="images" class="col-form-label">Фотографии:</label>
-                    <textarea th:text="${#strings.setJoin(book.images, ', ')}" rows="5" id="images" class="form-control" name="images" autofocus="true" autocomplete="off"></textarea>
-                </div>
-<!--                <div class="form-group">-->
-<!--                    <label for="authors" class="col-form-label">Авторы:</label>-->
-<!--                    <input type="text" th:field="*{article}" th:value="${#strings.setJoin(book.authors.![name], ', ')}" id="authors" class="form-control" name="username" autofocus="true" autocomplete="off">-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label for="category" class="col-form-label">Категория:</label>-->
-<!--                    <input type="text" th:field="*{article}" th:value="${book.category.name}" id="category" class="form-control" name="username" autofocus="true" autocomplete="off">-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    <label for="publishers" class="col-form-label">Издатели:</label>-->
-<!--                    <input type="text" th:field="*{article}" th:value="${#strings.setJoin(book.publishers.![name], ', ')}" id="publishers" class="form-control" name="username" autofocus="true" autocomplete="off">-->
-<!--                </div>-->
-                <div class="form-group">
-                    <label for="isbn" class="col-form-label">ISBN:</label>
-                    <input type="text" th:value="${book.isbn}" id="isbn" class="form-control" name="isbn" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="yearOfPublishing" class="col-form-label">Год издания:</label>
-                    <input type="text" th:value="${book.yearOfPublishing}" id="yearOfPublishing" class="form-control" name="yearOfPublishing" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="numberOfPages" class="col-form-label">Количество страниц:</label>
-                    <input type="text" th:value="${book.numberOfPages}" id="numberOfPages" class="form-control" name="numberOfPages" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="format" class="col-form-label">Формат:</label>
-                    <input type="text" th:value="${book.format}" id="format" class="form-control" name="format" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="weight" class="col-form-label">Вес:</label>
-                    <input type="text" th:value="${book.weight}" id="weight" class="form-control" name="weight" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="price" class="col-form-label">Цена:</label>
-                    <input type="text" th:value="${book.price}" id="price" class="form-control" name="price" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="name" class="col-form-label">Название:</label>
-                    <input type="text" th:value="${book.name}" id="name" class="form-control" name="name" autofocus="true" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="description" class="col-form-label">Описание:</label>
-                    <textarea th:text="${book.description}" rows="10" id="description" class="form-control" name="description" autofocus="true" autocomplete="off"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                    <input type="submit" class="btn btn-primary"/>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+        <div class="downn">
+            <footer class="footer text-center text-white">
+                <div class="container p-4 pb-0">
+                    <section class="mb-4">
+                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
+                        ><i class="fab fa-facebook-f"></i
+                        ></a>
+
+                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
+                        ><i class="fab fa-twitter"></i
+                        ></a>
+
+                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
+                        ><i class="fab fa-google"></i
+                        ></a>
+
+                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
+                        ><i class="fab fa-instagram"></i
+                        ></a>
+
+                        <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
+                        ><i class="fab fa-vk"></i
+                        ></a>
+
+                    </section>
+                </div>
+
+                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                    © 2022 Все права защищены:
+                    <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+                </div>
+            </footer>
+        </div>
+    </div>
 </div>
+
+<script>
+    search.onmouseenter = function(){
+        this.classList.add('hovered');
+    }
+
+    search.onmouseleave = function(){
+        this.classList.remove('hovered');
+    }
+</script>
+
+<script sec:authorize="!isAuthenticated()">
+    register.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    register.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    login.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    login.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
+<script sec:authorize="isAuthenticated()">
+    cart.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    cart.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    myBooks.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    myBooks.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    profile.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    profile.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    logout.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    logout.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
 
 
 <script>

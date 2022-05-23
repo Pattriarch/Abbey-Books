@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.exceptions.UserAlreadyExistException;
 import spring.framework.labs.services.security.UserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

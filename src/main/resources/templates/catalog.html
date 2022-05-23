@@ -32,7 +32,7 @@
 <!--/*@thymesVar id="books" type="java.util.Set<spring.framework.labs.domain.Book>"*/-->
 <!--/*@thymesVar id="user" type="java.util.Set<spring.framework.labs.domain.security.User>"*/-->
 <body>
-    <div class="cont">
+    <div class="cont allButFooter">
         <div class="inner__cont">
             <div class="up__cont">
                 <div class="up">
@@ -67,44 +67,40 @@
                             <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                         </div>
 
-                        <div sec:authorize="isAuthenticated()">
-                            <form th:action="@{/cart}" id="cart" method="get">
-                                <div class="input-group rounded" onmouseenter="mouseEntered(e)" onmouseleave="mouseLeaved(e)">
-                                    <img class="cart-logo"
-                                         onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div sec:authorize="isAuthenticated()">
-                            <form th:action="@{/books/myBooks}" id="myBooks" method="get">
+                        <div sec:authorize="isAuthenticated()" id="cart">
+                            <a href="http://localhost:8080/cart" method="get" class="">
                                 <div class="input-group rounded">
-                                    <img class="book-logo"
-                                         onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                                    <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                                 </div>
-                            </form>
+                            </a>
                         </div>
 
-                        <div sec:authorize="isAuthenticated()">
-                            <form th:action="@{/user/profile}" id="profile" method="get">
+                        <div sec:authorize="isAuthenticated()" id="myBooks">
+                            <a href="http://localhost:8080/books/myBooks" method="get" class="">
                                 <div class="input-group rounded">
-                                    <img class="profile-logo"
-                                         onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                                    <img class="book-logo" th:src="@{/img/book.png}"/>
                                 </div>
-                            </form>
+                            </a>
                         </div>
 
-                        <div sec:authorize="isAuthenticated()">
-                            <form th:action="@{/logout}" id="logout" method="get">
+                        <div sec:authorize="isAuthenticated()" id="profile" >
+                            <a href="http://localhost:8080/user/profile" method="get" class="">
                                 <div class="input-group rounded">
-                                    <img class="logout-logo"
-                                         onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
+                                    <img class="profile-logo" th:src="@{/img/account.png}"/>
                                 </div>
-                            </form>
+                            </a>
                         </div>
 
-                        <div sec:authorize="!isAuthenticated()">
-                            <button type="button" class="margin-right" id="buttonToRegister" data-toggle="modal"
+                        <div sec:authorize="isAuthenticated()" id="logout" >
+                            <a href="http://localhost:8080/logout" method="get" class="">
+                                <div class="input-group rounded">
+                                    <img class="logout-logo" th:src="@{/img/logout.png}"/>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div sec:authorize="!isAuthenticated()" id="register">
+                            <button type="button" id="buttonToRegister" data-toggle="modal"
                                     data-target="#exampleModal1" data-whatever="@getbootstrap">
                                 <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
                             </button>
@@ -155,8 +151,8 @@
                             </div>
                         </div>
 
-                        <div class="margin-right" sec:authorize="!isAuthenticated()">
-                            <button type="button" class="" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                        <div sec:authorize="!isAuthenticated()" id="login">
+                            <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
                                 <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
                         </div>
 
@@ -210,7 +206,7 @@
                 <!---->
                 <div class="contt">
                     <p class="contt-categories">Категории</p>
-                    <tr th:each="category : ${categories}">
+                    <tr th:each="category : ${allCategories}">
                         <p class="contt-categories-name-wrapper" >
                             <a class="contt-categories-name" th:text="${category.name}" th:href="${'http://localhost:8080/categories/' + category.id + '/page-1'}"></a>
                         </p>
@@ -549,6 +545,14 @@
     </script>
 
     <script>
+        register.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        register.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+
         search.onmouseenter = function(){
             this.classList.add('hovered');
         }
@@ -700,5 +704,68 @@
     <script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'">
         document.getElementById("buttonToLogin").click();
     </script>
+
+    <script>
+        search.onmouseenter = function(){
+            this.classList.add('hovered');
+        }
+
+        search.onmouseleave = function(){
+            this.classList.remove('hovered');
+        }
+    </script>
+
+    <script sec:authorize="!isAuthenticated()">
+        register.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        register.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+
+        login.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        login.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+    </script>
+
+    <script sec:authorize="isAuthenticated()">
+        cart.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        cart.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+
+        myBooks.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        myBooks.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+
+        profile.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        profile.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+
+        logout.onmouseenter = function(){
+            this.classList.add('card-hovered');
+        }
+
+        logout.onmouseleave = function(){
+            this.classList.remove('card-hovered');
+        }
+    </script>
+
 </body>
 </html>

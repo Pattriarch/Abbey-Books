@@ -14,6 +14,7 @@ import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -48,12 +49,11 @@ public class CatalogController {
             model.addAttribute("user", principal);
         }
 
-        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
+        model.addAttribute("allCategories", categoryService.findAll());
 
         Page<Book> page = bookService.findPaginated(pageNo, PAGE_SIZE, sortField, sortDir);
         List<Book> listBooks = page.getContent();
-
-        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());

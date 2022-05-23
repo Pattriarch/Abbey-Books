@@ -237,8 +237,8 @@ h1 {
 .scrollbar-dusty-grass::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-image: -webkit-linear-gradient(330deg, rgba(213,232,251,1) 0%, rgba(213,214,251,1) 100%);
-    background-image: linear-gradient(120deg, rgba(213,232,251,1) 0%, rgba(213,214,251,1) 100%);
+    background-image: -webkit-linear-gradient(330deg, #B8BEDD 0%, #9C89B8 100%);
+    background-image: linear-gradient(120deg, #B8BEDD 0%, #9C89B8 100%);
 }
 
 .square::-webkit-scrollbar-track {
@@ -376,6 +376,15 @@ h1 {
     font-size: 14px;
 }
 
+.asdasdasdas {
+    /*max-height: 140px;*/
+    /*overflow: hidden;*/
+}
+
+.allButFooter {
+    min-height: calc(100vh - 150px);
+}
+
 .author-page {
     padding-top: 40px;
 }
@@ -392,7 +401,7 @@ h1 {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    /*font-family: 'Poppins', sans-serif;*/
 }
 /*body{*/
 /*    display: flex;*/

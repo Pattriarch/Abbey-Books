@@ -8,6 +8,7 @@ import spring.framework.labs.exceptions.ResourceNotFoundException;
 import spring.framework.labs.mappers.CategoryMapper;
 import spring.framework.labs.repositories.CategoryRepository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -78,5 +79,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO findByName(String name) {
         return categoryMapper.categoryToCategoryDTO(categoryRepository.findFirstByName(name));
+    }
+
+    @Override
+    public List<CategoryDTO> findAllLimitedFive() {
+        return findAll().stream().limit(5).toList();
     }
 }

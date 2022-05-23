@@ -30,7 +30,7 @@
 <body>
 <!--/*@thymesVar id="book" type="spring.framework.labs.domain.Book"*/-->
 
-<div class="cont">
+<div class="cont allButFooter">
     <div class="inner__cont">
         <div class="up__cont">
             <div class="up">
@@ -51,12 +51,12 @@
 
                     <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
 
-                    <form th:action="@{/search/page-1}" id="search" class="search col" method="get">
+                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
                             <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
                                    aria-label="Search" aria-describedby="search-addon"/>
-                            <span class="input-group-text border-0" value="" id="item">
-                                <i onclick="document.getElementById('search').submit()" class="fas fa-search"></i>
+                            <span class="input-group-text border-0" id="search">
+                                <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
                             </span>
                         </div>
                     </form>
@@ -65,44 +65,40 @@
                         <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/cart}" id="cart" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="cart">
+                        <a href="http://localhost:8080/cart" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="cart-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/shopping-cart.png}"/>
+                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/books/myBooks}" id="myBooks" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="myBooks">
+                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="book-logo"
-                                     onclick="document.getElementById('cart').submit()" th:src="@{/img/book.png}"/>
+                                <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/user/profile}" id="profile" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="profile" >
+                        <a href="http://localhost:8080/user/profile" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="profile-logo"
-                                     onclick="document.getElementById('profile').submit()" th:src="@{/img/account.png}"/>
+                                <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" id="logout" method="get" class="margin-right">
+                    <div sec:authorize="isAuthenticated()" id="logout" >
+                        <a href="http://localhost:8080/logout" method="get" class="">
                             <div class="input-group rounded">
-                                <img class="logout-logo"
-                                     onclick="document.getElementById('logout').submit()" th:src="@{/img/logout.png}"/>
+                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
-                        </form>
+                        </a>
                     </div>
 
-                    <div sec:authorize="!isAuthenticated()">
-                        <button type="button" class="margin-right" id="buttonToRegister" data-toggle="modal"
+                    <div sec:authorize="!isAuthenticated()" id="register">
+                        <button type="button" id="buttonToRegister" data-toggle="modal"
                                 data-target="#exampleModal1" data-whatever="@getbootstrap">
                             <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
                         </button>
@@ -153,8 +149,8 @@
                         </div>
                     </div>
 
-                    <div class="margin-right" sec:authorize="!isAuthenticated()">
-                        <button type="button" class="" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                    <div sec:authorize="!isAuthenticated()" id="login">
+                        <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
                             <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
                     </div>
 
@@ -201,34 +197,29 @@
         </div>
         <div class="middle">
 
-            <div class="row" sec:authorize="hasAuthority('book.update')">
-                <div class="col-md-12">
-                    <!--                    <p><a th:href="@{/logout}">Logout</a></p>-->
-                    <form th:action="@{|/books/update/${book.id}|}" method="get">
-                        <input class="btn btn-secondary" type="submit" value="Редактировать"/>
-                    </form>
-                </div>
+            <div id="block">
+                <p class="page-description" th:text="${book.name}"></p>
+
+               <div class="daskdskdas">
+                   <div sec:authorize="hasAuthority('book.update')">
+                       <div>
+                           <form th:action="@{|/books/update/${book.id}|}" method="get">
+                               <input class="custom-btn-in-book btn-11" type="submit" value="Редактировать"/>
+                           </form>
+                       </div>
+                   </div>
+
+
+                   <div sec:authorize="hasAuthority('book.delete')">
+                       <div>
+                           <form th:action="@{|/books/${book.id}|}" id="deleteApi">
+                               <input class="custom-btn-in-book btn-11" type="submit" value="Удалить">
+                           </form>
+                       </div>
+                   </div>
+               </div>
             </div>
 
-
-            <div class="row" sec:authorize="hasAuthority('book.delete')">
-                <div class="col-md-12">
-                    <!--                    <p><a th:href="@{/logout}">Logout</a></p>-->
-
-                    <form th:action="@{|/books/${book.id}|}" id="deleteApi">
-                        <input class="btn btn-secondary" type="submit" value="Удалить">
-                    </form>
-                </div>
-            </div>
-
-<!--            <div th:each="rateToken : ${book.rating.rateTokens}" class="orelrelrelrlrl">-->
-<!--                <label>-->
-<!--                    <input type="radio" name="test" value="big">-->
-<!--                    <p th:text="${rateToken}" class="rounded mx-auto d-block thumbnail bookLittleImage">-->
-<!--                </label>-->
-<!--            </div>-->
-
-            <p class="page-description" th:text="${book.name}"></p>
             <p class="book-article" th:text="'Артикул: ' + ${book.article}"></p>
             <div class="csaontainer">
                 <div class="star-widget">
@@ -246,12 +237,6 @@
                     </form>
                     <form action="#">
                         <header></header>
-                        <!-- <div class="textarea"> -->
-                        <!-- <textarea cols="30" placeholder="Describe your experience.."></textarea> -->
-                        <!-- </div> -->
-                        <!-- <div class="btn"> -->
-                        <!-- <button type="submit">Post</button> -->
-                        <!-- </div> -->
                     </form>
                 </div>
                 <p class="book-rating" id="book-rating" th:text="${book.rating.value + ' (' + book.rating.rateTokens.size() + ')'}"></p>
@@ -291,30 +276,41 @@
                     <p class="book-characteristics">Характеристики</p>
 
                     <div th:if="${book.authors.size() == 1}">
-
                         <div class="author-container">
                             <p class="book-author">Автор: </p>
-                            <a th:href="'http://localhost:8080/authors/' + ${book.authors[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.authors[0].name}"></a>
+                            <a style="text-decoration: none" th:href="'http://localhost:8080/authors/' + ${book.authors[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.authors[0].name}"></a>
                         </div>
-
                     </div>
-                    <div th:if="${book.authors.size() > 1}">
-                        <p>Авторы:</p>
+
+                    <div class="manyBlock" th:if="${book.authors.size() > 1}">
+                        <div class="dasdasdasjldk">
+                            <p class="book-author">Авторы:</p>
+                        </div>
+                        <div class="asdasdlasdlasd">
+                            <a style="text-decoration: none" th:href="'http://localhost:8080/authors/' + ${author.id} + '/page-1/?sortField=name&sortDir=desc'"
+                               th:each="author, iterStat : ${book.authors}" th:text="!${iterStat.last} ? ${author.name} + ', &nbsp;': ${author.name}"></a>
+                        </div>
                     </div>
 
                     <div th:if="${book.publishers.size() == 1}">
                         <div class="publisher-container">
                             <p class="book-publisher">Издательство: </p>
-                            <a th:href="'http://localhost:8080/publishers/' + ${book.publishers[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.publishers[0].name}"></a>
+                            <a style="text-decoration: none" th:href="'http://localhost:8080/publishers/' + ${book.publishers[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.publishers[0].name}"></a>
                         </div>
                     </div>
-                    <div th:if="${book.publishers.size() > 1}">
-                        <p>Издательства:</p>
+                    <div class="manyBlock" th:if="${book.publishers.size() > 1}">
+                        <div class="dasdasdasjldk">
+                            <p class="book-publisher">Издательства:</p>
+                        </div>
+                        <div class="asdasdlasdlasd">
+                            <a style="text-decoration: none" th:href="'http://localhost:8080/publishers/' + ${publisher.id} + '/page-1/?sortField=name&sortDir=desc'"
+                               th:each="publisher, iterStat : ${book.publishers}" th:text="!${iterStat.last} ? ${publisher.name} + ', &nbsp;': ${publisher.name}"></a>
+                        </div>
                     </div>
 
                     <div class="category-container">
                         <p class="book-category">Категория: </p>
-                        <a th:href="'http://localhost:8080/categories/' + ${book.category.id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.category.name}"></a>
+                        <a style="text-decoration: none" th:href="'http://localhost:8080/categories/' + ${book.category.id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.category.name}"></a>
                     </div>
 
                     <div class="isbn-container">
@@ -342,104 +338,12 @@
                         <p th:text="${book.weight} + ' кг'"></p>
                     </div>
 
-<!--                    <p class="book-price" th:text="'Цена: ' + ${book.price} + 'р.'"></p>-->
-
                 </div>
             </div>
 
             <div class="modal12">
                 <img th:src="${book.images[0]}" class="full-img" id="myImageFull">
             </div>
-
-            <style th:inline="text">
-                .slider {
-                    /*height: 100vh;*/
-                    margin-left: 24px;
-                    width: 410px;
-                    height: 590px;
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    transition: transform .5s;
-                };
-            </style>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const thumbnails = document.querySelectorAll('.thumbnail');
-
-                    thumbnails.forEach(thumbnail => {
-                        thumbnail.addEventListener('click', () => {
-                            if (!$(thumbnail).hasClass("show")) {
-                                const src = $(thumbnail).attr('src');
-
-                                $(".slider").addClass(".zoom");
-
-                                console.log(src);
-
-
-                                $("#myImage").animate({opacity: 0.2}, "slow", function() {
-                                    $("#myImage").attr({"src": src}).animate({opacity: 1});
-                                })
-
-                                $("#myImageFull").attr({"src": src});
-
-                                setTimeout(() => {
-                                    $(".slider").removeClass("zoom");
-                                }, 510);
-
-                                let thumbnail_active = document.querySelector(".thumbnail.show");
-                                $(thumbnail_active).removeClass("show");
-
-                                $(thumbnail).addClass("show");
-
-                                thumbnail_active = thumbnail;
-                            }
-                        })
-                    })
-                })
-
-            </script>
-            <script>
-                const modal = document.querySelector('.modal12');
-                const previews = document.querySelector(".slider");
-                const original = document.querySelector(".full-img");
-                const imgText = document.querySelector(".caption");
-
-                previews.addEventListener("click", () => {
-                    modal.classList.add("open");
-                    original.classList.add("open");
-                });
-
-                modal.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('modal12')) {
-                        modal.classList.remove('open');
-                        original.classList.remove("open");
-                    }
-                });
-            </script>
-
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-
-<!--            <div th:each="image : ${book.images}">-->
-<!--                <button th:onclick="changeBookImage([[${image}]])">-->
-<!--                    <img th:src="${image}" alt="" class="bookLittleImage rounded mx-auto d-block">-->
-<!--                </button>-->
-<!--            </div>-->
-
-<!--            <div class="book-logo" >-->
-<!--                <a target="_blank">-->
-<!--                    <img id="img" class="book-image-inner" th:src="${book.images[0]}" alt="Card image cap">-->
-<!--                </a>-->
-<!--            </div>-->
-
-<!--            <script th:inline="javascript">-->
-<!--                function changeBookImage(image) {-->
-<!--                    console.log(image);-->
-<!--                    document.getElementById('img').src = image;-->
-<!--                }-->
-<!--            </script>-->
 
             <p class="book-about" id="book-description">О товаре</p>
             <p class="book-description" th:text="${book.description}"></p>
@@ -449,8 +353,8 @@
             <p>Отзывы</p>
             <p>Похожие книги</p>
             <p>Другие книги этого автора</p>
-
-            <div class="downn">
+        </div>
+        <div class="downn">
             <footer class="footer text-center text-white">
                 <div class="container p-4 pb-0">
                     <section class="mb-4">
@@ -485,7 +389,76 @@
         </div>
     </div>
 </div>
-</div>
+
+<style th:inline="text">
+    .slider {
+        /*height: 100vh;*/
+        margin-left: 24px;
+        width: 410px;
+        height: 590px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: transform .5s;
+    };
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const thumbnails = document.querySelectorAll('.thumbnail');
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', () => {
+                if (!$(thumbnail).hasClass("show")) {
+                    const src = $(thumbnail).attr('src');
+
+                    $(".slider").addClass(".zoom");
+
+                    console.log(src);
+
+
+                    $("#myImage").animate({opacity: 0.2}, "slow", function() {
+                        $("#myImage").attr({"src": src}).animate({opacity: 1});
+                    })
+
+                    $("#myImageFull").attr({"src": src});
+
+                    setTimeout(() => {
+                        $(".slider").removeClass("zoom");
+                    }, 510);
+
+                    let thumbnail_active = document.querySelector(".thumbnail.show");
+                    $(thumbnail_active).removeClass("show");
+
+                    $(thumbnail).addClass("show");
+
+                    thumbnail_active = thumbnail;
+                }
+            })
+        })
+    })
+
+</script>
+<script>
+    const modal = document.querySelector('.modal12');
+    const previews = document.querySelector(".slider");
+    const original = document.querySelector(".full-img");
+    const imgText = document.querySelector(".caption");
+
+    previews.addEventListener("click", () => {
+        modal.classList.add("open");
+        original.classList.add("open");
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal12')) {
+            modal.classList.remove('open');
+            original.classList.remove("open");
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
     var token = $("meta[name='_csrf']").attr("content");
@@ -493,13 +466,9 @@
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
-
 </script>
-<script sec:authorize="isAuthenticated()">
 
-    // $('input[type=radio]').on('change', function() {
-    //     $(this).closest("form").submit();
-    // });
+<script sec:authorize="isAuthenticated()">
 
     $(function() {
         $('input[type=radio]').change(function() {
@@ -536,5 +505,249 @@
         })
     });
 </script>
+
+<script>
+    search.onmouseenter = function(){
+        this.classList.add('hovered');
+    }
+
+    search.onmouseleave = function(){
+        this.classList.remove('hovered');
+    }
+</script>
+
+<script sec:authorize="!isAuthenticated()">
+    register.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    register.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    login.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    login.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
+<script sec:authorize="isAuthenticated()">
+    cart.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    cart.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    myBooks.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    myBooks.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    profile.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    profile.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+
+    logout.onmouseenter = function(){
+        this.classList.add('card-hovered');
+    }
+
+    logout.onmouseleave = function(){
+        this.classList.remove('card-hovered');
+    }
+</script>
+
+<script>
+    var nameError = document.getElementById('name-error');
+    var usernameError = document.getElementById('username-error');
+    var passwordError = document.getElementById('password-error');
+
+    function validateName() {
+        var name = document.getElementById('register-name').value;
+
+        if (name.length === 0) {
+            nameError.innerHTML = 'Необходимо ввести ФИО';
+            document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (username.length < 8) {
+            nameError.innerHTML = 'ФИО должно содержать не менее 8 символов';
+            document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (!name.match(/(?:[A-Za-zА-Яа-я]+ ){2}[A-Za-zА-Яа-я]+/)) {
+            nameError.innerHTML = 'Введите полное ФИО';
+            document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        document.getElementById('register-name').style.setProperty('border-color', 'seagreen', 'important');
+        nameError.innerHTML = '&nbsp;';
+        return true;
+    }
+
+
+
+    function validateUsername() {
+        var username = document.getElementById('register-username').value;
+
+        if (username.length === 0) {
+            usernameError.innerHTML = 'Необходимо ввести имя пользователя';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (username.length < 6) {
+            usernameError.innerHTML = 'Имя пользователя должно содержать не менее 6 символов';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (!username.match(/^[A-Za-z0-9]+$/)) {
+            usernameError.innerHTML = 'Не используйте запрещенные символы';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
+        usernameError.innerHTML = '&nbsp;';
+        return true;
+    }
+
+    function validatePassword() {
+        var password = document.getElementById('register-password').value;
+
+        if (password.length === 0) {
+            passwordError.innerHTML = 'Необходимо ввести имя пользователя';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (password.length < 6) {
+            passwordError.innerHTML = 'Пароль должен содержать не менее 6 символов';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        if (password.match(/^[<>${}/]$/)) {
+            passwordError.innerHTML = 'Не используйте запрещенные символы';
+            document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
+            return false;
+        }
+
+        document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
+        passwordError.innerHTML = '&nbsp;';
+        return true;
+    }
+</script>
+
+<script>
+    // selecting required element
+    const element = document.querySelector(".pagination ul");
+    let totalPages = [[${totalPages}]];
+    let page = [[${currentPage}]];
+
+    //calling function with passing parameters and adding inside element which is ul tag
+    element.innerHTML = createPagination(totalPages, page);
+    function createPagination(totalPages, page) {
+
+        let liTag = '';
+        let active;
+        let beforePage = page - 1;
+        let afterPage = page + 1;
+        if(page > 1){ //show the next button if the page value is greater than 1
+            liTag += `<li class="btn prev" onclick="window.location.href='http://localhost:8080/catalog/' + (page - 1) + '/?sortField=id&sortDir=desc'"><span><i class="fas fa-angle-left"></i> Prev</span></li>`;
+        }
+
+        if(page > 2){ //if page value is less than 2 then add 1 after the previous button
+            liTag += `<li class="first numb" onclick="window.location.href='http://localhost:8080/catalog/1/?sortField=id&sortDir=desc'"><span>1</span></li>`;
+            if(page > 3){ //if page value is greater than 3 then add this (...) after the first li or page
+                liTag += `<li class="dots"><span>...</span></li>`;
+            }
+        }
+
+        // how many pages or li show before the current li
+        if (page == totalPages && totalPages > 3) {
+            beforePage = beforePage - 2;
+        } else if (page == totalPages - 1 && totalPages > 3) {
+            beforePage = beforePage - 1;
+        }
+        // how many pages or li show after the current li
+        if (page == 1  && totalPages > 3) {
+            afterPage = afterPage + 2;
+        } else if (page == 2  && totalPages > 3) {
+            afterPage  = afterPage + 1;
+        }
+
+        for (var plength = beforePage; plength <= afterPage; plength++) {
+            if (plength > totalPages) { //if plength is greater than totalPage length then continue
+                continue;
+            }
+            if (plength == 0) { //if plength is 0 than add +1 in plength value
+                plength = plength + 1;
+                asdkas = plength;
+            }
+            if (page == plength) { //if page is equal to plength than assign active string in the active variable
+                active = "active";
+            } else { //else leave empty to the active variable
+                active = "";
+            }
+            liTag += `<li class="numb ${active}" onclick="window.location.href='http://localhost:8080/catalog/' + (${plength}) + '/?sortField=id&sortDir=desc'"<span>${plength}</span></li>`;
+        }
+
+        if(page < totalPages - 1){ //if page value is less than totalPage value by -1 then show the last li or page
+            if(page < totalPages - 2){ //if page value is less than totalPage value by -2 then add this (...) before the last li or page
+                liTag += `<li class="dots"><span>...</span></li>`;
+            }
+            liTag += `<li class="last numb" onclick="window.location.href='http://localhost:8080/catalog/' + (${totalPages}) + '/?sortField=id&sortDir=desc'"><span>${totalPages}</span></li>`;
+        }
+
+        if (page < totalPages) { //show the next button if the page value is less than totalPage(20)
+            liTag += `<li class="btn next" onclick="window.location.href='http://localhost:8080/catalog/' + (page + 1) + '/?sortField=id&sortDir=desc'"><span>Next <i class="fas fa-angle-right"></i></span></li>`;
+        }
+        element.innerHTML = liTag; //add li tag inside ul tag
+        return liTag; //reurn the li tag
+    }
+</script>
+
+<script>
+    $(function() {
+        $('#repres').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'localhost:8080/register',
+                data: { username: $(this).username.value,
+                    password: $(this).password.value }
+            });
+            return false;
+        });
+    })
+</script>
+
+<script th:if="${userDTO.username != null}">
+    document.getElementById("buttonToRegister").click();
+</script>
+
+<script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'">
+    document.getElementById("buttonToLogin").click();
+</script>
+
+<script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'">
+    document.getElementById("buttonToLogin").click();
+</script>
+
 </body>
 </html>

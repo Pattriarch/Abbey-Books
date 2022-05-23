@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(authorize -> {
                     authorize
                             .antMatchers("/", "/webjars/**", "/books/**", "/register", "/login",
-                                    "/resources/**", "/user/registration", "/categories/**", "/authors/**",
+                                    "/resources/**", "/search/**", "/user/registration", "/categories/**", "/authors/**",
                                     "/publishers/**", "/books/**", "/authors/**", "/catalog/**", "/info").permitAll();
 //                            .mvcMatchers(HttpMethod.GET, "/catalog/**").hasAnyAuthority("catalog.read");
                 } )

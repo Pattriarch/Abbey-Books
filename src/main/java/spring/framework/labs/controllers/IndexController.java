@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class IndexController {
         model.addAttribute("lastBooks", bookService.findFiveLastBooks());
         model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
 
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         return "index";
     }

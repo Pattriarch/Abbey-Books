@@ -44,11 +44,7 @@ public class Book {
     @Column(columnDefinition = "text[]")
     private String[] images;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinTable(name = "book_author",
-            joinColumns = {@JoinColumn(name = "book_id")},
-            inverseJoinColumns = {@JoinColumn(name = "author_id")})
+    @ManyToMany(mappedBy = "authorBooks")
     @ToString.Exclude
     @JsonIgnore
     private Set<Author> authors = new HashSet<>();
@@ -56,7 +52,7 @@ public class Book {
     @ManyToOne
     private Category category;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinTable(name = "book_publisher",
             joinColumns = {@JoinColumn(name = "book_id")},

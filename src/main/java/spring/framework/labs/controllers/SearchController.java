@@ -19,6 +19,7 @@ import spring.framework.labs.mappers.AuthorMapper;
 import spring.framework.labs.services.AuthorService;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class SearchController {
             sortDir = "desc";
         }
 
+        model.addAttribute("bookName", bookName);
+
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
 
@@ -56,7 +59,7 @@ public class SearchController {
             model.addAttribute("user", principal);
         }
 
-        model.addAttribute("categories", categoryService.findAll().stream().limit(5).toList());
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         Page<BookDTO> page = bookService.findAllByNameStartsWithIgnoreCase(bookName, pageNo, PAGE_SIZE, sortField, sortDir);
         List<BookDTO> listBooks = page.getContent();
