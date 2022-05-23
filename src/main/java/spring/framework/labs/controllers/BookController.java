@@ -19,7 +19,7 @@ import spring.framework.labs.security.perms.book.BookUpdatePermission;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
 import spring.framework.labs.services.RateTokenService;
-import springfox.documentation.annotations.ApiIgnore;
+import spring.framework.labs.services.security.UserService;
 
 import javax.validation.Valid;
 
@@ -32,6 +32,7 @@ public class BookController {
     private final BookMapper bookMapper;
     private final RateTokenService rateTokenService;
     private final CategoryService categoryService;
+    private final UserService userService;
     private final BookService bookService;
 
     @GetMapping("/{bookId}")
@@ -57,6 +58,9 @@ public class BookController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addAttribute("user", user);
+
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
+
         model.addAttribute("listBooks", user.getBooks());
 
         return "userbooksform";
@@ -68,19 +72,21 @@ public class BookController {
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
 
+        bookService.deleteById(bookId);
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal != "anonymousUser") {
             model.addAttribute("user", principal);
+            ((User)principal).setBooks(userService.findById(Long.valueOf(((User)principal).getId())).getBooks());
         }
 
         model.addAttribute("lastBooks", bookService.findFiveLastBooks());
         model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
 
+
         model.addAttribute("categories", categoryService.findAllLimitedFive());
 
-        bookService.deleteById(bookId);
-
-        return "redirect:/";
+        return "index";
     }
 
     @BookUpdatePermission

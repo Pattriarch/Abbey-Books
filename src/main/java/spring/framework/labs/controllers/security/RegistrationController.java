@@ -2,7 +2,6 @@ package spring.framework.labs.controllers.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.file.Matcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.exceptions.UserAlreadyExistException;
 import spring.framework.labs.services.security.UserService;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
@@ -44,6 +41,6 @@ public class RegistrationController {
             }
         }
 
-        return "index";
+        return "redirect:/register";
     }
 }

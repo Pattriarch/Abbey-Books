@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "carts")
+@Table(name = "cart")
 public class Cart {
 
     @Id
@@ -28,7 +28,7 @@ public class Cart {
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinTable(name = "carts_books",
+    @JoinTable(name = "cart_book",
             joinColumns = {@JoinColumn(name = "cart_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
     @ToString.Exclude

@@ -1,0 +1,27 @@
+.book-in-userform {
+    width: 240px;
+    height: 355px;
+    /*margin: 20px;*/
+    margin-top: 20px;
+    /*margin-bottom: 40px;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.product-list__item-in-userform {
+    padding: 0 12px;
+    width: 20%;
+    position: relative;
+}
+
+@media screen and (max-width: 1400px) {
+    .product-list__item-in-userform {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .product-list__item-in-userform {
+        width: 33.33333%;
+    }
+}

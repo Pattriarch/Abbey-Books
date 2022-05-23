@@ -2,9 +2,6 @@ package spring.framework.labs.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.domain.dtos.CategoryDTO;
-import spring.framework.labs.domain.dtos.PublisherDTO;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.mappers.CategoryMapper;
-import spring.framework.labs.mappers.PublisherMapper;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
-import spring.framework.labs.services.PublisherService;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 

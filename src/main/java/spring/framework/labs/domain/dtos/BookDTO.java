@@ -26,7 +26,7 @@ public class BookDTO {
 
     private Set<Publisher> publishers;
 
-    private Set<User> users = new HashSet<>();
+    private Set<User> bookUsers = new HashSet<>();
 
     private Set<Cart> carts = new HashSet<>();
 

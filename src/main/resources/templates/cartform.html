@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог</title>
+    <title>Корзина</title>
     <link href="../static/css/book.css" th:href="@{/css/book.css}" rel="stylesheet" />
     <link href="../static/css/cart.css" th:href="@{/css/cart.css}" rel="stylesheet" />
     <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
@@ -151,10 +151,45 @@
                 </div>
                 <div th:unless="${listBooks.size() > 0}">
                 </div>
-    </div>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="downn">
+    <footer class="footer text-center text-white">
+        <div class="container p-4 pb-0">
+            <section class="mb-4">
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
+                ><i class="fab fa-facebook-f"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
+                ><i class="fab fa-twitter"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
+                ><i class="fab fa-google"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
+                ><i class="fab fa-instagram"></i
+                ></a>
+
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
+                ><i class="fab fa-vk"></i
+                ></a>
+
+            </section>
+        </div>
+
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2022 Все права защищены:
+            <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+        </div>
+    </footer>
+</div>
+
 <script>
     search.onmouseenter = function(){
         this.classList.add('hovered');

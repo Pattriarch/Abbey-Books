@@ -1,7 +1,6 @@
 package spring.framework.labs.services.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -197,7 +196,10 @@ public class UserServiceImpl implements UserService {
                 .getBook_carts()
                 .add(bookMapper.bookDTOToBook(bookService.findById(aLong)));
 
-        cartService.update(cartMapper.cartToCartDTO(userDTO.getCart()), userDTO.getCart().getId());
+        User user = userMapper.userDTOToUser(findById(Long.valueOf(userDTO.getId())));
+        user.getCart().setBook_carts(new HashSet<>());
+
+        update(userDTO, Long.valueOf(userDTO.getId()));
     }
 
     @Override

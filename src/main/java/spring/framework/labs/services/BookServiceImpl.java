@@ -128,8 +128,8 @@ public class BookServiceImpl implements BookService {
                 book.setRating(book.getRating());
             }
 
-            if (bookDTO.getUsers() != null) {
-                book.setUsers(book.getUsers());
+            if (bookDTO.getBookUsers() != null) {
+                book.setBookUsers(book.getBookUsers());
             }
 
             if (bookDTO.getCarts() != null) {

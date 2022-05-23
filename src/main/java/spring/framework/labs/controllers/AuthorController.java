@@ -1,11 +1,7 @@
 package spring.framework.labs.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import spring.framework.labs.domain.Category;
 import spring.framework.labs.domain.dtos.AuthorDTO;
 import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.domain.dtos.security.UserDTO;
@@ -21,7 +16,6 @@ import spring.framework.labs.mappers.AuthorMapper;
 import spring.framework.labs.services.AuthorService;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 

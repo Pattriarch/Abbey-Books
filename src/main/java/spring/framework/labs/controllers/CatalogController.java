@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.framework.labs.domain.Book;
-import spring.framework.labs.domain.dtos.BookDTO;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.services.BookService;
 import spring.framework.labs.services.CategoryService;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 

@@ -5,15 +5,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import spring.framework.labs.domain.Book;
 import spring.framework.labs.domain.dtos.security.UserDTO;
 import spring.framework.labs.domain.security.User;
 import spring.framework.labs.exceptions.NotEnoughMoneyException;
 import spring.framework.labs.mappers.UserMapper;
 import spring.framework.labs.security.perms.cart.CartReadPermission;
 import spring.framework.labs.security.perms.cart.CartUpdatePermission;
-import spring.framework.labs.services.BookService;
+import spring.framework.labs.services.CategoryService;
 import spring.framework.labs.services.security.UserService;
+
+import java.util.HashSet;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class CartController {
 
     private final UserMapper userMapper;
     private final UserService userService;
+    private final CategoryService categoryService;
 
     @CartReadPermission
     @GetMapping("/cart")
@@ -30,6 +32,9 @@ public class CartController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addAttribute("user", user);
+
+        model.addAttribute("categories", categoryService.findAllLimitedFive());
+
         model.addAttribute("listBooks", user.getCart().getBook_carts());
 
         return "cartform";
@@ -60,6 +65,7 @@ public class CartController {
         try {
             UserDTO userDTO = userService.payBooks(userMapper.userToUserDTO(user));
 
+            user.getCart().setBook_carts(new HashSet<>());
             user.setBalance(userDTO.getBalance());
             user.setBooks(userDTO.getBooks());
 

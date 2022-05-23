@@ -1,5 +1,6 @@
 package spring.framework.labs.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import spring.framework.labs.domain.Category;
@@ -13,16 +14,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryMapper categoryMapper, CategoryRepository categoryRepository) {
-        this.categoryMapper = categoryMapper;
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public Set<CategoryDTO> findAll() {

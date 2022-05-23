@@ -61,10 +61,10 @@ public class Book {
     @JsonIgnore
     private Set<Publisher> publishers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "books")
     @JsonIgnore
     @ToString.Exclude
-    private Set<User> users = new HashSet<>();
+    private Set<User> bookUsers = new HashSet<>();
 
     @ManyToMany(mappedBy = "book_carts")
     @JsonIgnore
