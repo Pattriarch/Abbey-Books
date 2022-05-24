@@ -35,21 +35,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://localhost:8080/index">
+                    <a href="http://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://localhost:8080/catalog/1">Все книги</a>
+                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://localhost:8080/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -66,7 +66,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="cart">
-                        <a href="http://localhost:8080/cart" method="get" class="">
+                        <a href="http://abbey-books.ru/cart" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
@@ -74,7 +74,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="myBooks">
-                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
+                        <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
@@ -82,7 +82,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="profile" >
-                        <a href="http://localhost:8080/user/profile" method="get" class="">
+                        <a href="http://abbey-books.ru/user/profile" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="logout" >
-                        <a href="http://localhost:8080/logout" method="get" class="">
+                        <a href="http://abbey-books.ru/logout" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
@@ -278,7 +278,7 @@
                     <div th:if="${book.authors.size() == 1}">
                         <div class="author-container">
                             <p class="book-author">Автор: </p>
-                            <a style="text-decoration: none" th:href="'http://localhost:8080/authors/' + ${book.authors[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.authors[0].name}"></a>
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/authors/' + ${book.authors[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.authors[0].name}"></a>
                         </div>
                     </div>
 
@@ -287,7 +287,7 @@
                             <p class="book-author">Авторы:</p>
                         </div>
                         <div class="asdasdlasdlasd">
-                            <a style="text-decoration: none" th:href="'http://localhost:8080/authors/' + ${author.id} + '/page-1/?sortField=name&sortDir=desc'"
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/authors/' + ${author.id} + '/page-1/?sortField=name&sortDir=desc'"
                                th:each="author, iterStat : ${book.authors}" th:text="!${iterStat.last} ? ${author.name} + ', &nbsp;': ${author.name}"></a>
                         </div>
                     </div>
@@ -295,7 +295,7 @@
                     <div th:if="${book.publishers.size() == 1}">
                         <div class="publisher-container">
                             <p class="book-publisher">Издательство: </p>
-                            <a style="text-decoration: none" th:href="'http://localhost:8080/publishers/' + ${book.publishers[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.publishers[0].name}"></a>
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/publishers/' + ${book.publishers[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.publishers[0].name}"></a>
                         </div>
                     </div>
                     <div class="manyBlock" th:if="${book.publishers.size() > 1}">
@@ -303,14 +303,14 @@
                             <p class="book-publisher">Издательства:</p>
                         </div>
                         <div class="asdasdlasdlasd">
-                            <a style="text-decoration: none" th:href="'http://localhost:8080/publishers/' + ${publisher.id} + '/page-1/?sortField=name&sortDir=desc'"
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/publishers/' + ${publisher.id} + '/page-1/?sortField=name&sortDir=desc'"
                                th:each="publisher, iterStat : ${book.publishers}" th:text="!${iterStat.last} ? ${publisher.name} + ', &nbsp;': ${publisher.name}"></a>
                         </div>
                     </div>
 
                     <div class="category-container">
                         <p class="book-category">Категория: </p>
-                        <a style="text-decoration: none" th:href="'http://localhost:8080/categories/' + ${book.category.id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.category.name}"></a>
+                        <a style="text-decoration: none" th:href="'http://abbey-books.ru/categories/' + ${book.category.id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.category.name}"></a>
                     </div>
 
                     <div class="isbn-container">
@@ -339,20 +339,139 @@
                     </div>
 
                 </div>
+                <div class="cart-block" sec:authorize="isAuthenticated()">
+                    <p th:text="${book.price + ' ₽'}"></p>
+                    <div th:if="${user.getBooks().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
+                        <form class="btn-frm" target="dummyframe">
+                            <input class="custom-btn-in-cart btn-11" data-toggle="modal"
+                                   type="submit" id="alreadyBought" value="Куплено"/>
+                        </form>
+                    </div>
+                    <div th:if="${!user.getBooks().contains(book) && !user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
+                        <form class="btn-frm"
+                              id="testContent" target="dummyframe">
+                            <input class="custom-btn btn-11" th:book-id="${book.id}" onclick="testContent(this.getAttribute('book-id'))" data-toggle="modal"
+                                   type="submit" th:id="addToCart + ${book.id}" value="В корзину"/>
+                        </form>
+                    </div>
+                    <div th:if="${!user.getBooks().contains(book) && user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
+                        <form class="btn-frm" target="dummyframe">
+                            <input class="custom-btn-in-cart btn-11" data-toggle="modal"
+                                   type="submit" id="inCart" value="В корзине"/>
+                        </form>
+                    </div>
+                    <div class="cart-block-bottom">
+                        <img class="in-stock-image" style="width: 20px; height: 20px; color: green;" th:src="@{/img/tick1.png}"/>
+                        <p class="in-stock-text">В наличии</p>
+                    </div>
+                </div>
             </div>
 
             <div class="modal12">
                 <img th:src="${book.images[0]}" class="full-img" id="myImageFull">
             </div>
 
+            <div th:if="${sameBooks.size() > 0}">
+                <p class="same-books">Похожие книги</p>
+                <hr class="hr-top">
+                <div class="books" id="refreshDiv">
+                    <tr th:each="book : ${sameBooks}">
+                        <div class="product-list__item">
+                            <div class="book" id="book">
+                                <div class="upper_holder">
+                                    <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
+                                        <div class="image">
+                                            <img class="book-image" th:src="${book.images[0]}" alt="Card image cap">
+                                        </div>
+                                        <div class="content">
+                                            <p class="price" th:text="${book.price + ' р.'}">test</p>
+                                            <p class="name" th:text="${book.name}">test</p>
+                                            <p class="author" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </div>
+                <hr class="hr-bottom">
+            </div>
             <p class="book-about" id="book-description">О товаре</p>
             <p class="book-description" th:text="${book.description}"></p>
+            <hr class="hr-text">
+            <p class="bottom-charactestics-text">Характеристики</p>
+            <div class="characteristics-bottom">
+                <div class="block-characteristics-top">
+                    <div th:if="${book.authors.size() == 1}">
+                        <div class="author-container">
+                            <p class="book-author">Автор: </p>
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/authors/' + ${book.authors[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.authors[0].name}"></a>
+                        </div>
+                    </div>
 
-            <p>Справа от книги *Небольшой блок, в наличии, цена, добавить в корзину*</p>
+                    <div class="manyBlock" th:if="${book.authors.size() > 1}">
+                        <div class="dasdasdasjldk">
+                            <p class="book-author">Авторы:</p>
+                        </div>
+                        <div class="asdasdlasdlasd">
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/authors/' + ${author.id} + '/page-1/?sortField=name&sortDir=desc'"
+                               th:each="author, iterStat : ${book.authors}" th:text="!${iterStat.last} ? ${author.name} + ', &nbsp;': ${author.name}"></a>
+                        </div>
+                    </div>
 
-            <p>Отзывы</p>
-            <p>Похожие книги</p>
-            <p>Другие книги этого автора</p>
+                    <div th:if="${book.publishers.size() == 1}">
+                        <div class="publisher-container">
+                            <p class="book-publisher">Издательство: </p>
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/publishers/' + ${book.publishers[0].id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.publishers[0].name}"></a>
+                        </div>
+                    </div>
+                    <div class="manyBlock" th:if="${book.publishers.size() > 1}">
+                        <div class="dasdasdasjldk">
+                            <p class="book-publisher">Издательства:</p>
+                        </div>
+                        <div class="asdasdlasdlasd">
+                            <a style="text-decoration: none" th:href="'http://abbey-books.ru/publishers/' + ${publisher.id} + '/page-1/?sortField=name&sortDir=desc'"
+                               th:each="publisher, iterStat : ${book.publishers}" th:text="!${iterStat.last} ? ${publisher.name} + ', &nbsp;': ${publisher.name}"></a>
+                        </div>
+                    </div>
+
+                    <div class="category-container">
+                        <p class="book-category">Категория: </p>
+                        <a style="text-decoration: none" th:href="'http://abbey-books.ru/categories/' + ${book.category.id} + '/page-1/?sortField=name&sortDir=desc'" th:text="${book.category.name}"></a>
+                    </div>
+
+                    <div class="isbn-container">
+                        <p class="book-isbn">ISBN: </p>
+                        <p th:text="${book.isbn}"></p>
+                    </div>
+
+                    <div class="price-container">
+                        <p class="book-price">Цена: </p>
+                        <p th:text="${book.price} + ' р.'"></p>
+                    </div>
+                </div>
+                <div class="block-characteristics-bottom">
+                    <div class="yearOfPublishing-container">
+                        <p class="book-yearOfPublishing">Год издания: </p>
+                        <p th:text="${book.yearOfPublishing}"></p>
+                    </div>
+
+                    <div class="numberOfPages-container">
+                        <p class="book-numberOfPages">Количество страниц: </p>
+                        <p th:text="${book.numberOfPages}"></p>
+                    </div>
+
+                    <div class="format-container">
+                        <p class="book-format">Формат: </p>
+                        <p th:text="${book.format}"></p>
+                    </div>
+
+                    <div class="weight-container">
+                        <p class="book-weight">Вес: </p>
+                        <p th:text="${book.weight} + ' кг'"></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -386,7 +505,7 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2022 Все права защищены:
-            <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+            <a class="text-white" href="http://abbey-books.ru/index.html">AbbeyBooks.com</a>
         </div>
     </footer>
 </div>
@@ -492,7 +611,7 @@
             url: '/books/' + [[${book.id}]],
             type: 'DELETE',
             success: function(result) {
-                window.location.href = "http://localhost:8080/catalog/1";
+                window.location.href = "http://abbey-books.ru/catalog/1";
             }
         })
     });
@@ -663,13 +782,28 @@
         $('#repres').click(function() {
             $.ajax({
                 type: 'POST',
-                url: 'localhost:8080/register',
+                url: 'abbey-books.ru/register',
                 data: { username: $(this).username.value,
                     password: $(this).password.value }
             });
             return false;
         });
     })
+</script>
+
+<script type="text/javascript">
+    function testContent(book_id) {
+        $.ajax({
+            url: '/addToCart/' + book_id,
+            type: 'POST',
+            success:function(data){
+                $('#bottom_holder' + book_id).animate({opacity: 0.2}, 300, function () {
+                    $('#bottom_holder' + book_id).load("http://abbey-books.ru/catalog/" + [[${currentPage}]] + ' #bottom_holder' + book_id + '>*').animate({opacity: 1});
+                });
+            }
+        });
+        return false;
+    }
 </script>
 
 <script th:if="${userDTO.username != null}">

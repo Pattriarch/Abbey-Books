@@ -17,6 +17,7 @@ import spring.framework.labs.mappers.BookMapper;
 import spring.framework.labs.repositories.BookRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -106,6 +107,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findFiveLastBooks() {
         return bookRepository.findAll().stream().limit(5).toList();
+    }
+
+    @Override
+    public Book findByNameAndArticle(String name, String article) {
+        return bookRepository.findByNameAndArticle(name, article);
+    }
+
+    @Override
+    public List<Book> findAllByCategoryLimitedFive(Category category, Book book) {
+        return bookRepository.findAllByCategory(category).stream().filter(streamBook -> !Objects.equals(streamBook.getId(), book.getId())).limit(5).toList();
     }
 
     @Override

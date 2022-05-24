@@ -132,7 +132,7 @@
 
 .book-about {
     font-family: 'Poppins', sans-serif;
-    font-weight: 900;
+    font-weight: 600;
     font-size: 24px;
 }
 
@@ -211,6 +211,10 @@
     display: flex;
 }
 
+.price-container {
+    display: flex;
+}
+
 .yearOfPublishing-container {
     display: flex;
 }
@@ -264,6 +268,15 @@
 }
 
 .book-category:after {
+    content: " .................................................................................."
+}
+
+.book-price {
+    float: left; width: 175px; overflow: hidden; white-space: nowrap;
+    margin-right: 5px;
+}
+
+.book-price:after {
     content: " .................................................................................."
 }
 
@@ -380,4 +393,64 @@ a {
     text-align: left;
     padding-left: 5px;
     padding-bottom: 15px;
+}
+
+.cart-block {
+    padding: 20px 24px;
+    width: 250px;
+    height: 150px;
+    background-color: #e2e4f6;
+    margin-left: 85px;
+    border-radius: 4%;
+}
+
+.cart-block-bottom {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.in-stock-image {
+    width: 16px !important;
+    height: 16px !important;
+    /*#6ebc63*/
+    filter: invert(67%) sepia(28%) saturate(720%) hue-rotate(66deg) brightness(95%) contrast(84%);
+}
+
+.in-stock-text {
+    margin: 0 0 0 10px;
+}
+
+.same-books {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.bottom-charactestics-text {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+.hr-top {
+    margin-top: 0;
+}
+
+.hr-bottom {
+    margin-top: -70px;
+}
+
+.characteristics-bottom {
+    display: flex;
+}
+
+.block-characteristics-top {
+    margin-right: 50px;
+}
+
+.hr-text {
+    height: 1px !important;
 }

@@ -36,13 +36,13 @@ public class Parser implements CommandLineRunner {
     private final PublisherMapper publisherMapper;
     private final CategoryMapper categoryMapper;
 
-    public void parseNewNews() {
-        for (int page = 4; page < 5; page++) {
+    public void parseNewNews(String URL_TO_PARSE) {
+        for (int page = 1; page < 11; page++) {
 
-            final String URL_TO_PARSE = "https://book24.ru/catalog/fiction-1592/page-" + page + "/";
+            String CURRENT_URL_TO_PARSE = URL_TO_PARSE + "page-" + page + "/";
 
             try {
-                Document document = Jsoup.connect(URL_TO_PARSE)
+                Document document = Jsoup.connect(CURRENT_URL_TO_PARSE)
                         .userAgent("Mozilla")
                         .timeout(5000)
                         .referrer("https://google.com")
@@ -101,12 +101,12 @@ public class Parser implements CommandLineRunner {
                         }
                     }
 
-                    BookDTO bookDTO = bookService.findByName(NAME);
+                    Book book1 = bookService.findByNameAndArticle(NAME, ARTICLE);
 
-                    if (bookDTO == null) {
+                    if (book1 == null) {
                         bookService.save(bookMapper.bookToBookDTO(book));
                     } else {
-                        bookService.update(bookMapper.bookToBookDTO(book), bookDTO.getId());
+                        bookService.update(bookMapper.bookToBookDTO(book), book1.getId());
                     }
 
                     log.debug("Добавлена новая книга под названием \"" + NAME + "\"");
@@ -286,7 +286,11 @@ public class Parser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (bookService.findAll().size() == 0) {
-            parseNewNews();
+            parseNewNews("https://book24.ru/catalog/business-1671/");
+            parseNewNews("https://book24.ru/catalog/estestvennye-nauki-1347/");
+            parseNewNews("https://book24.ru/catalog/samoobrazovanie-i-razvitie-4560/");
+            parseNewNews("https://book24.ru/catalog/fiction-1592/");
+            parseNewNews("https://book24.ru/catalog/informatsionnye-tekhnologii-1357/");
             log.debug("Успешно было добавлено " + bookService.findAll().size() + " книг");
         }
     }

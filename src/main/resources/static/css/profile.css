@@ -31,3 +31,8 @@
 .changePassword {
     display: flex;
 }
+
+.username {
+    font-size: 24px;
+    font-weight: 600;
+}

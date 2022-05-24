@@ -45,7 +45,12 @@ public class BookController {
         if (principal != "anonymousUser") {
             model.addAttribute("user", principal);
         }
-        model.addAttribute("book", bookService.findById(bookId));
+
+        BookDTO bookDTO = bookService.findById(bookId);
+
+        model.addAttribute("book", bookDTO);
+
+        model.addAttribute("sameBooks", bookService.findAllByCategoryLimitedFive(bookDTO.getCategory(), bookMapper.bookDTOToBook(bookDTO)));
 
         model.addAttribute("categories", categoryService.findAllLimitedFive());
 

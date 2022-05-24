@@ -12,3 +12,11 @@
     width: 800px;
     margin: 30px auto 80px;
 }
+
+#contacts-title {
+    display: flex;
+}
+
+.contact-list {
+    display: flex;
+}

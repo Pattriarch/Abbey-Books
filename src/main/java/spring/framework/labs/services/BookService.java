@@ -25,4 +25,8 @@ public interface BookService extends CrudService<BookDTO, Long> {
     List<Book> findAllByOrderByRatingValueDescLimitFive();
 
     List<Book> findFiveLastBooks();
+
+    Book findByNameAndArticle(String name, String article);
+
+    List<Book> findAllByCategoryLimitedFive(Category category, Book book);
 }

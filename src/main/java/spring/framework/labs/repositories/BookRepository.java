@@ -31,8 +31,12 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     List<Book> findAllByOrderByRatingValueDesc();
 
+    List<Book> findAllByCategory(Category category);
+
     @Modifying
     @Query("DELETE FROM Book uru WHERE uru.id in ?1")
     @Transactional
     void delete(Long id);
+
+    Book findByNameAndArticle(String name, String article);
 }

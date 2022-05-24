@@ -29,7 +29,8 @@ public class Rating {
     @OneToOne(
             mappedBy = "rating",
             orphanRemoval = true,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @ToString.Exclude
     private Book book;
 

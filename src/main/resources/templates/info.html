@@ -31,21 +31,21 @@
             <div class="up__cont">
                 <div class="up">
                     <div class="menu col">
-                        <a href="http://localhost:8080/index">
+                        <a href="http://abbey-books.ru/index">
                             <img class="header-logo" th:src="@{/img/7.png}">
                         </a>
 
                         <div class="dropdown">
                             <button class="dropbtn">КАТАЛОГ</button>
                             <div class="dropdown-content">
-                                <a href="http://localhost:8080/catalog/1">Все книги</a>
+                                <a href="http://abbey-books.ru/catalog/1">Все книги</a>
                                 <tr th:each="category : ${categories}">
-                                    <a th:text="${category.name}" th:href="${'http://localhost:8080/categories/' + category.id + '/page-1'}"></a>
+                                    <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                                 </tr>
                             </div>
                         </div>
 
-                        <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
+                        <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
 
                         <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                             <div class="input-group rounded">
@@ -62,7 +62,7 @@
                         </div>
 
                         <div sec:authorize="isAuthenticated()" id="cart">
-                            <a href="http://localhost:8080/cart" method="get" class="">
+                            <a href="http://abbey-books.ru/cart" method="get" class="">
                                 <div class="input-group rounded">
                                     <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                                 </div>
@@ -70,7 +70,7 @@
                         </div>
 
                         <div sec:authorize="isAuthenticated()" id="myBooks">
-                            <a href="http://localhost:8080/books/myBooks" method="get" class="">
+                            <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
                                 <div class="input-group rounded">
                                     <img class="book-logo" th:src="@{/img/book.png}"/>
                                 </div>
@@ -78,7 +78,7 @@
                         </div>
 
                         <div sec:authorize="isAuthenticated()" id="profile" >
-                            <a href="http://localhost:8080/user/profile" method="get" class="">
+                            <a href="http://abbey-books.ru/user/profile" method="get" class="">
                                 <div class="input-group rounded">
                                     <img class="profile-logo" th:src="@{/img/account.png}"/>
                                 </div>
@@ -86,7 +86,7 @@
                         </div>
 
                         <div sec:authorize="isAuthenticated()" id="logout" >
-                            <a href="http://localhost:8080/logout" method="get" class="">
+                            <a href="http://abbey-books.ru/logout" method="get" class="">
                                 <div class="input-group rounded">
                                     <img class="logout-logo" th:src="@{/img/logout.png}"/>
                                 </div>
@@ -196,8 +196,8 @@
                 <div class="text-page__wrapper">
                     <div class="about-typography typography">
                         <div class="nuxt-content">
-                            <h2>О нас</h2>
-                <h3>Кто мы?</h3>
+                            <h2 style="margin-bottom: 24px;">О нас</h2>
+                <h3 style="margin-bottom: 16px; font-size: 24px;">Кто мы?</h3>
                 <p>
                     Привет! Мы - Abbey-books.ru, интернет-магазин по продаже книг.
                     Наш магазин появился в 2022 году и с тех пор продал столько же книг, сколько занимает территория Гибралтара. ;)
@@ -208,7 +208,7 @@
                 <p>
                     Если вы представляете издательство и хотите попасть на abbey-books.ru - <a href="#contacts-title">напишите нам</a>.
                 </p>
-                <h3>Что мы делаем?</h3>
+                <h3 style="margin-bottom: 16px; font-size: 24px;">Что мы делаем?</h3>
                 <p>
                     Мы не просто продаем книги. Abbey-books.ru - часть издательства, а это значит, что мы гораздо ближе к процессу появления книг в ваших руках, чем обычный интернет-магазин.
                 </p>
@@ -218,7 +218,7 @@
                 <p>
                     Мы рассказываем о книгах в нашем блоге, нам дают рекомендации знаменитости, а наши подборки составляют профессиональные редакторы.
                 </p>
-                <h3>Что отличает нас от других?</h3>
+                <h3 style="margin-bottom: 16px; font-size: 24px;">Что отличает нас от других?</h3>
                 <ul>
                     <li>Новинки. Abbey-books.ru - первый интернет-магазин, где появляются свежие книжные хиты.</li>
                     <li>Автографы. У нас более 350 книг с автографами.</li>
@@ -226,15 +226,14 @@
                     <li>Упаковка. Наши книги всегда доходят в отличном состоянии, спасибо надежной упаковке.</li>
                     <li>Кэшбэк. Для постоянных покупателей abbey-books.ru - самое выгодное место в мире*.</li>
                 </ul>
-                <small><sup>*</sup>согласно опросу постоянных покупателей в рейтинге ко дню рождения abbey-books.ru.ru</small>
-                <h3>Кто делает abbey-books.ru?</h3>
+                <h3 style="margin-bottom: 16px; font-size: 24px;">Кто делает abbey-books.ru?</h3>
                 <p>Всего abbey-books.ru делают около 50 человек - закупщики, разработчики, сотрудники колл-центра, склада и доставки, контент-менеджеры и маркетологи.</p>
                 <p>Часто эти люди пришли из другого подразделения Эксмо-АСТ и принесли часть своей любви к книгам - в том числе и нашим покупателям.</p>
                 <p>Скоро мы выложим сюда фото некоторых из этих супергероев.</p>
                 <h3 id="contacts-title">Наши контакты</h3>
-                <ul class="contact-list _reset-list">
-                    <li>
-                        <div style="display: flex; flex-direction: column;">
+                <div class="contact-list _reset-list">
+                    <div>
+                        <div style="display: flex; flex-direction: column; margin-right: 50px;">
                             <a href="tel:88003289930" style="font-size: 20px; line-height: 30px; font-weight: 700; color: inherit;">8 (800) 328-99-30</a>
                             <div style="font-size: 14px; line-height: 20px; color: rgb(117, 117, 117);">
                                 Служба клиентской поддержки
@@ -242,14 +241,14 @@
                                 c 8 до 20 (Мск)
                             </div>
                         </div>
-                    </li>
-                    <li>
+                    </div>
+                    <div>
                         <div style="display: flex; flex-direction: column;">
                             <a href="mailto:market@abbey-books.ru" style="font-size: 20px; line-height: 30px; font-weight: 700;">market@abbey-books.ru</a>
                             <div style="font-size: 14px; line-height: 20px; color: rgb(117, 117, 117);">Наш электронный адрес</div>
                         </div>
-                    </li>
-                </ul></div></div></div></div>
+                    </div>
+                </div></div></div></div></div>
         </div>
     </div>
 
@@ -282,7 +281,7 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2022 Все права защищены:
-            <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+            <a class="text-white" href="http://abbey-books.ru/index.html">AbbeyBooks.com</a>
         </div>
     </footer>
 </div>
@@ -439,7 +438,7 @@
             $('#repres').click(function() {
                 $.ajax({
                     type: 'POST',
-                    url: 'localhost:8080/register',
+                    url: 'abbey-books.ru/register',
                     data: { username: $(this).username.value,
                         password: $(this).password.value }
                 });

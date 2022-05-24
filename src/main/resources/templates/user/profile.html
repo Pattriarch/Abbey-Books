@@ -100,7 +100,7 @@
 
         <div class="middle">
             <div th:if="${user.name.split(' ')[1] != null}">
-                <p th:text="${'Здравствуйте, ' + user.name.split(' ')[1]}"></p>
+                <p class="username" th:text="${'Здравствуйте, ' + user.name.split(' ')[1]}"></p>
             </div>
 
             <div class="addBalance">
