@@ -31,21 +31,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://localhost:8080/index">
+                    <a href="http://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://localhost:8080/catalog/1">Все книги</a>
+                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://localhost:8080/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -62,7 +62,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="cart">
-                        <a href="http://localhost:8080/cart" method="get" class="">
+                        <a href="http://abbey-books.ru/cart" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
@@ -70,7 +70,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="myBooks">
-                        <a href="http://localhost:8080/books/myBooks" method="get" class="">
+                        <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="profile" >
-                        <a href="http://localhost:8080/user/profile" method="get" class="">
+                        <a href="http://abbey-books.ru/user/profile" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
@@ -86,7 +86,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="logout" >
-                        <a href="http://localhost:8080/logout" method="get" class="">
+                        <a href="http://abbey-books.ru/logout" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
@@ -313,7 +313,8 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2022 Все права защищены:
-            <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+            <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
+            <span class="bottom-span">Переверзев Даниил</span>
         </div>
     </footer>
 </div>
@@ -336,7 +337,7 @@
         function refreshNew() {
         show('Сначала новые')
         $("#refreshDiv").animate({opacity: 0.2}, "slow", function() {
-            $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=id&sortDir=desc" +  ' #refreshDiv>*').animate({opacity: 1});
+            $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=id&sortDir=desc" +  ' #refreshDiv>*').animate({opacity: 1});
         });
         window.location.href.searchParams.set('sortField', 'name')
         }
@@ -344,42 +345,42 @@
         function refreshAlphabiteDesc() {
             show('По алфавиту Я-А')
             $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=name&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
+                $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=name&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
             });
         }
 
         function refreshAlphabiteAsc() {
             show('По алфавиту А-Я')
             $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=name&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
+                $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=name&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
             });
         }
 
         function refreshYearOfPublishingDesc() {
             show('По году выхода (по убыванию)')
             $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=yearOfPublishing&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
+                $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=yearOfPublishing&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
             });
         }
 
         function refreshYearOfPublishingAsc() {
             show('По году выхода (по возрастанию)')
             $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=yearOfPublishing&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
+                $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=yearOfPublishing&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
             });
         }
 
         function refreshPriceDesc() {
             show('По цене (по убыванию)')
             $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=price&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
+                $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=price&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
             });
         }
 
         function refreshPriceAsc() {
             show('По цене (по возрастанию)')
             $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                $('#refreshDiv').load("http://localhost:8080/authors/" + [[${author.id}]] + "/page-1/?sortField=price&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
+                $('#refreshDiv').load("http://abbey-books.ru/authors/" + [[${author.id}]] + "/page-1/?sortField=price&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
             });
         }
     </script>
@@ -547,11 +548,11 @@
             let beforePage = page - 1;
             let afterPage = page + 1;
             if(page > 1){ //show the next button if the page value is greater than 1
-                liTag += `<li class="btn prev" onclick="window.location.href='http://localhost:8080/catalog/' + (page - 1) + '/?sortField=id&sortDir=desc'"><span><i class="fas fa-angle-left"></i> Prev</span></li>`;
+                liTag += `<li class="btn prev" onclick="window.location.href='http://abbey-books.ru/catalog/' + (page - 1) + '/?sortField=id&sortDir=desc'"><span><i class="fas fa-angle-left"></i> Prev</span></li>`;
             }
 
             if(page > 2){ //if page value is less than 2 then add 1 after the previous button
-                liTag += `<li class="first numb" onclick="window.location.href='http://localhost:8080/catalog/1/?sortField=id&sortDir=desc'"><span>1</span></li>`;
+                liTag += `<li class="first numb" onclick="window.location.href='http://abbey-books.ru/catalog/1/?sortField=id&sortDir=desc'"><span>1</span></li>`;
                 if(page > 3){ //if page value is greater than 3 then add this (...) after the first li or page
                     liTag += `<li class="dots"><span>...</span></li>`;
                 }
@@ -583,18 +584,18 @@
                 } else { //else leave empty to the active variable
                     active = "";
                 }
-                liTag += `<li class="numb ${active}" onclick="window.location.href='http://localhost:8080/catalog/' + (${plength}) + '/?sortField=id&sortDir=desc'"<span>${plength}</span></li>`;
+                liTag += `<li class="numb ${active}" onclick="window.location.href='http://abbey-books.ru/catalog/' + (${plength}) + '/?sortField=id&sortDir=desc'"<span>${plength}</span></li>`;
             }
 
             if(page < totalPages - 1){ //if page value is less than totalPage value by -1 then show the last li or page
                 if(page < totalPages - 2){ //if page value is less than totalPage value by -2 then add this (...) before the last li or page
                     liTag += `<li class="dots"><span>...</span></li>`;
                 }
-                liTag += `<li class="last numb" onclick="window.location.href='http://localhost:8080/catalog/' + (${totalPages}) + '/?sortField=id&sortDir=desc'"><span>${totalPages}</span></li>`;
+                liTag += `<li class="last numb" onclick="window.location.href='http://abbey-books.ru/catalog/' + (${totalPages}) + '/?sortField=id&sortDir=desc'"><span>${totalPages}</span></li>`;
             }
 
             if (page < totalPages) { //show the next button if the page value is less than totalPage(20)
-                liTag += `<li class="btn next" onclick="window.location.href='http://localhost:8080/catalog/' + (page + 1) + '/?sortField=id&sortDir=desc'"><span>Next <i class="fas fa-angle-right"></i></span></li>`;
+                liTag += `<li class="btn next" onclick="window.location.href='http://abbey-books.ru/catalog/' + (page + 1) + '/?sortField=id&sortDir=desc'"><span>Next <i class="fas fa-angle-right"></i></span></li>`;
             }
             element.innerHTML = liTag; //add li tag inside ul tag
             return liTag; //reurn the li tag
@@ -606,7 +607,7 @@
             $('#repres').click(function() {
                 $.ajax({
                     type: 'POST',
-                    url: 'localhost:8080/register',
+                    url: 'abbey-books.ru/register',
                     data: { username: $(this).username.value,
                         password: $(this).password.value }
                 });

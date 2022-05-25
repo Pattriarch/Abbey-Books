@@ -876,3 +876,13 @@ input#rate-5:checked ~ label{
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
+.bottom-div {
+    display: flex;
+}
+
+.bottom-span {
+    position: absolute;
+    right: 0;
+    margin-right: 30px;
+}

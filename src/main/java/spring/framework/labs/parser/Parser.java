@@ -37,7 +37,7 @@ public class Parser implements CommandLineRunner {
     private final CategoryMapper categoryMapper;
 
     public void parseNewNews(String URL_TO_PARSE) {
-        for (int page = 1; page < 11; page++) {
+        for (int page = 1; page < 2; page++) {
 
             String CURRENT_URL_TO_PARSE = URL_TO_PARSE + "page-" + page + "/";
 
@@ -286,10 +286,10 @@ public class Parser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (bookService.findAll().size() == 0) {
-            parseNewNews("https://book24.ru/catalog/business-1671/");
-            parseNewNews("https://book24.ru/catalog/estestvennye-nauki-1347/");
-            parseNewNews("https://book24.ru/catalog/samoobrazovanie-i-razvitie-4560/");
-            parseNewNews("https://book24.ru/catalog/fiction-1592/");
+//            parseNewNews("https://book24.ru/catalog/business-1671/");
+//            parseNewNews("https://book24.ru/catalog/estestvennye-nauki-1347/");
+//            parseNewNews("https://book24.ru/catalog/samoobrazovanie-i-razvitie-4560/");
+//            parseNewNews("https://book24.ru/catalog/fiction-1592/");
             parseNewNews("https://book24.ru/catalog/informatsionnye-tekhnologii-1357/");
             log.debug("Успешно было добавлено " + bookService.findAll().size() + " книг");
         }

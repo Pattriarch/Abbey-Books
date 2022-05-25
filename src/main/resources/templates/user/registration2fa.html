@@ -29,21 +29,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://localhost:8080/index">
+                    <a href="http://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://localhost:8080/catalog/1">Все книги</a>
+                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://localhost:8080/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://localhost:8080/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -153,7 +153,8 @@
 
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                     © 2022 Все права защищены:
-                    <a class="text-white" href="http://localhost:8080/index.html">AbbeyBooks.com</a>
+                    <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
+                    <span class="bottom-span">Переверзев Даниил</span>
                 </div>
             </footer>
         </div>
