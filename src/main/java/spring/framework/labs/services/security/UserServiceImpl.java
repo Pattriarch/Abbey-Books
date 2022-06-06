@@ -232,5 +232,4 @@ public class UserServiceImpl implements UserService {
         user.setBalance(user.getBalance() + value);
         return update(userMapper.userToUserDTO(user), Long.valueOf(user.getId()));
     }
-
 }

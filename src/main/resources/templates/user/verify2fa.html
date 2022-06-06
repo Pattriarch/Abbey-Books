@@ -43,22 +43,7 @@
     </div>
 </div>
 
-<script>
-    const verifyCode = document.querySelector('#verifyCode');
-    const verifyButton = document.querySelector('#verifyButton');
-
-    verifyCode.addEventListener("input", validate);
-
-    function validate(){
-        // Check that neither input is empty
-        if(verifyCode.value === ""){
-            verifyButton.setAttribute("disabled","disabled");
-        } else {
-            verifyButton.removeAttribute("disabled");
-        }
-    }
-
-</script>
+<script th:src="@{js/verify2fa.js}"></script>
 
 </body>
 </html>

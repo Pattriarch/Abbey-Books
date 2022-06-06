@@ -25,7 +25,6 @@ import spring.framework.labs.services.security.UserService;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserMapper userMapper;
     private final UserService userService;
     private final BookService bookService;
     private final CategoryService categoryService;
@@ -77,7 +76,6 @@ public class UserController {
 
             model.addAttribute("googleurl", url);
 
-            // bad code
             return "user/registration2fa";
         }
     }
@@ -104,7 +102,6 @@ public class UserController {
 
             return "redirect:/";
         } else {
-
             return "user/verify2fa";
         }
     }
@@ -143,8 +140,8 @@ public class UserController {
 
             User userContext = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             model.addAttribute("user", userContext);
-            String vl = "aaaassss";
-            model.addAttribute("mistake", vl);
+            String badCode = "bad_code";
+            model.addAttribute("mistake", badCode);
 
             return "user/profile";
         }
@@ -171,8 +168,8 @@ public class UserController {
         if (newPassword.equals(againNewPassword)) {
             userService.changePassword(currentPassword, newPassword, Long.valueOf(user.getId()));
         } else {
-            String vl = "asdasdasas";
-            model.addAttribute("mistake", vl);
+            String badPass = "bad_pass";
+            model.addAttribute("mistake", badPass);
         }
 
         model.addAttribute("user", user);

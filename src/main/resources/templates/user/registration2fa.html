@@ -29,21 +29,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://abbey-books.ru/index">
+                    <a href="https://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
+                            <a href="https://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -153,56 +153,14 @@
 
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                     © 2022 Все права защищены:
-                    <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
-                    <span class="bottom-span">Переверзев Даниил</span>
+                    <a class="text-white" href="https://abbey-books.ru/index.html">AbbeyBooks.com</a>
                 </div>
             </footer>
         </div>
     </div>
 </div>
 
-<script>
-    search.onmouseenter = function(){
-        this.classList.add('hovered');
-    }
-
-    search.onmouseleave = function(){
-        this.classList.remove('hovered');
-    }
-
-    cart.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    cart.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    myBooks.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    myBooks.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    profile.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    profile.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    logout.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    logout.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-</script>
+<script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
 
 </body>
 </html>

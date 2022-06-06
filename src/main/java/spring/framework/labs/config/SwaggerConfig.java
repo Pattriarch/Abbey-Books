@@ -25,9 +25,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo metaData(){
-
-        Contact contact = new Contact("Daniil Pereverzev", "https://google.com",
-                "dpereverzev@google.com");
+        Contact contact = new Contact("Daniil Pereverzev",
+                "https://google.com", "dpereverzev@google.com");
 
         return new ApiInfo(
                 "Course Work",

@@ -30,14 +30,18 @@ public class Parser implements CommandLineRunner {
     private final PublisherService publisherService;
     private final CategoryService categoryService;
     private final RatingService ratingService;
+
     private final BookMapper bookMapper;
     private final AuthorMapper authorMapper;
     private final RatingMapper ratingMapper;
     private final PublisherMapper publisherMapper;
     private final CategoryMapper categoryMapper;
 
+    public final int START_PAGE = 1;
+    public final int END_PAGE = 5;
+
     public void parseNewNews(String URL_TO_PARSE) {
-        for (int page = 1; page < 2; page++) {
+        for (int page = START_PAGE; page < END_PAGE; page++) {
 
             String CURRENT_URL_TO_PARSE = URL_TO_PARSE + "page-" + page + "/";
 
@@ -60,28 +64,42 @@ public class Parser implements CommandLineRunner {
                     RatingDTO savedRating = ratingService.save(ratingMapper.ratingRatingToDTO(rating));
                     book.setRating(ratingMapper.ratingDTOToRating(savedRating));
 
-                    String NAME = postTitleElement.getElementsByClass("product-card__name smartLink").attr("title");
+                    String NAME = postTitleElement
+                            .getElementsByClass("product-card__name smartLink")
+                            .attr("title");
                     book.setName(NAME);
 
-                    String HREF = postTitleElement.getElementsByClass("product-card__image-link smartLink").attr("href");
+                    String HREF = postTitleElement
+                            .getElementsByClass("product-card__image-link smartLink")
+                            .attr("href");
                     log.debug("Переходим на страницу с книгой..." + HREF);
 
                     Document postDetailsDoc = Jsoup.connect("https://book24.ru" + HREF).get();
 
-                    String DESCRIPTION = postDetailsDoc.getElementsByAttributeValue("itemprop", "description").attr("content").replaceAll("\uFEFF", " ").replaceAll("&nbsp;", " ");
+                    String DESCRIPTION = postDetailsDoc
+                            .getElementsByAttributeValue("itemprop", "description")
+                            .attr("content")
+                            .replaceAll("\uFEFF", " ")
+                            .replaceAll("&nbsp;", " ");
                     book.setDescription(DESCRIPTION);
 
-                    String PRICE = postDetailsDoc.getElementsByAttributeValue("itemprop", "price").attr("content");
+                    String PRICE = postDetailsDoc
+                            .getElementsByAttributeValue("itemprop", "price")
+                            .attr("content");
                     book.setPrice(Long.valueOf(PRICE));
 
                     List<String> images = new ArrayList<>();
-                    String MAIN_IMAGE = postDetailsDoc.getElementsByClass("product-poster__main-image").attr("src");
+                    String MAIN_IMAGE = postDetailsDoc
+                            .getElementsByClass("product-poster__main-image")
+                            .attr("src");
                     images.add(MAIN_IMAGE);
 
                     Elements imgs = postDetailsDoc.getElementsByClass("product-poster__main-slide _lazy");
+
                     for (Element image : imgs) {
                         images.add(image.getElementsByClass("product-poster__main-image").attr("data-src"));
                     }
+
                     book.setImages(images.toArray(String[]::new));
 
                     String ARTICLE = postDetailsDoc.getElementsByClass("product-detail-page__article").text();
@@ -101,12 +119,12 @@ public class Parser implements CommandLineRunner {
                         }
                     }
 
-                    Book book1 = bookService.findByNameAndArticle(NAME, ARTICLE);
+                    Book oldBook = bookService.findByNameAndArticle(NAME, ARTICLE);
 
-                    if (book1 == null) {
+                    if (oldBook == null) {
                         bookService.save(bookMapper.bookToBookDTO(book));
                     } else {
-                        bookService.update(bookMapper.bookToBookDTO(book), book1.getId());
+                        bookService.update(bookMapper.bookToBookDTO(book), oldBook.getId());
                     }
 
                     log.debug("Добавлена новая книга под названием \"" + NAME + "\"");
@@ -286,10 +304,10 @@ public class Parser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (bookService.findAll().size() == 0) {
-//            parseNewNews("https://book24.ru/catalog/business-1671/");
-//            parseNewNews("https://book24.ru/catalog/estestvennye-nauki-1347/");
-//            parseNewNews("https://book24.ru/catalog/samoobrazovanie-i-razvitie-4560/");
-//            parseNewNews("https://book24.ru/catalog/fiction-1592/");
+            parseNewNews("https://book24.ru/catalog/business-1671/");
+            parseNewNews("https://book24.ru/catalog/estestvennye-nauki-1347/");
+            parseNewNews("https://book24.ru/catalog/samoobrazovanie-i-razvitie-4560/");
+            parseNewNews("https://book24.ru/catalog/fiction-1592/");
             parseNewNews("https://book24.ru/catalog/informatsionnye-tekhnologii-1357/");
             log.debug("Успешно было добавлено " + bookService.findAll().size() + " книг");
         }

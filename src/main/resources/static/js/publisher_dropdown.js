@@ -4,7 +4,7 @@ function refreshNew() {
 
     show('Сначала новые')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function() {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=id&sortDir=desc" +  ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=id&sortDir=desc" +  ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {
@@ -18,7 +18,7 @@ function refreshAlphabiteDesc() {
 
     show('По алфавиту Я-А')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=name&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=name&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {
@@ -31,7 +31,7 @@ function refreshAlphabiteAsc() {
 
     show('По алфавиту А-Я')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=name&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=name&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {
@@ -44,7 +44,7 @@ function refreshYearOfPublishingDesc() {
 
     show('По году выхода (по убыванию)')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=yearOfPublishing&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {
@@ -57,7 +57,7 @@ function refreshYearOfPublishingAsc() {
 
     show('По году выхода (по возрастанию)')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=yearOfPublishing&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {
@@ -70,7 +70,7 @@ function refreshPriceDesc() {
 
     show('По цене (по убыванию)')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=price&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=price&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {
@@ -83,7 +83,7 @@ function refreshPriceAsc() {
 
     show('По цене (по возрастанию)')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-        $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=price&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
+        $('#refreshDiv').load("https://abbey-books.ru/publishers/1/page-1/?sortField=price&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
     });
 
     setTimeout(function run() {

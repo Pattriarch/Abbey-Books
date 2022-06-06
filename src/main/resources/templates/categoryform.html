@@ -26,21 +26,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://abbey-books.ru/index">
+                    <a href="https://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
+                            <a href="https://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -57,7 +57,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="cart">
-                        <a href="http://abbey-books.ru/cart" method="get" class="">
+                        <a href="https://abbey-books.ru/cart" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
@@ -65,7 +65,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="myBooks">
-                        <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
+                        <a href="https://abbey-books.ru/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
@@ -73,7 +73,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="profile" >
-                        <a href="http://abbey-books.ru/user/profile" method="get" class="">
+                        <a href="https://abbey-books.ru/user/profile" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
@@ -81,7 +81,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="logout" >
-                        <a href="http://abbey-books.ru/logout" method="get" class="">
+                        <a href="https://abbey-books.ru/logout" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
@@ -240,12 +240,8 @@
                                 </form>
                             </div>
                             <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-                            <!--                                    <div class="but" sec:authorize="hasAuthority('book.update')">-->
-                            <!--                    <p><a th:href="@{/logout}">Logout</a></p>-->
                         </div>
-                        <hr class="ssdask">
-
-                        <!--                                </div>-->
+                        <hr class="hr-class">
                     </div>
                 </tr>
             </div>
@@ -283,386 +279,27 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2022 Все права защищены:
-            <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
-            <span class="bottom-span">Переверзев Даниил</span>
+            <a class="text-white" href="https://abbey-books.ru/index.html">AbbeyBooks.com</a>
         </div>
     </footer>
 </div>
 
-        <script>
-            function refreshNew() {
-
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                // if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=id&sortDir=desc") {
-                show('Сначала новые')
-                $("#refreshDiv").animate({opacity: 0.2}, "slow", function() {
-                    $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=id&sortDir=desc" +  ' #refreshDiv>*').animate({opacity: 1});
-                });
-                // window.location.href.searchParams.set('sortField', 'name')
-                // }
-
-                console.log(1);
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-
-            function refreshAlphabiteDesc() {
-
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=name&sortDir=desc") {
-                    show('По алфавиту Я-А')
-                    $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                        $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=name&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
-                    });
-                }
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-
-            function refreshAlphabiteAsc() {
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=name&sortDir=asc") {
-                    show('По алфавиту А-Я')
-                    $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                        $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=name&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
-                    });
-                }
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-
-            function refreshYearOfPublishingDesc() {
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=desc") {
-                    show('По году выхода (по убыванию)')
-                    $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                        $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
-                    });
-                }
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-
-            function refreshYearOfPublishingAsc() {
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=asc") {
-                    show('По году выхода (по возрастанию)')
-                    $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                        $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
-                    });
-                }
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-
-            function refreshPriceDesc() {
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=price&sortDir=desc") {
-                    show('По цене (по убыванию)')
-                    $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                        $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=price&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
-                    });
-                }
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-
-            function refreshPriceAsc() {
-                document.querySelector(".dropdownn").style.pointerEvents = "none";
-
-                if (window.location.href != "http://abbey-books.ru/catalog/1/?sortField=price&sortDir=asc") {
-                    show('По цене (по возрастанию)')
-                    $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
-                        $('#refreshDiv').load("http://abbey-books.ru/catalog/1/?sortField=price&sortDir=asc" + ' #refreshDiv>*').animate({opacity: 1});
-                    });
-                }
-
-                setTimeout(function run() {
-                    document.querySelector(".dropdownn").style.pointerEvents = "auto";
-                }, 1500)
-            }
-        </script>
-
-        <script>
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-
-            $(document).ajaxSend(function(e, xhr, options) {
-                xhr.setRequestHeader(header, token);
-            });
-        </script>
-
-        <script type="text/javascript">
-            function testContent(book_id) {
-                $.ajax({
-                    url: '/addToCart/' + book_id,
-                    type: 'POST',
-                    success:function(data){
-                        $('#bottom_holder' + book_id).animate({opacity: 0.2}, 300, function () {
-                            $('#bottom_holder' + book_id).load("http://abbey-books.ru/catalog/" + [[${currentPage}]] + ' #bottom_holder' + book_id + '>*').animate({opacity: 1});
-                        });
-                    }
-                });
-                return false;
-            }
-        </script>
-
-        <script>
-            function reload(){
-                var container = document.querySelector(".bottom_holder");
-                var content = container.innerHTML;
-                container.innerHTML= content;
-
-                //this line is to watch the result in console , you can remove it later
-                console.log("Refreshed");
-            }
-
-            function show(anything) {
-                document.querySelector('.textBox').value = anything;
-            }
-
-            let dropdown = document.querySelector('.dropdownn');
-            dropdown.onclick = function() {
-                dropdown.classList.toggle('active');
-            }
-
-        </script>
-
-        <script>
-            // selecting required element
-            const element = document.querySelector(".pagination ul");
-            let totalPages = [[${totalPages}]];
-            let page = [[${currentPage}]];
-
-            //calling function with passing parameters and adding inside element which is ul tag
-            element.innerHTML = createPagination(totalPages, page);
-            function createPagination(totalPages, page) {
-
-                let liTag = '';
-                let active;
-                let beforePage = page - 1;
-                let afterPage = page + 1;
-                if(page > 1){ //show the next button if the page value is greater than 1
-                    liTag += `<li class="btn prev" onclick="window.location.href='http://abbey-books.ru/catalog/' + (page - 1) + '/?sortField=id&sortDir=desc'"><span><i class="fas fa-angle-left"></i> Prev</span></li>`;
-                }
-
-                if(page > 2){ //if page value is less than 2 then add 1 after the previous button
-                    liTag += `<li class="first numb" onclick="window.location.href='http://abbey-books.ru/catalog/1/?sortField=id&sortDir=desc'"><span>1</span></li>`;
-                    if(page > 3){ //if page value is greater than 3 then add this (...) after the first li or page
-                        liTag += `<li class="dots"><span>...</span></li>`;
-                    }
-                }
-
-                // how many pages or li show before the current li
-                if (page == totalPages && totalPages > 3) {
-                    beforePage = beforePage - 2;
-                } else if (page == totalPages - 1 && totalPages > 3) {
-                    beforePage = beforePage - 1;
-                }
-                // how many pages or li show after the current li
-                if (page == 1  && totalPages > 3) {
-                    afterPage = afterPage + 2;
-                } else if (page == 2  && totalPages > 3) {
-                    afterPage  = afterPage + 1;
-                }
-
-                for (var plength = beforePage; plength <= afterPage; plength++) {
-                    if (plength > totalPages) { //if plength is greater than totalPage length then continue
-                        continue;
-                    }
-                    if (plength == 0) { //if plength is 0 than add +1 in plength value
-                        plength = plength + 1;
-                        asdkas = plength;
-                    }
-                    if (page == plength) { //if page is equal to plength than assign active string in the active variable
-                        active = "active";
-                    } else { //else leave empty to the active variable
-                        active = "";
-                    }
-                    liTag += `<li class="numb ${active}" onclick="window.location.href='http://abbey-books.ru/catalog/' + (${plength}) + '/?sortField=id&sortDir=desc'"<span>${plength}</span></li>`;
-                }
-
-                if(page < totalPages - 1){ //if page value is less than totalPage value by -1 then show the last li or page
-                    if(page < totalPages - 2){ //if page value is less than totalPage value by -2 then add this (...) before the last li or page
-                        liTag += `<li class="dots"><span>...</span></li>`;
-                    }
-                    liTag += `<li class="last numb" onclick="window.location.href='http://abbey-books.ru/catalog/' + (${totalPages}) + '/?sortField=id&sortDir=desc'"><span>${totalPages}</span></li>`;
-                }
-
-                if (page < totalPages) { //show the next button if the page value is less than totalPage(20)
-                    liTag += `<li class="btn next" onclick="window.location.href='http://abbey-books.ru/catalog/' + (page + 1) + '/?sortField=id&sortDir=desc'"><span>Next <i class="fas fa-angle-right"></i></span></li>`;
-                }
-                element.innerHTML = liTag; //add li tag inside ul tag
-                return liTag; //reurn the li tag
-            }
-        </script>
-
-        <script>
-            register.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            register.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            search.onmouseenter = function(){
-                this.classList.add('hovered');
-            }
-
-            search.onmouseleave = function(){
-                this.classList.remove('hovered');
-            }
-
-            cart.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            cart.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            myBooks.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            myBooks.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            profile.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            profile.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            logout.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            logout.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-        </script>
-
-        <script>
-            var nameError = document.getElementById('name-error');
-            var usernameError = document.getElementById('username-error');
-            var passwordError = document.getElementById('password-error');
-
-            function validateName() {
-                var name = document.getElementById('register-name').value;
-
-                if (name.length === 0) {
-                    nameError.innerHTML = 'Необходимо ввести ФИО';
-                    document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                if (username.length < 8) {
-                    nameError.innerHTML = 'ФИО должно содержать не менее 8 символов';
-                    document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                if (!name.match(/(?:[A-Za-zА-Яа-я]+ ){2}[A-Za-zА-Яа-я]+/)) {
-                    nameError.innerHTML = 'Введите полное ФИО';
-                    document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                document.getElementById('register-name').style.setProperty('border-color', 'seagreen', 'important');
-                nameError.innerHTML = '&nbsp;';
-                return true;
-            }
-
-            function validateUsername() {
-                var username = document.getElementById('register-username').value;
-
-                if (username.length === 0) {
-                    usernameError.innerHTML = 'Необходимо ввести имя пользователя';
-                    document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                if (username.length < 6) {
-                    usernameError.innerHTML = 'Имя пользователя должно содержать не менее 6 символов';
-                    document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                if (!username.match(/^[A-Za-z0-9]+$/)) {
-                    usernameError.innerHTML = 'Не используйте запрещенные символы';
-                    document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
-                usernameError.innerHTML = '&nbsp;';
-                return true;
-            }
-
-            function validatePassword() {
-                var password = document.getElementById('register-password').value;
-
-                if (password.length === 0) {
-                    passwordError.innerHTML = 'Необходимо ввести имя пользователя';
-                    document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                if (password.length < 6) {
-                    passwordError.innerHTML = 'Пароль должен содержать не менее 6 символов';
-                    document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                if (password.match(/^[<>${}/]$/)) {
-                    passwordError.innerHTML = 'Не используйте запрещенные символы';
-                    document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                    return false;
-                }
-
-                document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
-                passwordError.innerHTML = '&nbsp;';
-                return true;
-            }
-        </script>
-
-        <script>
-            $(function() {
-                $('#repres').click(function() {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'abbey-books.ru/register',
-                        data: { username: $(this).username.value,
-                            password: $(this).password.value }
-                    });
-                    return false;
-                });
-            })
-        </script>
+<!--        <script>-->
+<!--            var token = $("meta[name='_csrf']").attr("content");-->
+<!--            var header = $("meta[name='_csrf_header']").attr("content");-->
+
+<!--            $(document).ajaxSend(function(e, xhr, options) {-->
+<!--                xhr.setRequestHeader(header, token);-->
+<!--            });-->
+<!--        </script>-->
+
+    <script th:src="@{js/addToCart.js}"></script>
+    <script th:src="@{js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
+    <script th:src="@{js/not_logged_in.js}"></script>
+    <script th:src="@{js/validation.js}"></script>
+    <script th:src="@{js/register.js}"></script>
+    <script th:src="@{js/category_dropdown.js}"></script>
+    <script th:src="@{js/category_pagination.js}"></script>
 
         <script th:if="${userDTO.username != null}">
             document.getElementById("buttonToRegister").click();
@@ -674,68 +311,6 @@
 
         <script th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'">
             document.getElementById("buttonToLogin").click();
-        </script>
-
-        <script>
-            search.onmouseenter = function(){
-                this.classList.add('hovered');
-            }
-
-            search.onmouseleave = function(){
-                this.classList.remove('hovered');
-            }
-        </script>
-
-        <script sec:authorize="!isAuthenticated()">
-            register.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            register.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            login.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            login.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-        </script>
-
-        <script sec:authorize="isAuthenticated()">
-            cart.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            cart.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            myBooks.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            myBooks.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            profile.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            profile.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
-
-            logout.onmouseenter = function(){
-                this.classList.add('card-hovered');
-            }
-
-            logout.onmouseleave = function(){
-                this.classList.remove('card-hovered');
-            }
         </script>
 </body>
 </html>

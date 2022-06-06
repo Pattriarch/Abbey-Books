@@ -1,6 +1,5 @@
 package spring.framework.labs.controllers;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,56 +19,38 @@ import spring.framework.labs.services.CategoryService;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/authors")
-public class AuthorController {
+public class AuthorController extends Paginated {
 
     private final AuthorMapper authorMapper;
     private final AuthorService authorService;
-    private final CategoryService categoryService;
     private final BookService bookService;
-    public static final int PAGE_SIZE = 30;
+
+    public AuthorController(CategoryService categoryService, AuthorMapper authorMapper, AuthorService authorService, BookService bookService) {
+        super(categoryService);
+        this.authorMapper = authorMapper;
+        this.authorService = authorService;
+        this.bookService = bookService;
+    }
 
     @GetMapping({"/{authorId}/page-{pageNo}"})
     public String findPaginated(@PathVariable Long authorId,
                                 @PathVariable(value = "pageNo") int pageNo,
-                                @RequestParam(value = "sortField", required = false) String sortField,
-                                @RequestParam(value = "sortDir", required = false) String sortDir,
+                                @RequestParam(value = "sortField", defaultValue = "id", required = false) String sortField,
+                                @RequestParam(value = "sortDir", defaultValue = "desc", required = false) String sortDir,
                                 Model model) {
 
-        if (sortField == null) {
-            sortField = "id";
-        }
-
-        if (sortDir == null) {
-            sortDir = "desc";
-        }
-
-        UserDTO userDTO = new UserDTO();
-        model.addAttribute("userDTO", userDTO);
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal != "anonymousUser") {
-            model.addAttribute("user", principal);
-        }
-
-        model.addAttribute("categories", categoryService.findAllLimitedFive());
+        model = addAttributesToModel(pageNo, sortField, sortDir, model);
 
         AuthorDTO author = authorService.findById(authorId);
         model.addAttribute("author", author);
 
-        Page<BookDTO> page = bookService.findAllByAuthorsContains(authorMapper.authorDTOToAuthor(author), pageNo, PAGE_SIZE, sortField, sortDir);
+        Page<BookDTO> page = bookService.findAllByAuthorsContains(authorMapper.authorDTOToAuthor(author), pageNo, Paginated.PAGE_SIZE, sortField, sortDir);
         List<BookDTO> listBooks = page.getContent();
+        model.addAttribute("listBooks", listBooks);
 
-        model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        model.addAttribute("listBooks", listBooks);
 
         return "authorform";
     }

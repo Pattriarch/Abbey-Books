@@ -123,7 +123,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .name("Комаров Михаил Романович")
                 .username("admin")
                 .balance(100000000L)
-                .password(passwordEncoder.encode("Parol123987123"))
+                .password(passwordEncoder.encode("admin"))
                 .role(adminRole)
                 .cart(Cart.builder().book_carts(new HashSet<>()).build())
                 .build());
@@ -132,7 +132,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .name("Ширяев Юрий Созонович")
                 .username("moderator")
                 .balance(20000L)
-                .password(passwordEncoder.encode("Parol123987"))
+                .password(passwordEncoder.encode("moderator"))
                 .role(moderatorRole)
                 .cart(Cart.builder().book_carts(new HashSet<>()).build())
                 .build());
@@ -184,5 +184,4 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 
         log.debug("Загружены " + userRepository.count() + " пользователей");
     }
-
 }

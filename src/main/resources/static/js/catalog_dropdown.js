@@ -45,7 +45,7 @@ function refreshYearOfPublishingDesc() {
     show('По году выхода (по убыванию)')
     $("#refreshDiv").animate({opacity: 0.2}, "slow", function () {
         $('#refreshDiv').load("https://abbey-books.ru/catalog/1/?sortField=yearOfPublishing&sortDir=desc" + ' #refreshDiv>*').animate({opacity: 1});
-    });
+    }
 
     setTimeout(function run() {
         document.querySelector(".dropdownn").style.pointerEvents = "auto";
@@ -89,4 +89,22 @@ function refreshPriceAsc() {
     setTimeout(function run() {
         document.querySelector(".dropdownn").style.pointerEvents = "auto";
     }, 1500)
+}
+
+function reload(){
+    var container = document.querySelector(".bottom_holder");
+    var content = container.innerHTML;
+    container.innerHTML= content;
+
+    //this line is to watch the result in console , you can remove it later
+    console.log("Refreshed");
+}
+
+function show(anything) {
+    document.querySelector('.textBox').value = anything;
+}
+
+let dropdown = document.querySelector('.dropdownn');
+dropdown.onclick = function() {
+    dropdown.classList.toggle('active');
 }

@@ -27,21 +27,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://abbey-books.ru/index">
+                    <a href="https://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
+                            <a href="https://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -58,7 +58,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="cart">
-                        <a href="http://abbey-books.ru/cart" method="get" class="">
+                        <a href="https://abbey-books.ru/cart" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="myBooks">
-                        <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
+                        <a href="https://abbey-books.ru/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
@@ -74,7 +74,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="profile" >
-                        <a href="http://abbey-books.ru/user/profile" method="get" class="">
+                        <a href="https://abbey-books.ru/user/profile" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
@@ -82,7 +82,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="logout" >
-                        <a href="http://abbey-books.ru/logout" method="get" class="">
+                        <a href="https://abbey-books.ru/logout" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
@@ -93,43 +93,40 @@
         </div>
 
         <div class="middle">
-
             <div class="descriptionWithButton">
                 <p class="page-description">Корзина</p>
                 <form th:if="${listBooks.size() > 0}" th:action="@{|/cart/deleteAll|}" method="post">
                     <input class="custom-btn btn-11 button-delete-all-in-cart" data-toggle="modal"  type="submit" value="Удалить все из корзины"/>
                 </form>
             </div>
+
             <hr th:if="${listBooks.size() > 0}">
             <div class="middle-in-cart">
-            <div class="books">
-
-<!--        <div class="container" id="refreshDiv">-->
-<!--            <div class="row">-->
-                <tr th:each="book : ${listBooks}">
-                    <div class="row flex-start">
-                        <div class="book-in-cart">
-                            <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
-                                <div class="image-in-cart">
-                                    <img class="book-image-in-cart" th:src="${book.images[0]}" alt="Card image cap">
-                                    <div class="book-name-in-cart">
-                                        <p class="name-in-cart" th:text="${book.name}">test</p>
-                                        <p class="author-in-cart" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
+                <div class="books">
+                    <tr th:each="book : ${listBooks}">
+                        <div class="row flex-start">
+                            <div class="book-in-cart">
+                                <a href="#" th:href="@{'/books/' + ${book.id}}" class="text-decoration-none text-dark">
+                                    <div class="image-in-cart">
+                                        <img class="book-image-in-cart" th:src="${book.images[0]}" alt="Card image cap">
+                                        <div class="book-name-in-cart">
+                                            <p class="name-in-cart" th:text="${book.name}">test</p>
+                                            <p class="author-in-cart" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
+                                        </div>
+                                        <div class="book-price-in-cart">
+                                            <p class="price-in-cart" th:text="${book.price + ' р.'}">test</p>
+                                            <form th:action="@{|/cart/delete/${book.id}|}" onsubmit="refreshNew()" id="delete" method="post" target="dummyframe">
+                                                <img class="delete-logo" onclick="document.getElementById('delete').submit()" th:src="@{/img/delete.png}"/>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="book-price-in-cart">
-                                        <p class="price-in-cart" th:text="${book.price + ' р.'}">test</p>
-                                        <form th:action="@{|/cart/delete/${book.id}|}" onsubmit="refreshNew()" id="delete" method="post" target="dummyframe">
-                                            <img class="delete-logo" onclick="document.getElementById('delete').submit()" th:src="@{/img/delete.png}"/>
-                                        </form>
-                                    </div>
-                                </div>
-                            </a>
-                            <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                                </a>
+                                <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                </tr>
-            </div>
+                        <hr>
+                    </tr>
+                </div>
                 <div th:if="${listBooks.size() > 0}" class="summary-in-cart">
                     <div class="countOfBooks">
                         <p>Количество книг</p>
@@ -185,73 +182,13 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2022 Все права защищены:
-            <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
-            <span class="bottom-span">Переверзев Даниил</span>
+            <a class="text-white" href="https://abbey-books.ru/index.html">AbbeyBooks.com</a>
         </div>
     </footer>
 </div>
 
-<script>
-    search.onmouseenter = function(){
-        this.classList.add('hovered');
-    }
-
-    search.onmouseleave = function(){
-        this.classList.remove('hovered');
-    }
-</script>
-
-<script sec:authorize="!isAuthenticated()">
-    register.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    register.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    login.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    login.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-</script>
-
-<script sec:authorize="isAuthenticated()">
-    cart.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    cart.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    myBooks.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    myBooks.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    profile.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    profile.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    logout.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    logout.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-</script>
+<script th:src="@{js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
+<script th:src="@{js/not_logged_in.js}"></script>
 
 </body>
 </html>

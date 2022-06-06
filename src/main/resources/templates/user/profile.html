@@ -33,21 +33,21 @@
         <div class="up__cont">
             <div class="up">
                 <div class="menu col">
-                    <a href="http://abbey-books.ru/index">
+                    <a href="https://abbey-books.ru/index">
                         <img class="header-logo" th:src="@{/img/7.png}">
                     </a>
 
                     <div class="dropdown">
                         <button class="dropbtn">КАТАЛОГ</button>
                         <div class="dropdown-content">
-                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
+                            <a href="https://abbey-books.ru/catalog/1">Все книги</a>
                             <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
+                                <a th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
                             </tr>
                         </div>
                     </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru/info">О сайте</a></p>
 
                     <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
                         <div class="input-group rounded">
@@ -64,7 +64,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="cart">
-                        <a href="http://abbey-books.ru/cart" method="get" class="">
+                        <a href="https://abbey-books.ru/cart" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
@@ -72,7 +72,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="myBooks">
-                        <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
+                        <a href="https://abbey-books.ru/books/myBooks" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="book-logo" th:src="@{/img/book.png}"/>
                             </div>
@@ -80,7 +80,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="profile" >
-                        <a href="http://abbey-books.ru/user/profile" method="get" class="">
+                        <a href="https://abbey-books.ru/user/profile" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="profile-logo" th:src="@{/img/account.png}"/>
                             </div>
@@ -88,7 +88,7 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" id="logout" >
-                        <a href="http://abbey-books.ru/logout" method="get" class="">
+                        <a href="https://abbey-books.ru/logout" method="get" class="">
                             <div class="input-group rounded">
                                 <img class="logout-logo" th:src="@{/img/logout.png}"/>
                             </div>
@@ -161,7 +161,7 @@
 
                         <div class="modal-body">
                             <div class="form-group">
-                                <div th:if="${mistake} == 'aaaassss'"
+                                <div th:if="${mistake} == 'bad_core'"
                                      class="alert alert-danger">Неверный код</div>
                                 <label for="verifyCode" class="col-form-label">Введите код:</label>
                                 <input type="number" name="verifyCode" class="form-control" id="verifyCode">
@@ -206,10 +206,6 @@
                     </div>
 
                     <form action="#" th:action="@{/user/changePassword}" method="post">
-                        <!--                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">-->
-                        <!--                            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>-->
-                        <!--                        </div>-->
-
                         <div class="modal-body">
                             <div class="form-group">
                                 <div th:if="${mistake} == 'asdasdasas'"
@@ -264,79 +260,19 @@
 
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
             © 2022 Все права защищены:
-            <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
-            <span class="bottom-span">Переверзев Даниил</span>
+            <a class="text-white" href="https://abbey-books.ru/index.html">AbbeyBooks.com</a>
         </div>
     </footer>
 </div>
 
-<script>
-    search.onmouseenter = function(){
-        this.classList.add('hovered');
-    }
+    <script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
 
-    search.onmouseleave = function(){
-        this.classList.remove('hovered');
-    }
-</script>
+    <script th:if="${mistake} == 'bad_code'">
+            document.getElementById("buttonToDisable2FA").click();
+    </script>
 
-<script sec:authorize="!isAuthenticated()">
-    register.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    register.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    login.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    login.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-</script>
-
-<script sec:authorize="isAuthenticated()">
-    cart.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    cart.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    myBooks.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    myBooks.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    profile.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    profile.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-
-    logout.onmouseenter = function(){
-        this.classList.add('card-hovered');
-    }
-
-    logout.onmouseleave = function(){
-        this.classList.remove('card-hovered');
-    }
-</script>
-
-<script th:if="${mistake} == 'aaaassss'">
-        document.getElementById("buttonToDisable2FA").click();
-</script>
-<script th:if="${mistake} == 'asdasdasas'">
-    document.getElementById("buttonToChangePassword").click();
-</script>
+    <script th:if="${mistake} == 'bad_pass'">
+        document.getElementById("buttonToChangePassword").click();
+    </script>
 </body>
 </html>

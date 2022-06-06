@@ -41,7 +41,7 @@ body {
     margin-bottom: 60px;
 }
 
-.contasdk {
+.dropdown-menu {
     flex-direction: column;
 }
 
@@ -875,14 +875,4 @@ input#rate-5:checked ~ label{
 .col {
     padding-left: 0 !important;
     padding-right: 0 !important;
-}
-
-.bottom-div {
-    display: flex;
-}
-
-.bottom-span {
-    position: absolute;
-    right: 0;
-    margin-right: 30px;
 }

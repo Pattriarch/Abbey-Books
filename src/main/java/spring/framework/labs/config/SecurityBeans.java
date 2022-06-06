@@ -51,5 +51,4 @@ public class SecurityBeans {
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
     }
-
 }

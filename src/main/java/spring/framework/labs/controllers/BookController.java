@@ -88,6 +88,7 @@ public class BookController {
         model.addAttribute("lastBooks", bookService.findFiveLastBooks());
         model.addAttribute("bestBooks", bookService.findAllByOrderByRatingValueDescLimitFive());
 
+
         model.addAttribute("categories", categoryService.findAllLimitedFive());
 
         return "index";

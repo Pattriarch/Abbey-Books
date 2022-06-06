@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PersistentTokenRepository persistentTokenRepository;
     private final Google2faFilter google2faFilter;
 
-    // needed for use with Spring Data JPA SPeL
+    // необходимо для Spring Data JPA SPeL
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
@@ -37,9 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(google2faFilter, SessionManagementFilter.class);
 
-        http
-                .httpBasic()
-                .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint());
+        http.httpBasic()
+            .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint());
 
         http.cors().and()
                 .authorizeRequests(authorize -> {
@@ -47,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/", "/webjars/**", "/books/**", "/register", "/login",
                                     "/resources/**", "/search/**", "/user/registration", "/categories/**", "/authors/**",
                                     "/publishers/**", "/books/**", "/authors/**", "/catalog/**", "/info").permitAll();
-//                            .mvcMatchers(HttpMethod.GET, "/catalog/**").hasAnyAuthority("catalog.read");
-                } )
+                })
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()

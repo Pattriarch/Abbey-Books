@@ -28,170 +28,170 @@
     <div class="cont allButFooter">
         <div class="inner__cont">
             <div class="up__cont">
-            <div class="up">
-                <div class="menu col">
-                    <a href="http://abbey-books.ru/index">
-                        <img class="header-logo" th:src="@{/img/7.png}">
-                    </a>
+                <div class="up">
+                    <div class="menu col">
+                        <a href="https://abbey-books.ru/index">
+                            <img class="header-logo" th:src="@{/img/7.png}">
+                        </a>
 
-                    <div class="dropdown">
-                        <button class="dropbtn">КАТАЛОГ</button>
-                        <div class="dropdown-content">
-                            <a href="http://abbey-books.ru/catalog/1">Все книги</a>
-                            <tr th:each="category : ${categories}">
-                                <a th:text="${category.name}" th:href="${'http://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
-                            </tr>
+                        <div class="dropdown">
+                            <button class="dropbtn">КАТАЛОГ</button>
+                            <div class="dropdown-content">
+                                <a href="https://abbey-books.ru/catalog/1">Все книги</a>
+                                <tr th:each="category : ${categories}">
+                                    <a th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
+                                </tr>
+                            </div>
                         </div>
-                    </div>
 
-                    <p class="about-site-text"><a class="butn butn-5" href="http://abbey-books.ru/info">О сайте</a></p>
+                        <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru/info">О сайте</a></p>
 
-                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
-                        <div class="input-group rounded">
-                            <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
-                                   aria-label="Search" aria-describedby="search-addon"/>
-                            <span class="input-group-text border-0" id="search">
-                                <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
-                            </span>
+                        <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
+                            <div class="input-group rounded">
+                                <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
+                                       aria-label="Search" aria-describedby="search-addon"/>
+                                <span class="input-group-text border-0" id="search">
+                                    <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </form>
+
+                        <div sec:authorize="isAuthenticated()">
+                            <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
                         </div>
-                    </form>
 
-                    <div sec:authorize="isAuthenticated()">
-                        <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
-                    </div>
-
-                    <div sec:authorize="isAuthenticated()" id="cart">
-                        <a href="http://abbey-books.ru/cart" method="get" class="">
-                            <div class="input-group rounded">
-                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div sec:authorize="isAuthenticated()" id="myBooks">
-                        <a href="http://abbey-books.ru/books/myBooks" method="get" class="">
-                            <div class="input-group rounded">
-                                <img class="book-logo" th:src="@{/img/book.png}"/>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div sec:authorize="isAuthenticated()" id="profile" >
-                        <a href="http://abbey-books.ru/user/profile" method="get" class="">
-                            <div class="input-group rounded">
-                                <img class="profile-logo" th:src="@{/img/account.png}"/>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div sec:authorize="isAuthenticated()" id="logout" >
-                        <a href="http://abbey-books.ru/logout" method="get" class="">
-                            <div class="input-group rounded">
-                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
-                            </div>
-                        </a>
-                    </div>
-
-                <div sec:authorize="!isAuthenticated()" id="register">
-                    <button type="button" id="buttonToRegister" data-toggle="modal"
-                            data-target="#exampleModal1" data-whatever="@getbootstrap">
-                        <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
-                    </button>
-                </div>
-
-                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
-                                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                        <div sec:authorize="isAuthenticated()" id="cart">
+                            <a href="https://abbey-books.ru/cart" method="get" class="">
+                                <div class="input-group rounded">
+                                    <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                                 </div>
-
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="register-name" class="col-form-label">ФИО:</label>
-                                        <input type="text" placeholder="Введите полное ФИО" class="form-control form-register"
-                                               th:field="*{name}" onkeyup="validateName()" id="register-name" th:errorclass="is-invalid">
-                                        <span id="name-error">&nbsp;</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="register-username" class="col-form-label">Имя пользователя:</label>
-                                        <input type="text" placeholder="Введите имя пользователя" class="form-control form-register"
-                                               th:field="*{username}" onkeyup="validateUsername()" id="register-username" th:errorclass="is-invalid">
-                                        <span id="username-error">&nbsp;</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="register-password" class="col-form-label">Пароль:</label>
-                                        <input type="password" placeholder="Введите пароль" class="form-control form-register"
-                                               th:field="*{password}" onkeyup="validatePassword()" id="register-password" th:errorclass="is-invalid">
-                                        <span id="password-error">&nbsp;</span>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                                    <input type="submit" class="btn btn-primary"/>
-                                </div>
-                            </form>
+                            </a>
                         </div>
-                    </div>
-                </div>
 
-                <div sec:authorize="!isAuthenticated()" id="login">
-                    <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
-                        <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
-                </div>
+                        <div sec:authorize="isAuthenticated()" id="myBooks">
+                            <a href="https://abbey-books.ru/books/myBooks" method="get" class="">
+                                <div class="input-group rounded">
+                                    <img class="book-logo" th:src="@{/img/book.png}"/>
+                                </div>
+                            </a>
+                        </div>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel1">Вход</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                        <div sec:authorize="isAuthenticated()" id="profile" >
+                            <a href="https://abbey-books.ru/user/profile" method="get" class="">
+                                <div class="input-group rounded">
+                                    <img class="profile-logo" th:src="@{/img/account.png}"/>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div sec:authorize="isAuthenticated()" id="logout" >
+                            <a href="https://abbey-books.ru/logout" method="get" class="">
+                                <div class="input-group rounded">
+                                    <img class="logout-logo" th:src="@{/img/logout.png}"/>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div sec:authorize="!isAuthenticated()" id="register">
+                            <button type="button" id="buttonToRegister" data-toggle="modal"
+                                    data-target="#exampleModal1" data-whatever="@getbootstrap">
+                                <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
+                            </button>
+                        </div>
+
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
+                                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="register-name" class="col-form-label">ФИО:</label>
+                                                <input type="text" placeholder="Введите полное ФИО" class="form-control form-register"
+                                                       th:field="*{name}" onkeyup="validateName()" id="register-name" th:errorclass="is-invalid">
+                                                <span id="name-error">&nbsp;</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="register-username" class="col-form-label">Имя пользователя:</label>
+                                                <input type="text" placeholder="Введите имя пользователя" class="form-control form-register"
+                                                       th:field="*{username}" onkeyup="validateUsername()" id="register-username" th:errorclass="is-invalid">
+                                                <span id="username-error">&nbsp;</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="register-password" class="col-form-label">Пароль:</label>
+                                                <input type="password" placeholder="Введите пароль" class="form-control form-register"
+                                                       th:field="*{password}" onkeyup="validatePassword()" id="register-password" th:errorclass="is-invalid">
+                                                <span id="password-error">&nbsp;</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                            <input type="submit" class="btn btn-primary"/>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <form th:action="@{/login}" method="post">
-                                <div class="modal-body">
-                                    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
-                                         class="alert alert-danger">Неверный логин или пароль</div>
+                        </div>
 
-                                    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
-                                         class="alert alert-danger">Аккаунт был заблокирован</div>
-                                    <div class="form-group">
-                                        <label for="username" class="col-form-label">Имя пользователя:</label>
-                                        <input type="text" id="username" placeholder="Введите имя пользователя"
-                                               class="form-control" name="username" autofocus="true" autocomplete="off">
+                        <div sec:authorize="!isAuthenticated()" id="login">
+                            <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                            <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
+                        </div>
 
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel1">Вход</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="password" class="col-form-label">Пароль:</label>
-                                        <input type="password" id="password" placeholder="Введите пароль"
-                                               class="form-control" name="password" autofocus="true" autocomplete="off">
-                                    </div>
-                                    <label for="remember-me">Remember Me:</label>
-                                    <input type="checkbox" id="remember-me" name="remember-me" />
+                                    <form th:action="@{/login}" method="post">
+                                        <div class="modal-body">
+                                            <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
+                                                 class="alert alert-danger">Неверный логин или пароль</div>
+
+                                            <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
+                                                 class="alert alert-danger">Аккаунт был заблокирован</div>
+                                            <div class="form-group">
+                                                <label for="username" class="col-form-label">Имя пользователя:</label>
+                                                <input type="text" id="username" placeholder="Введите имя пользователя"
+                                                       class="form-control" name="username" autofocus="true" autocomplete="off">
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password" class="col-form-label">Пароль:</label>
+                                                <input type="password" id="password" placeholder="Введите пароль"
+                                                       class="form-control" name="password" autofocus="true" autocomplete="off">
+                                            </div>
+                                            <label for="remember-me">Remember Me:</label>
+                                            <input type="checkbox" id="remember-me" name="remember-me" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                            <input type="submit" class="btn btn-primary"/>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                                    <input type="submit" class="btn btn-primary"/>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
 
-            <a href="http://abbey-books.ru/publishers/2/page-1/?sortField=name&sortDir=desc">
+            <a href="https://abbey-books.ru/publishers/2/page-1/?sortField=name&sortDir=desc">
                 <img th:src="@{img/3.jpg}" class="mired">
             </a>
 
@@ -250,8 +250,8 @@
                     <div th:if="${param.logout}" class="alert alert-success">Вы успешно вышли из аккаунта</div>
                 </div>
             </div>
+        </div>
     </div>
-</div>
 
     <div class="downn">
         <footer class="footer text-center text-white">
@@ -282,182 +282,15 @@
 
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                 © 2022 Все права защищены:
-                <a class="text-white" href="http://abbey-books.ru/index.html">abbey-books.ru</a>
-                <span class="bottom-span">Переверзев Даниил</span>
+                <a class="text-white" href="https://abbey-books.ru/index.html">AbbeyBooks.com</a>
             </div>
         </footer>
     </div>
 
-    <script>
-        search.onmouseenter = function(){
-            this.classList.add('hovered');
-        }
-
-        search.onmouseleave = function(){
-            this.classList.remove('hovered');
-        }
-    </script>
-
-    <script sec:authorize="!isAuthenticated()">
-        register.onmouseenter = function(){
-            this.classList.add('card-hovered');
-        }
-
-        register.onmouseleave = function(){
-            this.classList.remove('card-hovered');
-        }
-
-        login.onmouseenter = function(){
-            this.classList.add('card-hovered');
-        }
-
-        login.onmouseleave = function(){
-            this.classList.remove('card-hovered');
-        }
-    </script>
-
-    <script sec:authorize="isAuthenticated()">
-        search.onmouseenter = function(){
-            this.classList.add('hovered');
-        }
-
-        search.onmouseleave = function(){
-            this.classList.remove('hovered');
-        }
-
-        cart.onmouseenter = function(){
-            this.classList.add('card-hovered');
-        }
-
-        cart.onmouseleave = function(){
-            this.classList.remove('card-hovered');
-        }
-
-        myBooks.onmouseenter = function(){
-            this.classList.add('card-hovered');
-        }
-
-        myBooks.onmouseleave = function(){
-            this.classList.remove('card-hovered');
-        }
-
-        profile.onmouseenter = function(){
-            this.classList.add('card-hovered');
-        }
-
-        profile.onmouseleave = function(){
-            this.classList.remove('card-hovered');
-        }
-
-        logout.onmouseenter = function(){
-            this.classList.add('card-hovered');
-        }
-
-        logout.onmouseleave = function(){
-            this.classList.remove('card-hovered');
-        }
-
-    </script>
-
-    <script>
-        var nameError = document.getElementById('name-error');
-        var usernameError = document.getElementById('username-error');
-        var passwordError = document.getElementById('password-error');
-
-        function validateName() {
-            var name = document.getElementById('register-name').value;
-
-            if (name.length === 0) {
-                nameError.innerHTML = 'Необходимо ввести ФИО';
-                document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            if (username.length < 8) {
-                nameError.innerHTML = 'ФИО должно содержать не менее 8 символов';
-                document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            if (!name.match(/(?:[A-Za-zА-Яа-я]+ ){2}[A-Za-zА-Яа-я]+/)) {
-                nameError.innerHTML = 'Введите полное ФИО';
-                document.getElementById('register-name').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            document.getElementById('register-name').style.setProperty('border-color', 'seagreen', 'important');
-            nameError.innerHTML = '&nbsp;';
-            return true;
-        }
-
-
-
-        function validateUsername() {
-            var username = document.getElementById('register-username').value;
-
-            if (username.length === 0) {
-                usernameError.innerHTML = 'Необходимо ввести имя пользователя';
-                document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            if (username.length < 6) {
-                usernameError.innerHTML = 'Имя пользователя должно содержать не менее 6 символов';
-                document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            if (!username.match(/^[A-Za-z0-9]+$/)) {
-                usernameError.innerHTML = 'Не используйте запрещенные символы';
-                document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
-            usernameError.innerHTML = '&nbsp;';
-            return true;
-        }
-
-        function validatePassword() {
-            var password = document.getElementById('register-password').value;
-
-            if (password.length === 0) {
-                passwordError.innerHTML = 'Необходимо ввести имя пользователя';
-                document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            if (password.length < 6) {
-                passwordError.innerHTML = 'Пароль должен содержать не менее 6 символов';
-                document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            if (password.match(/^[<>${}/]$/)) {
-                passwordError.innerHTML = 'Не используйте запрещенные символы';
-                document.getElementById('register-username').style.setProperty('border-color', 'red', 'important');
-                return false;
-            }
-
-            document.getElementById('register-username').style.setProperty('border-color', 'seagreen', 'important');
-            passwordError.innerHTML = '&nbsp;';
-            return true;
-        }
-    </script>
-
-    <script>
-            $(function() {
-                $('#repres').click(function() {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'abbey-books.ru/register',
-                        data: { username: $(this).username.value,
-                            password: $(this).password.value }
-                    });
-                    return false;
-                });
-            })
-        </script>
+    <script th:src="@{js/not_logged_in.js}"></script>
+    <script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
+    <script th:src="@{js/validation.js}"></script>
+    <script th:src="@{js/register.js}"></script>
 
     <script th:if="${userDTO.username != null}">
         document.getElementById("buttonToRegister").click();

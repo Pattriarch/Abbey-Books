@@ -20,56 +20,38 @@ import spring.framework.labs.services.PublisherService;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/publishers")
-public class PublisherController {
+public class PublisherController extends Paginated {
 
     private final PublisherMapper publisherMapper;
     private final PublisherService publisherService;
-    private final CategoryService categoryService;
     private final BookService bookService;
-    public static final int PAGE_SIZE = 30;
+
+    public PublisherController(CategoryService categoryService, PublisherMapper publisherMapper, PublisherService publisherService, BookService bookService) {
+        super(categoryService);
+        this.publisherMapper = publisherMapper;
+        this.publisherService = publisherService;
+        this.bookService = bookService;
+    }
 
     @GetMapping({"/{publisherId}/page-{pageNo}"})
     public String findPaginated(@PathVariable Long publisherId,
                                 @PathVariable(value = "pageNo") int pageNo,
-                                @RequestParam(value = "sortField", required = false) String sortField,
-                                @RequestParam(value = "sortDir", required = false) String sortDir,
+                                @RequestParam(value = "sortField", defaultValue = "id", required = false) String sortField,
+                                @RequestParam(value = "sortDir", defaultValue = "desc", required = false) String sortDir,
                                 Model model) {
 
-        if (sortField == null) {
-            sortField = "id";
-        }
-
-        if (sortDir == null) {
-            sortDir = "desc";
-        }
-
-        UserDTO userDTO = new UserDTO();
-        model.addAttribute("userDTO", userDTO);
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal != "anonymousUser") {
-            model.addAttribute("user", principal);
-        }
-
-        model.addAttribute("categories", categoryService.findAllLimitedFive());
+        model = addAttributesToModel(pageNo, sortField, sortDir, model);
 
         PublisherDTO publisher = publisherService.findById(publisherId);
         model.addAttribute("publisher", publisher);
 
-        Page<BookDTO> page = bookService.findAllByPublishersContains(publisherMapper.publisherDTOToPublisher(publisher), pageNo, PAGE_SIZE, sortField, sortDir);
+        Page<BookDTO> page = bookService.findAllByPublishersContains(publisherMapper.publisherDTOToPublisher(publisher), pageNo, Paginated.PAGE_SIZE, sortField, sortDir);
         List<BookDTO> listBooks = page.getContent();
+        model.addAttribute("listBooks", listBooks);
 
-        model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        model.addAttribute("listBooks", listBooks);
 
         return "publisherform";
     }
