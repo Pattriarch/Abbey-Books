@@ -43,7 +43,7 @@ previews.addEventListener("click", () => {
 });
 
 modal.addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal12')) {
+    if (e.target.classList.contains('book-view')) {
         modal.classList.remove('open');
         original.classList.remove("open");
     }

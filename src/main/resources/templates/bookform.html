@@ -200,7 +200,7 @@
             <div id="block">
                 <p class="page-description" th:text="${book.name}"></p>
 
-               <div class="daskdskdas">
+               <div class="book-actions">
                    <div sec:authorize="hasAuthority('book.update')">
                        <div>
                            <form th:action="@{|/books/update/${book.id}|}" method="get">
@@ -286,7 +286,7 @@
                         <div class="dasdasdasjldk">
                             <p class="book-author">Авторы:</p>
                         </div>
-                        <div class="asdasdlasdlasd">
+                        <div class="description-part">
                             <a style="text-decoration: none" th:href="'https://abbey-books.ru/authors/' + ${author.id} + '/page-1/?sortField=name&sortDir=desc'"
                                th:each="author, iterStat : ${book.authors}" th:text="!${iterStat.last} ? ${author.name} + ', &nbsp;': ${author.name}"></a>
                         </div>
@@ -302,7 +302,7 @@
                         <div class="dasdasdasjldk">
                             <p class="book-publisher">Издательства:</p>
                         </div>
-                        <div class="asdasdlasdlasd">
+                        <div class="description-part">
                             <a style="text-decoration: none" th:href="'https://abbey-books.ru/publishers/' + ${publisher.id} + '/page-1/?sortField=name&sortDir=desc'"
                                th:each="publisher, iterStat : ${book.publishers}" th:text="!${iterStat.last} ? ${publisher.name} + ', &nbsp;': ${publisher.name}"></a>
                         </div>
@@ -407,7 +407,7 @@
                         <div class="dasdasdasjldk">
                             <p class="book-author">Авторы:</p>
                         </div>
-                        <div class="asdasdlasdlasd">
+                        <div class="description-part">
                             <a style="text-decoration: none" th:href="'https://abbey-books.ru/authors/' + ${author.id} + '/page-1/?sortField=name&sortDir=desc'"
                                th:each="author, iterStat : ${book.authors}" th:text="!${iterStat.last} ? ${author.name} + ', &nbsp;': ${author.name}"></a>
                         </div>
@@ -423,7 +423,7 @@
                         <div class="dasdasdasjldk">
                             <p class="book-publisher">Издательства:</p>
                         </div>
-                        <div class="asdasdlasdlasd">
+                        <div class="description-part">
                             <a style="text-decoration: none" th:href="'https://abbey-books.ru/publishers/' + ${publisher.id} + '/page-1/?sortField=name&sortDir=desc'"
                                th:each="publisher, iterStat : ${book.publishers}" th:text="!${iterStat.last} ? ${publisher.name} + ', &nbsp;': ${publisher.name}"></a>
                         </div>
