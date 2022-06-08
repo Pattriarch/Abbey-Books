@@ -1,7 +1,7 @@
 $(function() {
     $('input[type=radio]').change(function() {
         $.ajax({
-            url: '/books/' + [[${book.id}]] + '/rate',
+            url: '/books/' + bookId + '/rate',
             type: 'POST',
             data: { rate: $(this).val() },
             success:function(data){
@@ -16,7 +16,7 @@ $('#deleteApi').submit(function(event){
     event.preventDefault();
 
     $.ajax({
-        url: '/books/' + [[${book.id}]],
+        url: '/books/' + bookId,
         type: 'DELETE',
         success: function(result) {
             window.location.href = "https://abbey-books.ru/catalog/1";
@@ -28,7 +28,7 @@ $('#putApi').submit(function(event){
     event.preventDefault();
 
     $.ajax({
-        url: '/books/update/' + [[${book.id}]],
+        url: '/books/update/' + bookId,
         type: 'GET',
         fail(e) {
             console.log(e);

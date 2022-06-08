@@ -113,15 +113,15 @@
                                             <p class="name-in-cart" th:text="${book.name}">test</p>
                                             <p class="author-in-cart" th:text="${#strings.setJoin(book.authors.![name], ', ')}"></p>
                                         </div>
-                                        <div class="book-price-in-cart">
-                                            <p class="price-in-cart" th:text="${book.price + ' р.'}">test</p>
-                                            <form th:action="@{|/cart/delete/${book.id}|}" onsubmit="refreshNew()" id="delete" method="post" target="dummyframe">
-                                                <img class="delete-logo" onclick="document.getElementById('delete').submit()" th:src="@{/img/delete.png}"/>
-                                            </form>
-                                        </div>
+
                                     </div>
                                 </a>
-                                <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                                <div class="book-price-in-cart">
+                                    <p class="price-in-cart" th:text="${book.price + ' р.'}">test</p>
+                                    <form th:action="@{|/cart/delete/${book.id}|}" onsubmit="refreshNew()" id="delete" method="post" target="dummyframe">
+                                        <img class="delete-logo" onclick="document.getElementById('delete').submit()" th:src="@{/img/delete.png}"/>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                         <hr>
@@ -187,8 +187,7 @@
     </footer>
 </div>
 
-<script th:src="@{js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
-<script th:src="@{js/not_logged_in.js}"></script>
+<script src="../static/js/logged_in.js" th:src="@{~/js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
 
 </body>
 </html>

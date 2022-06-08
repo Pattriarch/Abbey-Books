@@ -154,8 +154,8 @@
     </footer>
 </div>
 
-<script th:src="@{js/not_logged_in.js}"></script>
-<script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
+<script src="../static/js/not_logged_in.js" th:src="@{~/js/not_logged_in.js}"></script>
+<script src="../static/js/logged_in.js" sec:authorize="isAuthenticated()" th:src="@{~/js/logged_in.js}"></script>
 
 </body>
 </html>

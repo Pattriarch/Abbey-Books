@@ -41,10 +41,6 @@ body {
     margin-bottom: 60px;
 }
 
-.dropdown-menu {
-    flex-direction: column;
-}
-
 .bookPreview {
     width: 50px;
     height: 70px;
@@ -259,11 +255,11 @@ h1 {
     height: 590px;
 }
 
-.thumbnails-inner .orelrelrelrlrl:last-child img {
+.thumbnails-inner .thumbnails-inner-images:last-child img {
     margin-bottom: 0;
 }
 
-.thumbnails-inner .orelrelrelrlrl:last-child label {
+.thumbnails-inner .thumbnails-inner-images:last-child label {
     margin-bottom: 0;
 }
 
@@ -306,7 +302,7 @@ h1 {
     transform: translate(-50%, -50%) scale(1);
 }
 
-.modal12 {
+.book-view {
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
     top: 0;
@@ -318,7 +314,7 @@ h1 {
     transition: 0.25s ease-out;
 }
 
-.modal12.open {
+.book-view.open {
     opacity: 1;
     pointer-events: all;
 }

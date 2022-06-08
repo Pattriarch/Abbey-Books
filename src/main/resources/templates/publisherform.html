@@ -286,22 +286,28 @@
     </footer>
 </div>
 
-<!--<script>-->
-<!--    var token = $("meta[name='_csrf']").attr("content");-->
-<!--    var header = $("meta[name='_csrf_header']").attr("content");-->
+    <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
 
-<!--    $(document).ajaxSend(function(e, xhr, options) {-->
-<!--        xhr.setRequestHeader(header, token);-->
-<!--    });-->
-<!--</script>-->
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    </script>
 
-    <script th:src="@{js/not_logged_in.js}"></script>
-    <script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
-    <script th:src="@{js/validation.js}"></script>
-    <script th:src="@{js/register.js}"></script>
-    <script th:src="@{js/addToCartPublishers.js}"></script>
-    <script th:src="@{js/publisher_pagination.js}"></script>
-    <script th:src="@{js/validation.js}"></script>
+    <script th:inline="javascript">
+        let totalPages = [[${totalPages}]];
+        let page = [[${currentPage}]];
+        let publisherId = [[${publisher.id}]];
+    </script>
+
+    <script src="../static/js/not_logged_in.js" th:src="@{~/js/not_logged_in.js}"></script>
+    <script src="../static/js/logged_in.js" sec:authorize="isAuthenticated()" th:src="@{~/js/logged_in.js}"></script>
+    <script src="../static/js/validation.js" th:src="@{~/js/validation.js}"></script>
+    <script src="../static/js/register.js" th:src="@{~/js/register.js}"></script>
+    <script src="../static/js/addToCartPublishers.js" th:src="@{~/js/addToCartPublishers.js}"></script>
+    <script src="../static/js/publisher_pagination.js" th:src="@{~/js/publisher_pagination.js}"></script>
+    <script src="../static/js/validation.js" th:src="@{~/js/validation.js}"></script>
 
     <script th:if="${userDTO.username != null}">
         document.getElementById("buttonToRegister").click();

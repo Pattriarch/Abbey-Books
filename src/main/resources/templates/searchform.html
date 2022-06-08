@@ -266,10 +266,19 @@
     </footer>
 </div>
 
-    <script th:src="@{js/not_logged_in.js}"></script>
-    <script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
-    <script th:src="@{js/validation.js}"></script>
-    <script th:src="@{js/register.js}"></script>
+    <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    </script>
+
+    <script src="../static/js/not_logged_in.js" th:src="@{~/js/not_logged_in.js}"></script>
+    <script src="../static/js/logged_in.js" sec:authorize="isAuthenticated()" th:src="@{~/js/logged_in.js}"></script>
+    <script src="../static/js/validation.js" th:src="@{~/js/validation.js}"></script>
+    <script src="../static/js/register.js" th:src="@{~/js/register.js}"></script>
 
     <script th:if="${userDTO.username != null}">
         document.getElementById("buttonToRegister").click();

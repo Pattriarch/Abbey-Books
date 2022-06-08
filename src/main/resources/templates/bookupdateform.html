@@ -187,7 +187,7 @@
     </footer>
 </div>
 
-    <script th:src="@{js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
-    <script th:src="@{js/not_logged_in.js}"></script>
+    <script src="../static/js/logged_in.js" th:src="@{~/js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
+
 </body>
 </html>

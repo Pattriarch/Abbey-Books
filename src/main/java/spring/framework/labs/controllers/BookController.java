@@ -46,11 +46,11 @@ public class BookController {
             model.addAttribute("user", principal);
         }
 
-        BookDTO bookDTO = bookService.findById(bookId);
+        Book book = bookMapper.bookDTOToBook(bookService.findById(bookId));
 
-        model.addAttribute("book", bookDTO);
+        model.addAttribute("book", book);
 
-        model.addAttribute("sameBooks", bookService.findAllByCategoryLimitedFive(bookDTO.getCategory(), bookMapper.bookDTOToBook(bookDTO)));
+        model.addAttribute("sameBooks", bookService.findAllByCategoryLimitedFive(book.getCategory(), book));
 
         model.addAttribute("categories", categoryService.findAllLimitedFive());
 

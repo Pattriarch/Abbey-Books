@@ -4,7 +4,7 @@ function testContent(book_id) {
         type: 'POST',
         success:function(data){
             $('#bottom_holder' + book_id).animate({opacity: 0.2}, 300, function () {
-                $('#bottom_holder' + book_id).load("https://abbey-books.ru/catalog/" + page + ' #bottom_holder' + book_id + '>*').animate({opacity: 1});
+                $('#bottom_holder' + book_id).load("https://abbey-books.ru/books/" + book_id + ' #bottom_holder' + book_id + '>*').animate({opacity: 1});
             });
         }
     });

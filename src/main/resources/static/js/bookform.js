@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 });
 
-const modal = document.querySelector('.modal12');
+const modal = document.querySelector('.book-view');
 const previews = document.querySelector(".slider");
 const original = document.querySelector(".full-img");
 const imgText = document.querySelector(".caption");

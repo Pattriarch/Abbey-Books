@@ -265,7 +265,7 @@
     </footer>
 </div>
 
-    <script sec:authorize="isAuthenticated()" th:src="@{js/logged_in.js}"></script>
+    <script src="../static/js/logged_in.js" sec:authorize="isAuthenticated()" th:src="@{~/js/logged_in.js}"></script>
 
     <script th:if="${mistake} == 'bad_code'">
             document.getElementById("buttonToDisable2FA").click();

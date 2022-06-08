@@ -32,178 +32,176 @@
 <!--/*@thymesVar id="books" type="java.util.Set<spring.framework.labs.domain.Book>"*/-->
 <!--/*@thymesVar id="user" type="java.util.Set<spring.framework.labs.domain.security.User>"*/-->
 <body>
-    <div class="cont allButFooter">
-        <div class="inner__cont">
-            <div class="up__cont">
-                <div class="up">
-                    <div class="menu col">
-                        <a href="https://abbey-books.ru/index">
-                            <img class="header-logo" th:src="@{/img/7.png}">
-                        </a>
+<div class="cont allButFooter">
+    <div class="inner__cont">
+        <div class="up__cont">
+            <div class="up">
+                <div class="menu col">
+                    <a href="https://abbey-books.ru /index">
+                        <img class="header-logo" th:src="@{/img/7.png}">
+                    </a>
 
-                        <div class="dropdown">
-                            <button class="dropbtn">КАТАЛОГ</button>
-                            <div class="dropdown-content">
-                                <a href="https://abbey-books.ru/catalog/1">Все книги</a>
-                                <tr th:each="category : ${categories}">
-                                    <a th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
-                                </tr>
-                            </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">КАТАЛОГ</button>
+                        <div class="dropdown-content">
+                            <a href="https://abbey-books.ru /catalog/1">Все книги</a>
+                            <tr th:each="category : ${categories}">
+                                <a th:text="${category.name}" th:href="${'https://abbey-books.ru /categories/' + category.id + '/page-1'}"></a>
+                            </tr>
                         </div>
+                    </div>
 
-                        <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru/info">О сайте</a></p>
+                    <p class="about-site-text"><a class="butn butn-5" href="https://abbey-books.ru /info">О сайте</a></p>
 
-                        <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
-                            <div class="input-group rounded">
-                                <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
-                                       aria-label="Search" aria-describedby="search-addon"/>
-                                <span class="input-group-text border-0" id="search">
+                    <form th:action="@{/search/page-1}" id="searcher" class="search col" method="get">
+                        <div class="input-group rounded">
+                            <input type="search" name="bookName" class="form-control rounded" placeholder="Поиск книг"
+                                   aria-label="Search" aria-describedby="search-addon"/>
+                            <span class="input-group-text border-0" id="search">
                                 <i onclick="document.getElementById('searcher').submit()" class="fas fa-search"></i>
                             </span>
+                        </div>
+                    </form>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()" id="cart">
+                        <a href="https://abbey-books.ru /cart" method="get" class="">
+                            <div class="input-group rounded">
+                                <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
                             </div>
-                        </form>
+                        </a>
+                    </div>
 
-                        <div sec:authorize="isAuthenticated()">
-                            <p class="user-balance" th:text="${'Баланс: ' + user.balance}"></p>
-                        </div>
+                    <div sec:authorize="isAuthenticated()" id="myBooks">
+                        <a href="https://abbey-books.ru /books/myBooks" method="get" class="">
+                            <div class="input-group rounded">
+                                <img class="book-logo" th:src="@{/img/book.png}"/>
+                            </div>
+                        </a>
+                    </div>
 
-                        <div sec:authorize="isAuthenticated()" id="cart">
-                            <a href="https://abbey-books.ru/cart" method="get" class="">
-                                <div class="input-group rounded">
-                                    <img class="cart-logo" th:src="@{/img/shopping-cart.png}"/>
+                    <div sec:authorize="isAuthenticated()" id="profile" >
+                        <a href="https://abbey-books.ru /user/profile" method="get" class="">
+                            <div class="input-group rounded">
+                                <img class="profile-logo" th:src="@{/img/account.png}"/>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()" id="logout" >
+                        <a href="https://abbey-books.ru /logout" method="get" class="">
+                            <div class="input-group rounded">
+                                <img class="logout-logo" th:src="@{/img/logout.png}"/>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div sec:authorize="!isAuthenticated()" id="register">
+                        <button type="button" id="buttonToRegister" data-toggle="modal"
+                                data-target="#exampleModal1" data-whatever="@getbootstrap">
+                            <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
+                        </button>
+                    </div>
+
+                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                            </a>
-                        </div>
 
-                        <div sec:authorize="isAuthenticated()" id="myBooks">
-                            <a href="https://abbey-books.ru/books/myBooks" method="get" class="">
-                                <div class="input-group rounded">
-                                    <img class="book-logo" th:src="@{/img/book.png}"/>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div sec:authorize="isAuthenticated()" id="profile" >
-                            <a href="https://abbey-books.ru/user/profile" method="get" class="">
-                                <div class="input-group rounded">
-                                    <img class="profile-logo" th:src="@{/img/account.png}"/>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div sec:authorize="isAuthenticated()" id="logout" >
-                            <a href="https://abbey-books.ru/logout" method="get" class="">
-                                <div class="input-group rounded">
-                                    <img class="logout-logo" th:src="@{/img/logout.png}"/>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div sec:authorize="!isAuthenticated()" id="register">
-                            <button type="button" id="buttonToRegister" data-toggle="modal"
-                                    data-target="#exampleModal1" data-whatever="@getbootstrap">
-                                <img class="register-logo" th:src="@{/img/748137.png}" alt=""/>
-                            </button>
-                        </div>
-
-                        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Регистрация</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                                     </div>
 
-                                    <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
-                                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                                            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="register-name" class="col-form-label">ФИО:</label>
+                                            <input type="text" placeholder="Введите полное ФИО" class="form-control form-register"
+                                                   th:field="*{name}" onkeyup="validateName()" id="register-name" th:errorclass="is-invalid">
+                                            <span id="name-error">&nbsp;</span>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="register-username" class="col-form-label">Имя пользователя:</label>
+                                            <input type="text" placeholder="Введите имя пользователя" class="form-control form-register"
+                                                   th:field="*{username}" onkeyup="validateUsername()" id="register-username" th:errorclass="is-invalid">
+                                            <span id="username-error">&nbsp;</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="register-password" class="col-form-label">Пароль:</label>
+                                            <input type="password" placeholder="Введите пароль" class="form-control form-register"
+                                                   th:field="*{password}" onkeyup="validatePassword()" id="register-password" th:errorclass="is-invalid">
+                                            <span id="password-error">&nbsp;</span>
+                                        </div>
+                                    </div>
 
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="register-name" class="col-form-label">ФИО:</label>
-                                                <input type="text" placeholder="Введите полное ФИО" class="form-control form-register"
-                                                       th:field="*{name}" onkeyup="validateName()" id="register-name" th:errorclass="is-invalid">
-                                                <span id="name-error">&nbsp;</span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="register-username" class="col-form-label">Имя пользователя:</label>
-                                                <input type="text" placeholder="Введите имя пользователя" class="form-control form-register"
-                                                       th:field="*{username}" onkeyup="validateUsername()" id="register-username" th:errorclass="is-invalid">
-                                                <span id="username-error">&nbsp;</span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="register-password" class="col-form-label">Пароль:</label>
-                                                <input type="password" placeholder="Введите пароль" class="form-control form-register"
-                                                       th:field="*{password}" onkeyup="validatePassword()" id="register-password" th:errorclass="is-invalid">
-                                                <span id="password-error">&nbsp;</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                                            <input type="submit" class="btn btn-primary"/>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                        <input type="submit" class="btn btn-primary"/>
+                                    </div>
+                                </form>
                             </div>
                         </div>
+                    </div>
 
-                        <div sec:authorize="!isAuthenticated()" id="login">
-                            <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
-                                <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
-                        </div>
+                    <div sec:authorize="!isAuthenticated()" id="login">
+                        <button type="button" id="buttonToLogin" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                            <img class="login-logo" th:src="@{/img/2609282.png}" alt=""></button>
+                    </div>
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel1">Вход</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form th:action="@{/login}" method="post">
-                                        <div class="modal-body">
-                                            <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
-                                                 class="alert alert-danger">Неверный логин или пароль</div>
-
-                                            <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
-                                                 class="alert alert-danger">Аккаунт был заблокирован</div>
-                                            <div class="form-group">
-                                                <label for="username" class="col-form-label">Имя пользователя:</label>
-                                                <input type="text" id="username" placeholder="Введите имя пользователя"
-                                                       class="form-control" name="username" autofocus="true" autocomplete="off">
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="password" class="col-form-label">Пароль:</label>
-                                                <input type="password" id="password" placeholder="Введите пароль"
-                                                       class="form-control" name="password" autofocus="true" autocomplete="off">
-                                            </div>
-                                            <label for="remember-me">Remember Me:</label>
-                                            <input type="checkbox" id="remember-me" name="remember-me" />
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                                            <input type="submit" class="btn btn-primary"/>
-                                        </div>
-                                    </form>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1">Вход</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
+                                <form th:action="@{/login}" method="post">
+                                    <div class="modal-body">
+                                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Неверные учетные данные пользователя'"
+                                             class="alert alert-danger">Неверный логин или пароль</div>
+
+                                        <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']?.message} == 'Учетная запись пользователя заблокирована'"
+                                             class="alert alert-danger">Аккаунт был заблокирован</div>
+                                        <div class="form-group">
+                                            <label for="username" class="col-form-label">Имя пользователя:</label>
+                                            <input type="text" id="username" placeholder="Введите имя пользователя"
+                                                   class="form-control" name="username" autofocus="true" autocomplete="off">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="col-form-label">Пароль:</label>
+                                            <input type="password" id="password" placeholder="Введите пароль"
+                                                   class="form-control" name="password" autofocus="true" autocomplete="off">
+                                        </div>
+                                        <label for="remember-me">Remember Me:</label>
+                                        <input type="checkbox" id="remember-me" name="remember-me" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                        <input type="submit" class="btn btn-primary"/>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="contt-wrapper">
+        <div class="contt-wrapper">
 
-                <p class="page-description">Каталог</p>
+            <p class="page-description">Каталог</p>
 
-                <div class="contt-wrapper-inner">
-                <!---->
+            <div class="contt-wrapper-inner">
                 <div class="contt">
                     <p class="contt-categories">Категории</p>
 
@@ -214,7 +212,7 @@
                                     <div th:each="category : ${allCategories}" class="orelrelrelrlrl">
                                         <label>
                                             <p class="contt-categories-name-wrapper" >
-                                                <a class="contt-categories-name" th:text="${category.name}" th:href="${'https://abbey-books.ru/categories/' + category.id + '/page-1'}"></a>
+                                                <a class="contt-categories-name" th:text="${category.name}" th:href="${'https://abbey-books.ru /categories/' + category.id + '/page-1'}"></a>
                                             </p>
                                         </label>
                                     </div>
@@ -224,7 +222,7 @@
                     </div>
                 </div>
 
-                <div class="dropdown-menu">
+                <div class="dropdownn_menu">
                     <div class="dropdownn">
                         <input type="text" class="textBox"
                                placeholder="Сначала новые" readonly>
@@ -255,12 +253,9 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <div sec:authorize="isAuthenticated()" th:if="${user.getBooks().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
-                                        <form class="btn-frm" target="dummyframe">
-                                            <input class="custom-btn-in-cart btn-11" data-toggle="modal"
-                                                   type="submit" id="alreadyBought" value="Куплено"/>
-                                        </form>
-                                    </div>
+<!--                                    <div sec:authorize="isAuthenticated()" th:if="${user.getBooks().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">-->
+<!--                                            <input class="custom-btn-in-cart btn-11" data-toggle="modal" type="submit" id="alreadyBought" value="Куплено"/>-->
+<!--                                    </div>-->
                                     <div sec:authorize="isAuthenticated()" th:if="${!user.getBooks().contains(book) && !user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
                                         <form class="btn-frm"
                                               id="testContent" target="dummyframe">
@@ -268,12 +263,9 @@
                                                    type="submit" th:id="addToCart + ${book.id}" value="В корзину"/>
                                         </form>
                                     </div>
-                                    <div sec:authorize="isAuthenticated()" th:if="${!user.getBooks().contains(book) && user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
-                                        <form class="btn-frm" target="dummyframe">
-                                            <input class="custom-btn-in-cart btn-11" data-toggle="modal"
-                                                   type="submit" id="inCart" value="В корзине"/>
-                                        </form>
-                                    </div>
+<!--                                    <div sec:authorize="isAuthenticated()" th:if="${!user.getBooks().contains(book) && user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">-->
+<!--                                            <input class="custom-btn-in-cart btn-11" data-toggle="modal" type="submit" id="inCart" value="В корзине"/>-->
+<!--                                    </div>-->
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
                                 </div>
                                 <hr class="hr-class">
@@ -281,62 +273,69 @@
                         </tr>
                     </div>
                 </div>
-                </div>
-                <div class="pagination"><ul></ul></div>
             </div>
+            <div class="pagination"><ul></ul></div>
         </div>
     </div>
+</div>
 
-    <div class="downn">
-        <footer class="footer text-center text-white">
-            <div class="container p-4 pb-0">
-                <section class="mb-4">
-                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
-                    ><i class="fab fa-facebook-f"></i
-                    ></a>
+<div class="downn">
+    <footer class="footer text-center text-white">
+        <div class="container p-4 pb-0">
+            <section class="mb-4">
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com" role="button"
+                ><i class="fab fa-facebook-f"></i
+                ></a>
 
-                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
-                    ><i class="fab fa-twitter"></i
-                    ></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.twitter.com" role="button"
+                ><i class="fab fa-twitter"></i
+                ></a>
 
-                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
-                    ><i class="fab fa-google"></i
-                    ></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.google.com" role="button"
+                ><i class="fab fa-google"></i
+                ></a>
 
-                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
-                    ><i class="fab fa-instagram"></i
-                    ></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com" role="button"
+                ><i class="fab fa-instagram"></i
+                ></a>
 
-                    <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
-                    ><i class="fab fa-vk"></i
-                    ></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.vk.com" role="button"
+                ><i class="fab fa-vk"></i
+                ></a>
 
-                </section>
-            </div>
+            </section>
+        </div>
 
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                © 2022 Все права защищены:
-                <a class="text-white" href="https://abbey-books.ru/index.html">AbbeyBooks.com</a>
-            </div>
-        </footer>
-    </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2022 Все права защищены:
+            <a class="text-white" href="https://abbey-books.ru /index.html">abbey-books.ru</a>
+            <span class="bottom-span">Переверзев Даниил</span>
+        </div>
+    </footer>
+</div>
 
-    <script th:src="@{js/catalog_dropdown.js}"></script>
-    <script th:src="@{js/addToCart.js}"></script>
-    <script th:src="@{js/catalog_pagination.js}"></script>
-    <script th:src="@{js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
-    <script th:src="@{js/not_logged_in.js}"></script>
-    <script th:src="@{js/validation.js}"></script>
-    <script th:src="@{js/register.js}"></script>
+    <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
 
-<!--    <script>-->
-<!--        var token = $("meta[name='_csrf']").attr("content");-->
-<!--        var header = $("meta[name='_csrf_header']").attr("content");-->
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    </script>
 
-<!--        $(document).ajaxSend(function(e, xhr, options) {-->
-<!--            xhr.setRequestHeader(header, token);-->
-<!--         });-->
-<!--    </script>-->
+    <script th:inline="javascript">
+        let totalPages = [[${totalPages}]];
+        let page = [[${currentPage}]];
+    </script>
+
+    <script src="../static/js/catalog_dropdown.js" th:src="@{~/js/catalog_dropdown.js}"></script>
+
+    <script src="../static/js/addToCart.js" th:src="@{~/js/addToCart.js}"></script>
+    <script src="../static/js/catalog_pagination.js" th:src="@{~/js/catalog_pagination.js}"></script>
+    <script src="../static/js/not_logged_in.js" th:src="@{~/js/not_logged_in.js}"></script>
+    <script src="../static/js/logged_in.js" th:src="@{~/js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
+    <script src="../static/js/validation.js" th:src="@{~/js/validation.js}"></script>
+    <script src="../static/js/register.js" th:src="@{~/js/register.js}"></script>
 
     <script th:if="${userDTO.username != null}">
         document.getElementById("buttonToRegister").click();

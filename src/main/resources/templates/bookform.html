@@ -28,6 +28,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
+<!--/*@thymesVar id="user" type="spring.framework.labs.domain.security.User"*/-->
 <!--/*@thymesVar id="book" type="spring.framework.labs.domain.Book"*/-->
 <div class="cont allButFooter">
     <div class="inner__cont">
@@ -251,7 +252,7 @@
                     <div class="card-body">
                         <div class="thumbnails">
                             <div class="thumbnails-inner">
-                                <div th:each="image : ${book.images}" class="orelrelrelrlrl">
+                                <div th:each="image : ${book.images}" class="thumbnails-inner-images">
                                     <label>
                                         <input type="radio" name="test" value="big">
                                         <img th:src="${image}" class="rounded mx-auto d-block thumbnail bookPreview">
@@ -341,36 +342,30 @@
                 <div class="cart-block" sec:authorize="isAuthenticated()">
                     <p th:text="${book.price + ' ₽'}"></p>
                     <div th:if="${user.getBooks().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
-                        <form class="btn-frm" target="dummyframe">
-                            <input class="custom-btn-in-cart btn-11" data-toggle="modal"
-                                   type="submit" id="alreadyBought" value="Куплено"/>
-                        </form>
+                        <input class="custom-btn-in-cart btn-11" data-toggle="modal" type="submit" id="alreadyBought" value="Куплено"/>
                     </div>
                     <div th:if="${!user.getBooks().contains(book) && !user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
-                        <form class="btn-frm"
-                              id="testContent" target="dummyframe">
+                        <form class="btn-frm" id="testContent" target="dummyframe">
                             <input class="custom-btn btn-11" th:book-id="${book.id}" onclick="testContent(this.getAttribute('book-id'))" data-toggle="modal"
                                    type="submit" th:id="addToCart + ${book.id}" value="В корзину"/>
                         </form>
                     </div>
                     <div th:if="${!user.getBooks().contains(book) && user.getCart().getBook_carts().contains(book)}" class="bottom_holder" th:id="bottom_holder + ${book.id}">
-                        <form class="btn-frm" target="dummyframe">
-                            <input class="custom-btn-in-cart btn-11" data-toggle="modal"
-                                   type="submit" id="inCart" value="В корзине"/>
-                        </form>
+                            <input class="custom-btn-in-cart btn-11" data-toggle="modal" type="submit" id="inCart" value="В корзине"/>
                     </div>
                     <div class="cart-block-bottom">
                         <img class="in-stock-image" style="width: 20px; height: 20px; color: green;" th:src="@{/img/tick1.png}"/>
                         <p class="in-stock-text">В наличии</p>
                     </div>
                 </div>
+                <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
             </div>
 
-            <div class="modal12">
+            <div class="book-view" style="z-index: 10">
                 <img th:src="${book.images[0]}" class="full-img" id="myImageFull">
             </div>
 
-            <div th:if="${sameBooks.size() > 0}">
+            <div th:if="${sameBooks.size() > 0}" >
                 <p class="same-books">Похожие книги</p>
                 <hr class="hr-top">
                 <div class="books" id="refreshDiv">
@@ -521,14 +516,27 @@
     }
 </style>
 
-<script th:src="@{js/bookform.js}"></script>
-<script th:src="@{js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
-<script th:src="@{js/not_logged_in.js}"></script>
-<script th:src="@{js/validation.js}"></script>
-<script th:src="@{js/bookform_actions.js}" sec:authorize="isAuthenticated()"></script>
-<script th:src="@{js/register.js}" sec:authorize="isAuthenticated()"></script>
+<script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
 
-<script type="text/javascript" th:src="@{js/addToCart}" sec:authorize="isAuthenticated()"></script>
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    </script>
+
+    <script th:inline="javascript">
+        var page = [[${currentPage}]];
+        var bookId = [[${book.id}]];
+    </script>
+
+    <script src="../static/js/bookform.js" th:src="@{~/js/bookform.js}"></script>
+    <script src="../static/js/logged_in.js" th:src="@{~/js/logged_in.js}" sec:authorize="isAuthenticated()"></script>
+    <script src="../static/js/not_logged_in.js" th:src="@{~/js/not_logged_in.js}"></script>
+    <script src="../static/js/validation.js" th:src="@{~/js/validation.js}"></script>
+    <script src="../static/js/bookform_actions.js" th:src="@{~/js/bookform_actions.js}" sec:authorize="isAuthenticated()"></script>
+    <script src="../static/js/register.js" th:src="@{~/js/register.js}" sec:authorize="isAuthenticated()"></script>
+    <script src="../static/js/addToCartBook.js" type="text/javascript" th:src="@{~/js/addToCartBook.js}" sec:authorize="isAuthenticated()"></script>
 
 <script th:if="${userDTO.username != null}">
     document.getElementById("buttonToRegister").click();
@@ -542,7 +550,7 @@
     document.getElementById("buttonToLogin").click();
 </script>
 
-<script src="../static/js/app.js" th:href="@{/js/app.js}"></script>
+<script src="../static/js/app.js" th:href="@{~/js/app.js}"></script>
 
 </body>
 </html>

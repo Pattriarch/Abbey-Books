@@ -2,7 +2,7 @@ $(function() {
     $('#repres').click(function() {
         $.ajax({
             type: 'POST',
-            url: 'abbey-books.ru/register',
+            url: 'https://abbey-books.ru/register',
             data: { username: $(this).username.value,
                 password: $(this).password.value }
         });

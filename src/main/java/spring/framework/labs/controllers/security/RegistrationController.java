@@ -40,6 +40,6 @@ public class RegistrationController {
                 log.error("Произошла ошибка при попытке регистрации уже существующего пользователя: " + e.getMessage());
             }
         }
-        return "redirect:/register";
+        return "redirect:/";
     }
 }
